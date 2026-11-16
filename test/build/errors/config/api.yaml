@@ -1,0 +1,3 @@
+specs:
+  - id: shop
+    spec: shop.yaml

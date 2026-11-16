@@ -25,6 +25,8 @@
   "author": "The Mordoc Authors",
   "scripts": {
     "build": "tsc",
+    "pretest": "npm run build",
+    "test": "node --test \"test/**/*.test.ts\"",
     "prepublishOnly": "npm run build"
   },
   "keywords": [

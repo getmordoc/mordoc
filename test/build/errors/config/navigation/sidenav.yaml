@@ -1,0 +1,34 @@
+- label: Home
+  path: /
+- label: Errors
+  expanded: true
+  children:
+    - label: Unknown tag
+      path: /unknown-tag
+    - label: Invalid option value
+      path: /invalid-option-value
+    - label: Undefined variable in text
+      path: /undefined-variable-in-text
+    - label: Undefined variable in a code block
+      path: /undefined-variable-in-code-block
+    - label: Block tag inside a sentence
+      path: /block-tag-in-sentence
+    - label: Block tag inside a link
+      path: /block-tag-in-link
+    - label: Advanced image inside a sentence
+      path: /advanced-image-in-sentence
+    - label: Advanced image inside a link
+      path: /advanced-image-in-link
+    - label: Markdown image inside a link
+      path: /markdown-image-in-link
+    - label: Link inside a link
+      path: /link-in-link
+    - label: Button inside a link
+      path: /button-in-link
+    - label: Hero on an article page
+      path: /hero-on-article
+    - label: Section on an article page
+      path: /section-on-article
+- label: Shop API
+  children:
+    - operation: listItems

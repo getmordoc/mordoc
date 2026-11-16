@@ -1,0 +1,6 @@
+{
+  "name": "Errors",
+  "description": "A test site with one content error per page.",
+  "baseUrl": "https://errors.example.com",
+  "defaultLanguage": "en"
+}

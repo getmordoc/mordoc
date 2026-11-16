@@ -1,0 +1,16 @@
+content/en/advanced-image-in-link.md:5  critical  'advancedImage' tag should be block
+content/en/advanced-image-in-sentence.md:5  critical  'advancedImage' tag should be block
+content/en/block-tag-in-link.md:5  critical  'callout' tag should be block
+content/en/block-tag-in-link.md:5  warning  Can't nest 'text' in 'callout'
+content/en/block-tag-in-sentence.md:5  critical  'callout' tag should be block
+content/en/block-tag-in-sentence.md:5  warning  Can't nest 'text' in 'callout'
+content/en/button-in-link.md:5  critical  A button can't be placed inside a link or a button, because one click can only go to one place.
+content/en/hero-on-article.md:5  critical  Undefined tag: 'hero'
+content/en/invalid-option-value.md:5  error  Attribute 'type' must match one of ["note","warning","danger","tip"]. Got 'info' instead.
+content/en/markdown-image-in-link.md:5  warning  Can't nest 'image' in 'link'
+content/en/link-in-link.md:5  critical  A link can't be placed inside a link or a button, because one click can only go to one place.
+content/en/section-on-article.md:5  critical  Undefined tag: 'section'
+content/en/undefined-variable-in-code-block.md:6  error  Undefined variable: 'mordocVersion'
+content/en/undefined-variable-in-text.md:5  error  Undefined variable: 'productName'
+content/en/unknown-tag.md:5  critical  Undefined tag: 'banner'
+api/enrichment/shop/operations/listItems.md:3  error  Attribute 'type' must match one of ["note","warning","danger","tip"]. Got 'info' instead.
