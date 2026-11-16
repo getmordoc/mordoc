@@ -38,6 +38,8 @@ if (!distArg || !portArg) {
   process.exit(1);
 }
 const root = path.resolve(distArg);
+// Only this machine can reach the server, not others on the same network.
+const HOST = '127.0.0.1';
 
 function isFile(filePath: string): boolean {
   return statSync(filePath, { throwIfNoEntry: false })?.isFile() ?? false;
@@ -74,6 +76,6 @@ createServer((request, response) => {
   const contentType = CONTENT_TYPES[path.extname(filePath).toLowerCase()] ?? 'application/octet-stream';
   response.writeHead(200, { 'Content-Type': contentType });
   createReadStream(filePath).pipe(response);
-}).listen(Number(portArg), () => {
-  console.log(`Serving ${root} at http://localhost:${portArg}`);
+}).listen(Number(portArg), HOST, () => {
+  console.log(`Serving ${root} at http://${HOST}:${portArg}`);
 });

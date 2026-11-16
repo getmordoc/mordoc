@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const PORT = 4173;
-const BASE_URL = `http://localhost:${PORT}`;
+const BASE_URL = `http://127.0.0.1:${PORT}`;
 
 /** Stores the reader's theme choice before any page loads, as Mordoc's theme switch does. */
 function withTheme(theme: 'light' | 'dark') {
