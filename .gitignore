@@ -4,3 +4,5 @@ test-project*/
 template-project/
 mordoc-docs/
 CLAUDE.md
+test-results/
+playwright-report/

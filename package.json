@@ -25,8 +25,11 @@
   "author": "The Mordoc Authors",
   "scripts": {
     "build": "tsc",
-    "pretest": "npm run build",
-    "test": "node --test \"test/**/*.test.ts\"",
+    "pretest:build": "npm run build",
+    "test:build": "node --test \"test/build/**/*.test.ts\"",
+    "pretest:e2e": "npm run build",
+    "test:e2e": "playwright test",
+    "test": "npm run test:build && npm run test:e2e",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -36,6 +39,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@playwright/test": "^1.65.1",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^26.1.2",
     "@types/prismjs": "^1.26.6",
