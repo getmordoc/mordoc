@@ -19,7 +19,7 @@ import type { MordocData, NavigationConfig, ShellData } from '../types/pipeline.
 import type { OperationView } from '../types/api.js';
 import { beginStep } from './reporter.js';
 
-/** The subset of `src/api/index.ts` the pipeline calls, kept local so the import can stay dynamic. */
+/** The subset of `core/openapi/index.ts` the pipeline calls, kept local so the import can stay dynamic. */
 type ApiModule = typeof import('./openapi/index.js');
 
 /**
@@ -27,7 +27,7 @@ type ApiModule = typeof import('./openapi/index.js');
  * spec.
  *
  * The existence check is what buys the cost isolation: a project without
- * `config/api.yaml` never imports `src/api/`, and so never loads the
+ * `config/api.yaml` never imports `core/openapi/`, and so never loads the
  * OpenAPI library behind it. That gets most of the benefit of shipping the
  * feature as a separate package without designing a plugin API against a
  * sample size of one.

@@ -69,7 +69,7 @@ export async function runDevCommand(options: DevCommandOptions): Promise<void> {
   });
 
   // Serves `config/assets/*` at `/_assets/*`, matching the URL shape the
-  // production build uses (`copyAndRewriteAssets` in build.ts physically
+  // production build uses (`copyAndRewriteAssets` in `cli/build/` physically
   // copies files into `dist/_assets/`). Dev mode never runs that copy step,
   // so there is no real file backing these URLs anywhere Vite's own static
   // serving would look (root is `mordocAppRoot`, publicDir is

@@ -3,7 +3,7 @@
 // import time. These declarations let the client code import them with full
 // type safety despite the "virtual:" prefix.
 //
-// Kept in sync with EAGER_VIRTUAL_IDS in src/vite/plugin.ts.
+// Kept in sync with EAGER_VIRTUAL_IDS in src/cli/vite/plugin.ts.
 //
 // Uses inline `import()` type expressions rather than top-level `import type`
 // statements, because:

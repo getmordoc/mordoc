@@ -7,7 +7,7 @@
  * internal paths (starting with "/") use React Router Link for SPA navigation,
  * external URLs open in a new tab.
  *
- * Registered as a Markdoc tag (`card`) in markdoc-config.ts and added to
+ * Registered as a Markdoc tag (`card`) in core/content/schema/tags/card.ts and added to
  * ArticlePage.tsx's and LandingPage.tsx's components maps. Intended to be used inside {% cardGrid %}.
  */
 

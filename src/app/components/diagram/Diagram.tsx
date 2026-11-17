@@ -9,7 +9,7 @@
  * SSR-safety reasoning (the portal only renders once `isOpen` flips true, so
  * document.body is never touched during server-side rendering).
  *
- * Wired via the `fence` node's transform in markdoc-config.ts (which produces
+ * Wired via the `fence` node's transform in core/content/schema/nodes/fence.ts (which produces
  * a `Diagram` tag for any ```<type>-diagram fence), registered in
  * ArticlePage.tsx's components map.
  */

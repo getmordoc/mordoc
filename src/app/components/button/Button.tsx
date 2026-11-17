@@ -8,7 +8,7 @@
  * block-level. The CSS collapses it with `display: contents` so the
  * button renders as a clean inline-flex element regardless.
  *
- * Registered as a Markdoc tag (`button`) in markdoc-config.ts and in
+ * Registered as a Markdoc tag (`button`) in core/content/schema/tags/button.ts and in
  * LandingPage.tsx's components map. Also registered in ArticlePage.tsx so it
  * can be used in regular content pages.
  *

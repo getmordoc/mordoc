@@ -2,7 +2,7 @@
  * Clip — inline muted, looping demo clip with a click-to-play/pause toggle.
  *
  * The recommended replacement for animated GIFs in content (see the `clip`
- * tag's doc comment in markdoc-config.ts for why): a plain GIF autoplays
+ * tag's doc comment in core/content/schema/tags/clip.ts for why): a plain GIF autoplays
  * with no way to stop it, which is both a WCAG 2.2.2 violation (moving
  * content lasting more than 5s needs a pause mechanism) and distracting
  * next to prose. This component renders paused on `thumbnail` by default and
@@ -16,7 +16,7 @@
  * audible tutorial video is a different tag with different defaults (native
  * controls, no forced mute) — not this component's job.
  *
- * Wired via the `clip` tag in markdoc-config.ts, registered in
+ * Wired via the `clip` tag in core/content/schema/tags/clip.ts, registered in
  * ArticlePage.tsx's and LandingPage.tsx's components maps.
  */
 

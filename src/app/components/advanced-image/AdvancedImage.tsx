@@ -10,7 +10,7 @@
  * SSR safety: the portal is only rendered when `isOpen` is true, which starts
  * as false — so document.body is never accessed during server-side rendering.
  *
- * A <figure> is a block element, so the `advancedImage` tag in markdoc-config.ts may
+ * A <figure> is a block element, so the `advancedImage` tag in core/content/schema/tags/advanced-image.ts may
  * only stand on its own line (`inline: false`), never inside a paragraph.
  * Registered in component-map.ts and LandingPage.tsx's components map.
  */

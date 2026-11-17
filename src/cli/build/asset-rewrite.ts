@@ -36,7 +36,7 @@ const ASSET_DIR_NAME = '_assets';
  * Why build-only:
  *   Dev rewrites asset paths at virtual-module generation time (plugin.ts
  *   `rewriteAssetsForDev`) and serves files via a `/_assets/*` middleware
- *   in dev.ts — no copy step needed there.
+ *   in `cli/dev/` — no copy step needed there.
  *
  * Filename strategy:
  *   Output filename = basename of the source file. favicon/logo/logo-dark

@@ -10,7 +10,7 @@
  * Only meaningful inside `columns`; used standalone it just renders as an
  * unstyled block.
  *
- * Registered as a Markdoc tag (`column`) in markdoc-config.ts and in
+ * Registered as a Markdoc tag (`column`) in core/content/schema/tags/column.ts and in
  * ArticlePage.tsx's and LandingPage.tsx's components maps.
  */
 

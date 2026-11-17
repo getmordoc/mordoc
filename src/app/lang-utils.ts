@@ -5,7 +5,7 @@ import type { SidenavConfig } from '../types/navigation.js';
  * Lang utilities for the React app. Self-contained so that src/app/ has no
  * imports outside its own directory — required for it to work as a published
  * npm artifact compiled by the user's Vite. Node-side code uses the copy in
- * src/utils/lang-utils.ts compiled to dist/.
+ * src/cli/build/lang-utils.ts compiled to dist/.
  */
 
 export function detectCurrentLang(

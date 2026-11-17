@@ -22,7 +22,7 @@ import 'virtual:mordoc/theme';
 // component-specific override can win over a same-named global theme.css
 // token in the (expected-rare) case the two ever collide. Each resolves to
 // config/styles/<name>.css when present, empty otherwise — see
-// COMPONENT_THEME_FILES in src/vite/plugin.ts for the full list.
+// COMPONENT_THEME_FILES in src/cli/vite/plugin.ts for the full list.
 import 'virtual:mordoc/theme/app';
 import 'virtual:mordoc/theme/sidenav';
 import 'virtual:mordoc/theme/header';

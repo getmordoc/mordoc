@@ -13,4 +13,4 @@
 - [x] **T-007 (FR-001, FR-005):** Move the commands to `cli/dev/` and `cli/build/`, the shared Vite code to `cli/vite/`, with the package root one folder deeper in `paths.ts`, and let `bin/cli.js` call `cli/<command>/index.ts`.
 - [x] **T-008 (FR-001):** Move the browser code in `app/` to `components/`, `layout/`, `pages/` and `openapi/`.
 - [x] **T-009 (FR-002):** Let `app/tsconfig.json` include only `../types`, and check that each folder imports only from the folders it may use.
-- [ ] **T-010 (FR-001):** Update comments that name a file or folder to its new path.
+- [x] **T-010 (FR-001):** Update comments that name a file or folder to its new path.

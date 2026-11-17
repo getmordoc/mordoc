@@ -14,7 +14,7 @@
   --diagram-zoom-button-radius: 4px;
 
   /* Diagram ink — generic diagram primitives (consumed by a diagram type's
-     theme.ts, e.g. src/diagrams/sequence-diagram/theme.ts, via var()
+     theme.ts, e.g. src/core/content/diagrams/sequence-diagram/theme.ts, via var()
      references baked into the Scene at build time — see that file's doc
      comment). Only sequence-diagram draws on these today, but nothing here
      is sequence-diagram-specific, so they're named for what they are, not

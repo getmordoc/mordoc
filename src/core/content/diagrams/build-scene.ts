@@ -7,7 +7,7 @@
  * the reverse: it's the one place that imports every concrete diagram type
  * (`sequence-diagram/index.js` today, a future `flowchart-diagram/index.js`
  * later) to dispatch between them, and it's the public entry point
- * `markdoc-config.ts` calls into — so it belongs at `src/diagrams/`'s root,
+ * `schema/nodes/fence.ts` calls into — so it belongs at `core/content/diagrams/`'s root,
  * a peer to `generic/` and each type folder, not nested inside either.
  */
 
@@ -18,7 +18,7 @@ import * as sequenceDiagram from './sequence-diagram/index.js';
 /**
  * Dispatch table keyed by a fence's `language` string (e.g.
  * `"sequence-diagram"`). Adding a new diagram type means adding one entry
- * here plus a new `src/diagrams/<type>/` folder — nothing under `src/app/`
+ * here plus a new `core/content/diagrams/<type>/` folder — nothing under `src/app/`
  * changes.
  */
 const diagramTypes: Record<string, DiagramDefinition> = {
@@ -28,7 +28,7 @@ const diagramTypes: Record<string, DiagramDefinition> = {
 /**
  * Parses and lays out a fenced diagram block's DSL source into a `Scene`.
  * Called once per diagram, in Node, at Markdoc transform time (see the
- * `fence` node's transform in `markdoc-config.ts`) — never on the client.
+ * `fence` node's transform in `schema/nodes/fence.ts`) — never on the client.
  *
  * Throws a descriptive error for an unregistered diagram type or invalid
  * DSL syntax, which fails the build rather than silently producing nothing.

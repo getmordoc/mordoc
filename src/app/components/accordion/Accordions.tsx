@@ -16,7 +16,7 @@
  * The group id is generated once via `useId()` so multiple `accordions`
  * groups on the same page never collide with each other.
  *
- * Registered as a Markdoc tag (`accordions`) in markdoc-config.ts and in
+ * Registered as a Markdoc tag (`accordions`) in core/content/schema/tags/accordions.ts and in
  * ArticlePage.tsx's and LandingPage.tsx's components maps.
  */
 

@@ -4,7 +4,7 @@
  * React, or any specific diagram grammar. It is produced once in Node at
  * Markdoc transform time (see `build-scene.ts`), stored as part of a
  * page's JSON-serializable `PageData`, and walked into real SVG elements on
- * the client by `src/app/content/diagram/SceneSvg.tsx`.
+ * the client by `src/app/components/diagram/SceneSvg.tsx`.
  *
  * Because it's plain data, `Scene` is imported *by type only* from
  * `src/app/` — the actual parsing/layout code that builds one never ships to

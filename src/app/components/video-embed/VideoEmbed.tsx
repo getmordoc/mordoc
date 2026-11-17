@@ -22,7 +22,7 @@
  * mirrors how Mintlify and most other docs tooling embed video, and was
  * chosen over the old click-to-load design specifically to get correct
  * thumbnails/aspect ratios for free — see the `videoEmbed` tag's doc
- * comment in markdoc-config.ts for the full trade-off discussion.
+ * comment in core/content/schema/tags/video-embed.ts for the full trade-off discussion.
  *
  * `aspectRatio` lets an author override the default 16:9 box (e.g. "4 / 3",
  * "9 / 16") — mainly needed for Loom, whose recordings inherit whatever
@@ -40,7 +40,7 @@
  * (measured once via the image's `onLoad`, same reasoning as `Clip`); it
  * defaults to 16:9 (set in VideoEmbed.module.css) otherwise.
  *
- * Wired via the `videoEmbed` tag in markdoc-config.ts, registered in
+ * Wired via the `videoEmbed` tag in core/content/schema/tags/video-embed.ts, registered in
  * ArticlePage.tsx's and LandingPage.tsx's components maps.
  */
 

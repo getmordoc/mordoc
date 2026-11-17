@@ -9,7 +9,7 @@
  *      a brief "Copied" tooltip
  *
  * The icon is hidden by default and revealed on heading hover via CSS.
- * Registered as a custom Markdoc `heading` node in markdoc-config.ts.
+ * Registered as a custom Markdoc `heading` node in core/content/schema/nodes/heading.ts.
  */
 
 import React, { useState } from 'react';

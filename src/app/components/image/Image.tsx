@@ -6,7 +6,7 @@
  * places every Markdown image inside a paragraph, and a block element such as
  * <figure> is not allowed there. The title shows when hovering.
  *
- * Wired via the `image` node and the `image` tag in markdoc-config.ts,
+ * Wired via the `image` node and the `image` tag in core/content/schema/,
  * registered in component-map.ts and LandingPage.tsx's components map.
  */
 

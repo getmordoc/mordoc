@@ -27,7 +27,7 @@ import typography from '../../components/Typography.module.css';
  * CJS interop: `@markdoc/markdoc` is CommonJS; the default-import shape
  * is required. Destructured named imports like `{ renderers }` fail at
  * runtime under Node/Vite's ESM loader even though the `.d.ts` permits
- * them. Same rule as `markdoc-config.ts` on the Node side.
+ * them. Same rule as `core/content/schema/` on the Node side.
  */
 
 function estimateReadTime(renderable: unknown): number {

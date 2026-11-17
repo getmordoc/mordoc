@@ -54,7 +54,7 @@ export async function loadApiSpecs(
   diagnostics: Diagnostics,
 ): Promise<ResolvedSpec[]> {
   // Imported here rather than at module scope so the cost lands only on
-  // projects that actually registered a spec. `src/api/` as a whole is
+  // projects that actually registered a spec. `core/openapi/` as a whole is
   // already dynamically imported by the pipeline, so this is belt-and-braces
   // for the case where some other entry point reaches this module directly.
   //

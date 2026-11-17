@@ -16,7 +16,7 @@
  * --hero-title-color, --hero-title-accent-color, --hero-desc-color) so a
  * site owner controls them once via CSS, not per-instance in markdown.
  *
- * Registered as a Markdoc tag (`hero`) in markdoc-config.ts and in
+ * Registered as a Markdoc tag (`hero`) in core/content/schema/tags/hero.ts and in
  * LandingPage.tsx's components map.
  */
 

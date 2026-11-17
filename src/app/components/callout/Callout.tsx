@@ -6,7 +6,7 @@
  * Children are rendered Markdoc content (React nodes) passed through
  * Markdoc.renderers.react — no special handling needed.
  *
- * Wired via config.tags in markdoc-config.ts, registered in
+ * Wired via the `callout` tag in core/content/schema/tags/callout.ts, registered in
  * ArticlePage.tsx's and LandingPage.tsx's components maps.
  */
 

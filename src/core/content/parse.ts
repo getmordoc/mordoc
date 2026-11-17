@@ -38,7 +38,7 @@ function parseFrontmatter(raw: string | undefined, filePath: string): Frontmatte
 /**
  * Parses all content files from a ContentMap into ASTs plus frontmatter.
  * The TOC and the renderable tree are produced in a later stage
- * (see `content-transformer.ts`) so that anchor IDs stay in sync with
+ * (see `transform.ts`) so that anchor IDs stay in sync with
  * what the renderer emits.
  *
  * @param contentMap - The content discovery result from loadContent().

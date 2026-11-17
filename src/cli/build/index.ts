@@ -92,7 +92,7 @@ function summarizeBuildOutput(result: unknown): string {
 /**
  * Runs the full Mordoc production build for a project.
  *
- * Architecture mirrors `dev.ts`:
+ * Architecture mirrors `cli/dev/`:
  *   - Vite's `root` is `mordocAppRoot` (mordoc's own `src/app/`) — the
  *     user's project contains no TSX/HTML that Vite ever sees as code.
  *     All user-side data flows through the mordoc plugin's virtual modules.

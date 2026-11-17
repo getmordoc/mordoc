@@ -15,7 +15,7 @@
  * Columns.module.css's `.divided` rule, which targets "every child but the
  * first" structurally rather than depending on Column's own class name.
  *
- * Registered as a Markdoc tag (`columns`) in markdoc-config.ts and in
+ * Registered as a Markdoc tag (`columns`) in core/content/schema/tags/columns.ts and in
  * ArticlePage.tsx's and LandingPage.tsx's components maps.
  */
 
