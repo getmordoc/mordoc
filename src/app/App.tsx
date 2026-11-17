@@ -9,6 +9,7 @@ import { detectCurrentLang } from './lang-utils.js';
 import type { LayoutKind } from './routes.js';
 import styles from './App.module.css';
 
+
 export function App() {
   const [sidenavOpen, setSidenavOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
