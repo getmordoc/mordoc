@@ -1,8 +1,8 @@
 import Markdoc from '@markdoc/markdoc';
 import type { Config, Node, Schema, RenderableTreeNode } from '@markdoc/markdoc';
 import type { Slugger } from './slug.js';
-import { buildScene } from '../diagrams/build-scene.js';
-import { notInsideClickable } from './content-validation.js';
+import { buildScene } from './diagrams/build-scene.js';
+import { notInsideClickable } from './validation.js';
 
 /**
  * Walks a renderable subtree and concatenates its text content.

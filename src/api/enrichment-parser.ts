@@ -1,9 +1,9 @@
 import { readFile } from 'node:fs/promises';
 import Markdoc from '@markdoc/markdoc';
 import type { Config, Node, RenderableTreeNode } from '@markdoc/markdoc';
-import { createArticleMarkdocConfig } from '../content/markdoc-config.js';
-import type { ContentValidator } from '../content/content-validation.js';
-import { createSlugger } from '../content/slug.js';
+import { createArticleMarkdocConfig } from '../core/content/markdoc-config.js';
+import type { ContentValidator } from '../core/content/validation.js';
+import { createSlugger } from '../core/content/slug.js';
 import { CONDITIONAL_BADGE } from '../types/api.js';
 import type {
   Badge,

@@ -10,7 +10,7 @@
  */
 
 import { Fragment, useLayoutEffect, useRef, useState } from 'react';
-import type { Scene, Primitive } from '../../../diagrams/generic/scene.js';
+import type { Scene, Primitive } from '../../../core/content/diagrams/generic/scene.js';
 
 interface SceneSvgProps {
   scene: Scene;

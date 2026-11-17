@@ -17,7 +17,7 @@
 import { useState, useEffect, useLayoutEffect, useCallback, useRef, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import { SceneSvg } from './SceneSvg.js';
-import type { Scene } from '../../../diagrams/generic/scene.js';
+import type { Scene } from '../../../core/content/diagrams/generic/scene.js';
 import { useUiStrings } from '../../i18n/useUiStrings.js';
 import styles from './Diagram.module.css';
 

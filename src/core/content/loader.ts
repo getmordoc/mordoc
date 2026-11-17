@@ -1,6 +1,6 @@
 import { readdir, access } from 'node:fs/promises';
 import { join, sep } from 'node:path';
-import type { ContentEntry, ContentMap } from '../types/content.js';
+import type { ContentEntry, ContentMap } from '../../types/content.js';
 
 const CONTENT_DIR = 'content';
 
