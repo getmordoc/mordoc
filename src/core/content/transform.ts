@@ -1,7 +1,7 @@
 import Markdoc from '@markdoc/markdoc';
 import type { Config, RenderableTreeNode } from '@markdoc/markdoc';
 import { createSlugger } from './slug.js';
-import { createArticleMarkdocConfig, createLandingMarkdocConfig } from './markdoc-config.js';
+import { createArticleMarkdocConfig, createLandingMarkdocConfig } from './schema/index.js';
 import type { ParsedPage, TransformedPage, TocEntry } from '../../types/content.js';
 import type { ContentValidator } from './validation.js';
 
