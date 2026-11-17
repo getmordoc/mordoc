@@ -1,0 +1,16 @@
+# Clearer code structure: Tasks
+
+**Change:** `mordoc-changes-store/changes/refactor-src-structure`
+**QA plan:** [qa.md](./qa.md)
+
+## Tasks
+- [ ] **T-001 (FR-006):** Let the build script clear `dist/` before compiling.
+- [ ] **T-002 (FR-001):** Move `pipeline.ts`, `utils/reporter.ts` and `config/` to `core/`.
+- [ ] **T-003 (FR-001):** Move `content/` to `core/content/` with its new file names, including `validation.ts`, and `diagrams/` to `core/content/diagrams/`.
+- [ ] **T-004 (FR-001):** Move `api/` to `core/openapi/`.
+- [ ] **T-005 (FR-003):** Move `scene.ts` to `types/` and `CONDITIONAL_BADGE` to `core/openapi/badges.ts`.
+- [ ] **T-006 (FR-004):** Split `markdoc-config.ts` into `core/content/schema/`: `index.ts`, one file per node in `nodes/` and one file per tag in `tags/`.
+- [ ] **T-007 (FR-001, FR-005):** Move the commands to `cli/dev/` and `cli/build/`, the shared Vite code to `cli/vite/`, with the package root one folder deeper in `paths.ts`, and let `bin/cli.js` call `cli/<command>/index.ts`.
+- [ ] **T-008 (FR-001):** Move the browser code in `app/` to `components/`, `layout/`, `pages/` and `openapi/`.
+- [ ] **T-009 (FR-002):** Let `app/tsconfig.json` include only `../types`, and check that each folder imports only from the folders it may use.
+- [ ] **T-010 (FR-001):** Update comments that name a file or folder to its new path.
