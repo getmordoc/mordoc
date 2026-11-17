@@ -1,5 +1,5 @@
 import type { Config, RenderableTreeNode } from '@markdoc/markdoc';
-import { CONDITIONAL_BADGE } from '../types/api.js';
+import { CONDITIONAL_BADGE } from '../../types/api.js';
 import type {
   EnrichmentField,
   ExampleView,
@@ -8,7 +8,7 @@ import type {
   OperationView,
   ParsedEnrichment,
   ResolvedSpec,
-} from '../types/api.js';
+} from '../../types/api.js';
 import type { Diagnostics } from './diagnostics.js';
 import { buildCurlSample } from './curl-sample.js';
 import { enrichmentKey } from './enrichment-parser.js';

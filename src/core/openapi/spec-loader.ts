@@ -1,9 +1,9 @@
 import { access } from 'node:fs/promises';
 import { join } from 'node:path';
-import type { ApiRegistry, OpenApiDocument, ResolvedSpec } from '../types/api.js';
+import type { ApiRegistry, OpenApiDocument, ResolvedSpec } from '../../types/api.js';
 import type { Diagnostics } from './diagnostics.js';
 import { routePrefixFor } from './slug.js';
-import { beginStep } from '../core/reporter.js';
+import { beginStep } from '../reporter.js';
 
 /** Directory holding the machine-generated specs, relative to the project root. */
 export const SPEC_DIR = join('api', 'specs');

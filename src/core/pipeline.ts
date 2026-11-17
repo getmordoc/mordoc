@@ -20,7 +20,7 @@ import type { OperationView } from '../types/api.js';
 import { beginStep } from './reporter.js';
 
 /** The subset of `src/api/index.ts` the pipeline calls, kept local so the import can stay dynamic. */
-type ApiModule = typeof import('../api/index.js');
+type ApiModule = typeof import('./openapi/index.js');
 
 /**
  * Loads the API reference module, but only for projects that registered a
@@ -38,7 +38,7 @@ async function loadApiModule(projectRoot: string): Promise<ApiModule | null> {
   } catch {
     return null;
   }
-  return import('../api/index.js');
+  return import('./openapi/index.js');
 }
 
 /**

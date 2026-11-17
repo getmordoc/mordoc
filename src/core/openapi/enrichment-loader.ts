@@ -1,6 +1,6 @@
 import { readdir } from 'node:fs/promises';
 import { join, sep } from 'node:path';
-import type { ApiRegistry, EnrichmentEntry, EnrichmentKind } from '../types/api.js';
+import type { ApiRegistry, EnrichmentEntry, EnrichmentKind } from '../../types/api.js';
 
 /**
  * Stage B — enrichment discovery.

@@ -1,4 +1,4 @@
-import type { FieldView, OpenApiDocument } from '../types/api.js';
+import type { FieldView, OpenApiDocument } from '../../types/api.js';
 import { isObject } from './schema-walk.js';
 
 /**

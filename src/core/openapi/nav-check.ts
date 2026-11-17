@@ -1,6 +1,6 @@
-import type { OperationView, ResolvedSpec } from '../types/api.js';
-import type { SidenavConfig, SidenavItem } from '../types/navigation.js';
-import type { NavigationConfig } from '../types/pipeline.js';
+import type { OperationView, ResolvedSpec } from '../../types/api.js';
+import type { SidenavConfig, SidenavItem } from '../../types/navigation.js';
+import type { NavigationConfig } from '../../types/pipeline.js';
 import type { Diagnostics } from './diagnostics.js';
 
 /**

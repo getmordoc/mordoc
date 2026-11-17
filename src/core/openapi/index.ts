@@ -1,7 +1,7 @@
-import type { ApiRegistry, OperationView } from '../types/api.js';
-import type { ContentMap } from '../types/content.js';
-import type { NavigationConfig } from '../types/pipeline.js';
-import type { ContentValidator } from '../core/content/validation.js';
+import type { ApiRegistry, OperationView } from '../../types/api.js';
+import type { ContentMap } from '../../types/content.js';
+import type { NavigationConfig } from '../../types/pipeline.js';
+import type { ContentValidator } from '../content/validation.js';
 import { Diagnostics } from './diagnostics.js';
 import { buildOperationViews } from './build-operation-views.js';
 import { loadEnrichment } from './enrichment-loader.js';

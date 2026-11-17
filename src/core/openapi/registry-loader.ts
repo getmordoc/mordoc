@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import * as yaml from 'js-yaml';
-import type { ApiRegistry, ApiRegistryEntry } from '../types/api.js';
+import type { ApiRegistry, ApiRegistryEntry } from '../../types/api.js';
 
 /** Path of the registry file, relative to the project root. */
 export const API_CONFIG_PATH = join('config', 'api.yaml');

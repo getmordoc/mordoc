@@ -1,4 +1,4 @@
-import { slugify } from '../core/content/slug.js';
+import { slugify } from '../content/slug.js';
 
 /**
  * Turns an `operationId` into its URL slug: `createPayment` → `create-payment`.

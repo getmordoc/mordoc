@@ -1,8 +1,8 @@
 import Markdoc from '@markdoc/markdoc';
 import type { Config, RenderableTreeNode } from '@markdoc/markdoc';
-import { createArticleMarkdocConfig } from '../core/content/markdoc-config.js';
-import { createSlugger } from '../core/content/slug.js';
-import type { DescriptionSource, FieldView, OpenApiDocument } from '../types/api.js';
+import { createArticleMarkdocConfig } from '../content/markdoc-config.js';
+import { createSlugger } from '../content/slug.js';
+import type { DescriptionSource, FieldView, OpenApiDocument } from '../../types/api.js';
 
 /**
  * Walks a bundled OpenAPI schema into the flat `FieldView[]` the UI renders.

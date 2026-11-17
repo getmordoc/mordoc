@@ -1,6 +1,6 @@
 import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import type { ExampleView, OpenApiDocument } from '../types/api.js';
+import type { ExampleView, OpenApiDocument } from '../../types/api.js';
 import type { Diagnostics } from './diagnostics.js';
 import { isObject, mergeAllOf, resolveSchema, type Schema } from './schema-walk.js';
 import { humanizeKey } from './slug.js';

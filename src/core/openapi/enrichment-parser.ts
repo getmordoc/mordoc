@@ -1,17 +1,17 @@
 import { readFile } from 'node:fs/promises';
 import Markdoc from '@markdoc/markdoc';
 import type { Config, Node, RenderableTreeNode } from '@markdoc/markdoc';
-import { createArticleMarkdocConfig } from '../core/content/markdoc-config.js';
-import type { ContentValidator } from '../core/content/validation.js';
-import { createSlugger } from '../core/content/slug.js';
-import { CONDITIONAL_BADGE } from '../types/api.js';
+import { createArticleMarkdocConfig } from '../content/markdoc-config.js';
+import type { ContentValidator } from '../content/validation.js';
+import { createSlugger } from '../content/slug.js';
+import { CONDITIONAL_BADGE } from '../../types/api.js';
 import type {
   Badge,
   EnrichmentEntry,
   EnrichmentField,
   ParamsScope,
   ParsedEnrichment,
-} from '../types/api.js';
+} from '../../types/api.js';
 import type { Diagnostics } from './diagnostics.js';
 
 /**
