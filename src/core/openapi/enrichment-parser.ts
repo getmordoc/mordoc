@@ -4,7 +4,7 @@ import type { Config, Node, RenderableTreeNode } from '@markdoc/markdoc';
 import { createArticleMarkdocConfig } from '../content/markdoc-config.js';
 import type { ContentValidator } from '../content/validation.js';
 import { createSlugger } from '../content/slug.js';
-import { CONDITIONAL_BADGE } from '../../types/api.js';
+import { CONDITIONAL_BADGE } from './badges.js';
 import type {
   Badge,
   EnrichmentEntry,

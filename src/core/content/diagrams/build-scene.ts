@@ -11,7 +11,7 @@
  * a peer to `generic/` and each type folder, not nested inside either.
  */
 
-import type { Scene } from './generic/scene.js';
+import type { Scene } from '../../../types/scene.js';
 import type { DiagramDefinition } from './generic/diagram-definition.js';
 import * as sequenceDiagram from './sequence-diagram/index.js';
 

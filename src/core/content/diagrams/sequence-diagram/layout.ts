@@ -1,4 +1,4 @@
-import type { Scene, Primitive } from '../generic/scene.js';
+import type { Scene, Primitive } from '../../../../types/scene.js';
 import type { SequenceDiagramAst } from './parser.js';
 import { theme } from './theme.js';
 

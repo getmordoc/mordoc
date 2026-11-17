@@ -1,5 +1,5 @@
 import type { Config, RenderableTreeNode } from '@markdoc/markdoc';
-import { CONDITIONAL_BADGE } from '../../types/api.js';
+import { CONDITIONAL_BADGE } from './badges.js';
 import type {
   EnrichmentField,
   ExampleView,

@@ -1,4 +1,4 @@
-import type { Scene } from './scene.js';
+import type { Scene } from '../../../../types/scene.js';
 
 /**
  * The contract every diagram type implements. `build-scene.ts` looks a

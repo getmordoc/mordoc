@@ -71,7 +71,7 @@ function Sep() {
  * style. Any other badge is free text, shown verbatim as an inline-code chip.
  */
 function BadgeChip({ badge }: { badge: Badge }) {
-  // Keep in sync with CONDITIONAL_BADGE in src/types/api.ts (not shipped in the npm package).
+  // Keep in sync with CONDITIONAL_BADGE in src/core/openapi/badges.ts (not shipped in the npm package).
   if (badge === 'conditional') {
     return (
       <span className={`${styles.badge} ${styles.badge_conditional}`}>
