@@ -1,17 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Markdoc from '@markdoc/markdoc';
 import { useLoaderData, useLocation } from 'react-router';
-import { contentComponents } from '../content/component-map.js';
-import { Footer } from '../content/footer/Footer.js';
+import { contentComponents } from '../components/component-map.js';
+import { Footer } from '../layout/footer/Footer.js';
 import { useMordocData } from '../data-context.js';
-import { Breadcrumb } from '../breadcrumb/Breadcrumb.js';
-import { useBreadcrumbEntries } from '../breadcrumb/useBreadcrumb.js';
+import { Breadcrumb } from '../layout/breadcrumb/Breadcrumb.js';
+import { useBreadcrumbEntries } from '../layout/breadcrumb/useBreadcrumb.js';
 import { Endpoint } from './Endpoint.js';
 import { RequestExamplePanel, ResponseExamplePanel } from './ExamplePanel.js';
 import { FieldTree } from './FieldTree.js';
 import type { FieldView, OperationView } from '../../types/api.js';
 import styles from './Operation.module.css';
-import typography from '../content/Typography.module.css';
+import typography from '../components/Typography.module.css';
 
 /**
  * An API operation page.

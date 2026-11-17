@@ -1,9 +1,9 @@
 import { useLocation } from 'react-router';
-import { useMordocData } from '../data-context.js';
-import { detectCurrentLang, buildLangPrefix, stripLangPrefix, resolveLabel, applyLangToSidenav } from '../lang-utils.js';
-import { samePath } from '../path-utils.js';
-import { useUiStrings } from '../i18n/useUiStrings.js';
-import type { SidenavConfig } from '../../types/navigation.js';
+import { useMordocData } from '../../data-context.js';
+import { detectCurrentLang, buildLangPrefix, stripLangPrefix, resolveLabel, applyLangToSidenav } from '../../lang-utils.js';
+import { samePath } from '../../path-utils.js';
+import { useUiStrings } from '../../i18n/useUiStrings.js';
+import type { SidenavConfig } from '../../../types/navigation.js';
 
 /**
  * Breadcrumb resolution, shared by every page flavor that renders one

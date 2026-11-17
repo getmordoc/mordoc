@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { Outlet, ScrollRestoration, useLocation, useMatches, useNavigation } from 'react-router';
-import { Header } from './header/Header.js';
-import { Sidenav, MobileTopnavSection } from './sidenav/Sidenav.js';
-import { SearchModal, switchPagefind } from './header/SearchModal.js';
-import { Skeleton } from './content/skeleton/Skeleton.js';
+import { Header } from './layout/header/Header.js';
+import { Sidenav, MobileTopnavSection } from './layout/sidenav/Sidenav.js';
+import { SearchModal, switchPagefind } from './layout/header/SearchModal.js';
+import { Skeleton } from './pages/skeleton/Skeleton.js';
 import { useMordocData } from './data-context.js';
 import { detectCurrentLang } from './lang-utils.js';
 import type { LayoutKind } from './routes.js';

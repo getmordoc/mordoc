@@ -14,8 +14,8 @@
  */
 
 import { useLocation } from 'react-router';
-import { Button } from '../landing/button/Button.js';
-import { Footer } from '../footer/Footer.js';
+import { Button } from '../../components/button/Button.js';
+import { Footer } from '../../layout/footer/Footer.js';
 import { useUiStrings } from '../../i18n/useUiStrings.js';
 import styles from './RouteError.module.css';
 

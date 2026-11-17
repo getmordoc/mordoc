@@ -6,11 +6,11 @@ import { useMordocData } from '../../data-context.js';
 import { useUiStrings } from '../../i18n/useUiStrings.js';
 import { formatUiString } from '../../i18n/format.js';
 import type { PageData } from '../../../types/content.js';
-import { contentComponents } from '../component-map.js';
-import { Breadcrumb } from '../../breadcrumb/Breadcrumb.js';
-import { useBreadcrumbEntries } from '../../breadcrumb/useBreadcrumb.js';
+import { contentComponents } from '../../components/component-map.js';
+import { Breadcrumb } from '../../layout/breadcrumb/Breadcrumb.js';
+import { useBreadcrumbEntries } from '../../layout/breadcrumb/useBreadcrumb.js';
 import styles from './ArticlePage.module.css';
-import typography from '../Typography.module.css';
+import typography from '../../components/Typography.module.css';
 
 /**
  * Renders the article flavor of a content page: breadcrumb, title/description

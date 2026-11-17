@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import { useUiStrings } from '../i18n/useUiStrings.js';
+import { useUiStrings } from '../../i18n/useUiStrings.js';
 import type { BreadcrumbEntry } from './useBreadcrumb.js';
 import styles from './Breadcrumb.module.css';
 

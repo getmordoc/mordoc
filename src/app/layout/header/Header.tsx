@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router';
-import { useMordocData } from '../data-context.js';
-import { detectCurrentLang, buildLangPrefix, stripLangPrefix, resolveLabel } from '../lang-utils.js';
-import { useUiStrings } from '../i18n/useUiStrings.js';
+import { useMordocData } from '../../data-context.js';
+import { detectCurrentLang, buildLangPrefix, stripLangPrefix, resolveLabel } from '../../lang-utils.js';
+import { useUiStrings } from '../../i18n/useUiStrings.js';
 import { SearchBar } from './SearchBar.js';
 import { Topnav } from './Topnav.js';
 import { LanguagePicker } from './LanguagePicker.js';

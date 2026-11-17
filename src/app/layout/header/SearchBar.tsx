@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useUiStrings } from '../i18n/useUiStrings.js';
+import { useUiStrings } from '../../i18n/useUiStrings.js';
 import styles from './SearchBar.module.css';
 
 export function SearchBar({ onOpen }: { onOpen: () => void }) {

@@ -1,8 +1,8 @@
 import { useLoaderData, useMatches } from 'react-router';
-import { ArticlePage } from './article/ArticlePage.js';
-import { LandingPage } from './landing/LandingPage.js';
-import { Toc } from './toc/Toc.js';
-import { Footer } from './footer/Footer.js';
+import { ArticlePage } from '../pages/article/ArticlePage.js';
+import { LandingPage } from '../pages/landing/LandingPage.js';
+import { Toc } from '../layout/toc/Toc.js';
+import { Footer } from '../layout/footer/Footer.js';
 import type { PageData } from '../../types/content.js';
 import type { LayoutKind } from '../routes.js';
 import styles from './Content.module.css';

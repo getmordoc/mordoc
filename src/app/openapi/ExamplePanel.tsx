@@ -1,5 +1,5 @@
 import { useState, type CSSProperties } from 'react';
-import { CodeBlock } from '../content/code-block/CodeBlock.js';
+import { CodeBlock } from '../components/code-block/CodeBlock.js';
 import type { ExampleView, OperationView } from '../../types/api.js';
 import styles from './ExamplePanel.module.css';
 

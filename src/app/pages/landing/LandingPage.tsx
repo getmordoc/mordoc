@@ -23,9 +23,9 @@ import { useLoaderData } from 'react-router';
 import React from 'react';
 import Markdoc from '@markdoc/markdoc';
 import { useMordocData } from '../../data-context.js';
-import { contentComponents } from '../component-map.js';
-import { Hero } from './hero/Hero.js';
-import { Section } from './section/Section.js';
+import { contentComponents } from '../../components/component-map.js';
+import { Hero } from '../../components/hero/Hero.js';
+import { Section } from '../../components/section/Section.js';
 import type { PageData } from '../../../types/content.js';
 import styles from './LandingPage.module.css';
 

@@ -13,7 +13,7 @@ import { Column } from './columns/Column.js';
 import { Columns } from './columns/Columns.js';
 import { ContentLink } from './link/ContentLink.js';
 import { Heading } from './heading/Heading.js';
-import { Button } from './landing/button/Button.js';
+import { Button } from './button/Button.js';
 
 /**
  * The component map every `RenderableTreeNode` is rendered through.

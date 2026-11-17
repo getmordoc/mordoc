@@ -1,7 +1,7 @@
 import React from 'react';
 import Markdoc from '@markdoc/markdoc';
 import type { RenderableTreeNode } from '@markdoc/markdoc';
-import { contentComponents } from '../content/component-map.js';
+import { contentComponents } from '../components/component-map.js';
 import type { Badge, FieldView } from '../../types/api.js';
 import styles from './FieldTree.module.css';
 

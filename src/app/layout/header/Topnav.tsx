@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from 'react-router';
-import { useMordocData } from '../data-context.js';
-import { detectCurrentLang, buildLangPrefix, resolveLabel } from '../lang-utils.js';
-import { useUiStrings } from '../i18n/useUiStrings.js';
+import { useMordocData } from '../../data-context.js';
+import { detectCurrentLang, buildLangPrefix, resolveLabel } from '../../lang-utils.js';
+import { useUiStrings } from '../../i18n/useUiStrings.js';
 import styles from './Topnav.module.css';
 
 export function Topnav() {

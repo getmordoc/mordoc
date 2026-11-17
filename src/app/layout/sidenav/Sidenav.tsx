@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router';
-import { useMordocData } from '../data-context.js';
-import { detectCurrentLang, buildLangPrefix, stripLangPrefix, resolveLabel, applyLangToSidenav } from '../lang-utils.js';
-import { samePath } from '../path-utils.js';
-import { useUiStrings } from '../i18n/useUiStrings.js';
-import type { SidenavConfig, SidenavItem } from '../../types/navigation.js';
+import { useMordocData } from '../../data-context.js';
+import { detectCurrentLang, buildLangPrefix, stripLangPrefix, resolveLabel, applyLangToSidenav } from '../../lang-utils.js';
+import { samePath } from '../../path-utils.js';
+import { useUiStrings } from '../../i18n/useUiStrings.js';
+import type { SidenavConfig, SidenavItem } from '../../../types/navigation.js';
 import styles from './Sidenav.module.css';
 
 function ChevronIcon({ open }: { open: boolean }) {

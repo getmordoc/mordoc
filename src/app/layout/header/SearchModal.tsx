@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useUiStrings } from '../i18n/useUiStrings.js';
-import { formatUiString } from '../i18n/format.js';
+import { useUiStrings } from '../../i18n/useUiStrings.js';
+import { formatUiString } from '../../i18n/format.js';
 import styles from './SearchModal.module.css';
 
 /**
