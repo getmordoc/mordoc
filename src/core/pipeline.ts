@@ -19,7 +19,10 @@ import type { MordocData, NavigationConfig, ShellData } from '../types/pipeline.
 import type { OperationView } from '../types/api.js';
 import { beginStep } from './reporter.js';
 
-/** The subset of `core/openapi/index.ts` the pipeline calls, kept local so the import can stay dynamic. */
+/**
+ * The subset of `core/openapi/index.ts` the pipeline calls, kept local so the
+ * import can stay dynamic.
+ */
 type ApiModule = typeof import('./openapi/index.js');
 
 /**

@@ -27,12 +27,11 @@ function codeBlockContent(node: Node, config: Config, process: boolean): string 
  * diagram fences (```sequence-diagram, and any future ```<type>-diagram),
  * which are parsed and laid out right here, once, at build time.
  *
- * A diagram fence's raw text is turned into a flat, JSON-serializable
- * `Scene` (see `core/content/diagrams/build-scene.ts`) and wrapped as a `Diagram`
- * tag; the diagram engine's parser/layout code itself never reaches the
- * client bundle, only its `Scene` output does. An invalid diagram throws
- * here, which fails the build with a clear error rather than shipping a
- * broken page.
+ * A diagram fence's raw text is turned into a flat, JSON-serializable `Scene`
+ * (see `core/content/diagrams/build-scene.ts`) and wrapped as a `Diagram` tag;
+ * the diagram engine's parser/layout code itself never reaches the client
+ * bundle, only its `Scene` output does. An invalid diagram throws here, which
+ * fails the build with a clear error rather than shipping a broken page.
  *
  * Every other fenced language falls through to the CodeBlock component.
  *

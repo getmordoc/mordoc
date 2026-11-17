@@ -2,12 +2,12 @@
  * Clip — inline muted, looping demo clip with a click-to-play/pause toggle.
  *
  * The recommended replacement for animated GIFs in content (see the `clip`
- * tag's doc comment in core/content/schema/tags/clip.ts for why): a plain GIF autoplays
- * with no way to stop it, which is both a WCAG 2.2.2 violation (moving
- * content lasting more than 5s needs a pause mechanism) and distracting
+ * tag's doc comment in core/content/schema/tags/clip.ts for why): a plain GIF
+ * autoplays with no way to stop it, which is both a WCAG 2.2.2 violation
+ * (moving content lasting more than 5s needs a pause mechanism) and distracting
  * next to prose. This component renders paused on `thumbnail` by default and
- * only plays once the reader clicks it — same "always animating" look as a
- * GIF once playing, but under the reader's control.
+ * only plays once the reader clicks it — same "always animating" look as a GIF
+ * once playing, but under the reader's control.
  *
  * Deliberately scoped to short, silent, decorative demo loops — not a
  * general-purpose video player. No lightbox/portal, just an inline

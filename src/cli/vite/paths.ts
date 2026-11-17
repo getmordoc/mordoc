@@ -4,10 +4,10 @@ import path from 'node:path';
 /**
  * Resolves the absolute path to mordoc's own package root.
  *
- * This file compiles to `dist/cli/vite/paths.js`, which sits three
- * directories below the package root. Using `import.meta.url` means the resolution
- * works regardless of where mordoc is installed — in its own repo during
- * development, or under `node_modules/mordoc/` in a user's project.
+ * This file compiles to `dist/cli/vite/paths.js`, which sits three directories
+ * below the package root. Using `import.meta.url` means the resolution works
+ * regardless of where mordoc is installed — in its own repo during development,
+ * or under `node_modules/mordoc/` in a user's project.
  *
  * Shared by `cli/dev/` and `cli/build/` because both Vite invocations
  * (dev server, production build) point Vite's `root` at mordoc's own

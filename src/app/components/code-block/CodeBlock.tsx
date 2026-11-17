@@ -7,8 +7,9 @@
  * `dangerouslySetInnerHTML` is safe here: Prism only emits its own span/token
  * markup around already-escaped source text; no user-controlled HTML is injected.
  *
- * Wired up via the `fence` node in core/content/schema/nodes/fence.ts, which forwards `language`
- * and `content` as props. Registered in ArticlePage.tsx's and LandingPage.tsx's `components` maps.
+ * Wired up via the `fence` node in core/content/schema/nodes/fence.ts, which
+ * forwards `language` and `content` as props. Registered in ArticlePage.tsx's
+ * and LandingPage.tsx's `components` maps.
  */
 
 import { useState } from 'react';

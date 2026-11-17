@@ -10,8 +10,8 @@
  * Only meaningful inside `columns`; used standalone it just renders as an
  * unstyled block.
  *
- * Registered as a Markdoc tag (`column`) in core/content/schema/tags/column.ts and in
- * ArticlePage.tsx's and LandingPage.tsx's components maps.
+ * Registered as a Markdoc tag (`column`) in core/content/schema/tags/column.ts
+ * and in ArticlePage.tsx's and LandingPage.tsx's components maps.
  */
 
 import type { ReactNode } from 'react';

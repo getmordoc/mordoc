@@ -12,8 +12,8 @@
  * Children can be any mix of Markdoc block content (headings, paragraphs,
  * lists, code fences) and custom tags (cardGrid, card, callout, button).
  *
- * Registered as a Markdoc tag (`section`) in core/content/schema/tags/section.ts and in
- * LandingPage.tsx's components map.
+ * Registered as a Markdoc tag (`section`) in
+ * core/content/schema/tags/section.ts and in LandingPage.tsx's components map.
  */
 
 import React from 'react';

@@ -18,8 +18,9 @@
  * open state (via the `open` attribute) — after that the browser owns
  * toggling natively, same as every other `<details>` on the web.
  *
- * Registered as a Markdoc tag (`accordion`) in core/content/schema/tags/accordion.ts and in
- * ArticlePage.tsx's and LandingPage.tsx's components maps.
+ * Registered as a Markdoc tag (`accordion`) in
+ * core/content/schema/tags/accordion.ts and in ArticlePage.tsx's and
+ * LandingPage.tsx's components maps.
  */
 
 import { useContext } from 'react';

@@ -11,10 +11,10 @@ import { notInsideClickable } from '../../validation.js';
  * variable in a link target use this tag instead:
  * `{% link path=$VAR %}Text{% /link %}`.
  *
- * Renders through the same ContentLink component as the native `link` node, so SPA-routing behavior is identical regardless of which syntax
- * produced it. The attribute is named `path` (matching the `button` tag's
- * convention) rather than `href`, so it's renamed back to `href` here before
- * building the Tag.
+ * Renders through the same ContentLink component as the native `link` node, so
+ * SPA-routing behavior is identical regardless of which syntax produced it. The
+ * attribute is named `path` (matching the `button` tag's convention) rather
+ * than `href`, so it's renamed back to `href` here before building the Tag.
  *
  * Allows the same children as the `link` node, so both syntaxes accept
  * the same content.

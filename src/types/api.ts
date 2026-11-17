@@ -5,7 +5,8 @@ import type { RenderableTreeNode } from '@markdoc/markdoc';
  *
  * Two families live here:
  *   - Build-time shapes (`ApiRegistry`, `ResolvedSpec`, `EnrichmentEntry`,
- *     `ParsedEnrichment`) — consumed only by `src/core/openapi/` on the Node side.
+ *     `ParsedEnrichment`) — consumed only by `src/core/openapi/` on the Node
+ *     side.
  *   - Ship-time shapes (`FieldView`, `OperationView`) — the flat,
  *     JSON-serializable payload that reaches the browser.
  *

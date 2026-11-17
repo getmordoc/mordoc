@@ -12,17 +12,17 @@
  * providers already give away for free (this component used to require an
  * author-supplied `thumbnail` for exactly that reason — see git history).
  *
- * The cost side of that trade-off: unlike `Clip` (which *does* defer a
- * heavy asset until click, because there's no provider iframe to lean on
- * for a self-hosted file), every `videoEmbed` here now loads its provider's
- * player JS/CSS on page load whether or not a reader ever presses play —
- * measured at ~200KB+ of network transfer per distinct YouTube video.
- * `loading="lazy"` below softens this for below-the-fold embeds (deferred
- * until near-viewport, no click required) but doesn't eliminate it. This
- * mirrors how Mintlify and most other docs tooling embed video, and was
- * chosen over the old click-to-load design specifically to get correct
- * thumbnails/aspect ratios for free — see the `videoEmbed` tag's doc
- * comment in core/content/schema/tags/video-embed.ts for the full trade-off discussion.
+ * The cost side of that trade-off: unlike `Clip` (which *does* defer a heavy
+ * asset until click, because there's no provider iframe to lean on for a
+ * self-hosted file), every `videoEmbed` here now loads its provider's player
+ * JS/CSS on page load whether or not a reader ever presses play — measured at
+ * ~200KB+ of network transfer per distinct YouTube video. `loading="lazy"`
+ * below softens this for below-the-fold embeds (deferred until near-viewport,
+ * no click required) but doesn't eliminate it. This mirrors how Mintlify and
+ * most other docs tooling embed video, and was chosen over the old
+ * click-to-load design specifically to get correct thumbnails/aspect ratios for
+ * free — see the `videoEmbed` tag's doc comment in
+ * core/content/schema/tags/video-embed.ts for the full trade-off discussion.
  *
  * `aspectRatio` lets an author override the default 16:9 box (e.g. "4 / 3",
  * "9 / 16") — mainly needed for Loom, whose recordings inherit whatever
@@ -40,8 +40,8 @@
  * (measured once via the image's `onLoad`, same reasoning as `Clip`); it
  * defaults to 16:9 (set in VideoEmbed.module.css) otherwise.
  *
- * Wired via the `videoEmbed` tag in core/content/schema/tags/video-embed.ts, registered in
- * ArticlePage.tsx's and LandingPage.tsx's components maps.
+ * Wired via the `videoEmbed` tag in core/content/schema/tags/video-embed.ts,
+ * registered in ArticlePage.tsx's and LandingPage.tsx's components maps.
  */
 
 import { useState } from 'react';

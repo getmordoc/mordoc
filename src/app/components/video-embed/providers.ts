@@ -6,9 +6,10 @@
  * the actual iframe `src` to swap in once the reader clicks play.
  *
  * This is deliberately just a small static table, not a thumbnail-fetching
- * service — see the `videoEmbed` tag's doc comment in core/content/schema/tags/video-embed.ts for
- * why VideoEmbed never calls a provider's oEmbed API at build time. Adding a
- * new provider (Wistia, etc.) means adding one entry here, nothing else.
+ * service — see the `videoEmbed` tag's doc comment in
+ * core/content/schema/tags/video-embed.ts for why VideoEmbed never calls a
+ * provider's oEmbed API at build time. Adding a new provider (Wistia, etc.)
+ * means adding one entry here, nothing else.
  */
 
 interface VideoProvider {

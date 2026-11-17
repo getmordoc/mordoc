@@ -16,17 +16,17 @@ import type { Schema } from '@markdoc/markdoc';
  * file, not two per field.
  *
  * Registered here purely so the attribute declarations below make a typo in
- * `in` or `mode` catchable rather than silently ignored — this tag isn't
- * part of the documented authoring surface for ordinary content. No
- * `transform` or `render` is declared: in an enrichment file the tag is
- * consumed at the AST level, before transform — `core/openapi/enrichment-parser.ts`
- * splits the block on its `###` headings and uses each as a lookup key, so
- * those headings never become `Heading` tags and never reach the TOC, and
- * `Markdoc.transform()` never runs on this node in that path. If a
- * `{% params %}` block ever ends up outside an enrichment file — undocumented
- * usage, not a supported case — Markdoc's own default for a tag with neither
- * `transform` nor `render` already renders its children unwrapped, which is
- * plain, unremarkable behavior for a tag nobody is told to use.
+ * `in` or `mode` catchable rather than silently ignored — this tag isn't part
+ * of the documented authoring surface for ordinary content. No `transform` or
+ * `render` is declared: in an enrichment file the tag is consumed at the AST
+ * level, before transform — `core/openapi/enrichment-parser.ts` splits the
+ * block on its `###` headings and uses each as a lookup key, so those headings
+ * never become `Heading` tags and never reach the TOC, and
+ * `Markdoc.transform()` never runs on this node in that path. If a `{% params
+ * %}` block ever ends up outside an enrichment file — undocumented usage, not a
+ * supported case — Markdoc's own default for a tag with neither `transform` nor
+ * `render` already renders its children unwrapped, which is plain, unremarkable
+ * behavior for a tag nobody is told to use.
  */
 export const params: Schema = {
   inline: false,

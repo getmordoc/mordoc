@@ -8,9 +8,9 @@
  * block-level. The CSS collapses it with `display: contents` so the
  * button renders as a clean inline-flex element regardless.
  *
- * Registered as a Markdoc tag (`button`) in core/content/schema/tags/button.ts and in
- * LandingPage.tsx's components map. Also registered in ArticlePage.tsx so it
- * can be used in regular content pages.
+ * Registered as a Markdoc tag (`button`) in core/content/schema/tags/button.ts
+ * and in LandingPage.tsx's components map. Also registered in ArticlePage.tsx
+ * so it can be used in regular content pages.
  *
  * The prop is named `path` (not `href`) to match Mordoc's authoring
  * convention — consistent with sidenav/topnav YAML and card tags.

@@ -16,8 +16,8 @@ import type { Schema } from '@markdoc/markdoc';
  * component renders paused on `thumbnail` by default and toggles playback on
  * click, instead of autoplaying like a GIF would.
  *
- * `src` (not `path`) because this is a resource the browser loads directly,
- * the same category as the `image` tag's `src` — not a navigable destination like
+ * `src` (not `path`) because this is a resource the browser loads directly, the
+ * same category as the `image` tag's `src` — not a navigable destination like
  * `link`/`button`/`card`'s `path`, which get routed through `isExternal()`.
  *
  * `thumbnail` (not `poster`, though it maps to the native `<video poster>`
@@ -26,8 +26,8 @@ import type { Schema } from '@markdoc/markdoc';
  * the `videoEmbed` tag, which has no native `poster` attribute to
  * mirror at all since it isn't a real `<video>` element.
  *
- * Self-closing, same reasoning as the `image` tag: `thumbnail`/`title`/`alt` are
- * attributes, not children — a clip embed has no nested content to parse.
+ * Self-closing, same reasoning as the `image` tag: `thumbnail`/`title`/`alt`
+ * are attributes, not children — a clip embed has no nested content to parse.
  *
  * Authors use: {% clip src="/videos/demo.mp4" thumbnail="/images/demo-thumb.jpg" title="..." /%}
  */

@@ -1,14 +1,15 @@
 /**
  * This file — not `generic/` — is the right home for the dispatch table and
- * `buildScene` below, even though neither is specific to any one diagram
- * type. `generic/` is reserved for shared *contracts* (`Scene`,
- * `DiagramDefinition`) that every concrete diagram type folder depends on,
- * and which have no knowledge that any concrete type exists. This file is
- * the reverse: it's the one place that imports every concrete diagram type
+ * `buildScene` below, even though neither is specific to any one diagram type.
+ * `generic/` is reserved for shared *contracts* (`Scene`, `DiagramDefinition`)
+ * that every concrete diagram type folder depends on, and which have no
+ * knowledge that any concrete type exists. This file is the reverse: it's the
+ * one place that imports every concrete diagram type
  * (`sequence-diagram/index.js` today, a future `flowchart-diagram/index.js`
  * later) to dispatch between them, and it's the public entry point
- * `schema/nodes/fence.ts` calls into — so it belongs at `core/content/diagrams/`'s root,
- * a peer to `generic/` and each type folder, not nested inside either.
+ * `schema/nodes/fence.ts` calls into — so it belongs at
+ * `core/content/diagrams/`'s root, a peer to `generic/` and each type folder,
+ * not nested inside either.
  */
 
 import type { Scene } from '../../../types/scene.js';
@@ -17,8 +18,8 @@ import * as sequenceDiagram from './sequence-diagram/index.js';
 
 /**
  * Dispatch table keyed by a fence's `language` string (e.g.
- * `"sequence-diagram"`). Adding a new diagram type means adding one entry
- * here plus a new `core/content/diagrams/<type>/` folder — nothing under `src/app/`
+ * `"sequence-diagram"`). Adding a new diagram type means adding one entry here
+ * plus a new `core/content/diagrams/<type>/` folder — nothing under `src/app/`
  * changes.
  */
 const diagramTypes: Record<string, DiagramDefinition> = {
