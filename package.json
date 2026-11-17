@@ -24,7 +24,7 @@
   },
   "author": "The Mordoc Authors",
   "scripts": {
-    "build": "tsc",
+    "build": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && tsc",
     "pretest:build": "npm run build",
     "test:build": "node --test \"test/build/**/*.test.ts\"",
     "pretest:e2e": "npm run build",
