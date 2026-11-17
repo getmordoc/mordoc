@@ -1,7 +1,7 @@
 import { readFile, access } from 'node:fs/promises';
 import { join } from 'node:path';
-import type { FontConfig, SiteConfig } from '../types/site.js';
-import type { ResolvedFont, ResolvedFonts } from '../types/fonts.js';
+import type { FontConfig, SiteConfig } from '../../types/site.js';
+import type { ResolvedFont, ResolvedFonts } from '../../types/fonts.js';
 
 // Relative path to the site config file within any Mordoc project root.
 const SITE_CONFIG_PATH = join('config', 'site.json');

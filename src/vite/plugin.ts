@@ -1,10 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import type { Plugin, ViteDevServer } from 'vite';
-import { loadAssets } from '../config/assets-loader.js';
+import { loadAssets } from '../core/config/assets-loader.js';
 import type { ResolvedAssets } from '../types/assets.js';
 import type { ResolvedFont, ResolvedFonts } from '../types/fonts.js';
-import { loadSiteConfig, loadFonts, fontFormat } from '../config/site-loader.js';
+import { loadSiteConfig, loadFonts, fontFormat } from '../core/config/site-loader.js';
 import {
   buildPagesIndex,
   loadNavigation,
@@ -14,10 +14,10 @@ import {
   replaceTransformedPage,
   reparsePage,
   runPipeline,
-} from '../pipeline.js';
+} from '../core/pipeline.js';
 import type { MordocData } from '../types/pipeline.js';
 import type { PageData, TransformedPage } from '../types/content.js';
-import { beginStep } from '../utils/reporter.js';
+import { beginStep } from '../core/reporter.js';
 
 /**
  * The set of "eager" virtual module IDs this plugin exposes.

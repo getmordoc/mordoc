@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import * as yaml from 'js-yaml';
-import type { FooterConfig } from '../types/navigation.js';
+import type { FooterConfig } from '../../types/navigation.js';
 
 const FOOTER_CONFIG_PATH = join('config', 'navigation', 'footer.yaml');
 

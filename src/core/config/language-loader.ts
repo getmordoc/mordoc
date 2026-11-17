@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import type { LanguageConfig } from '../types/language.js';
+import type { LanguageConfig } from '../../types/language.js';
 
 const LANGUAGE_CONFIG_PATH = join('config', 'language.json');
 

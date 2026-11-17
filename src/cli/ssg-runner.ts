@@ -1,9 +1,9 @@
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
-import { toShellData } from '../pipeline.js';
+import { toShellData } from '../core/pipeline.js';
 import { detectCurrentLang } from '../utils/lang-utils.js';
-import { beginStep } from '../utils/reporter.js';
+import { beginStep } from '../core/reporter.js';
 import type { MordocData, ShellData } from '../types/pipeline.js';
 import type { SiteConfig } from '../types/site.js';
 

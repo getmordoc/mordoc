@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import * as yaml from 'js-yaml';
-import type { SidenavConfig, SidenavItem } from '../types/navigation.js';
+import type { SidenavConfig, SidenavItem } from '../../types/navigation.js';
 
 const NAV_DIR = join('config', 'navigation');
 const DEFAULT_SIDENAV = 'sidenav.yaml';

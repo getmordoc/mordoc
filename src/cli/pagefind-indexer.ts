@@ -1,7 +1,7 @@
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import { createIndex } from 'pagefind';
-import { beginStep } from '../utils/reporter.js';
+import { beginStep } from '../core/reporter.js';
 import type { MordocData } from '../types/pipeline.js';
 
 /**

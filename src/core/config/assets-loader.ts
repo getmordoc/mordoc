@@ -1,6 +1,6 @@
 import { access } from 'node:fs/promises';
 import { join } from 'node:path';
-import type { ResolvedAssets } from '../types/assets.js';
+import type { ResolvedAssets } from '../../types/assets.js';
 
 const ASSETS_DIR = join('config', 'assets');
 const LOGO_EXTENSIONS = ['svg', 'png', 'jpg'];

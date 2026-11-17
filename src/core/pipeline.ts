@@ -4,23 +4,23 @@ import { loadTopnavConfig } from './config/topnav-loader.js';
 import { loadSidenavConfig } from './config/sidenav-loader.js';
 import { loadAssets } from './config/assets-loader.js';
 import { loadVariables } from './config/variables-loader.js';
-import { loadContent } from './content/content-loader.js';
+import { loadContent } from '../content/content-loader.js';
 import { loadNavTranslations } from './config/translations-loader.js';
 import { loadHeaderLinks } from './config/header-loader.js';
 import { loadFooterConfig } from './config/footer-loader.js';
-import { parseContent } from './content/content-parser.js';
-import { transformContent } from './content/content-transformer.js';
-import { ContentValidator } from './content/content-validation.js';
+import { parseContent } from '../content/content-parser.js';
+import { transformContent } from '../content/content-transformer.js';
+import { ContentValidator } from '../content/content-validation.js';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 export { loadNavTranslations, loadHeaderLinks, loadFooterConfig };
-import type { ContentEntry, PageMeta, TransformedPage } from './types/content.js';
-import type { MordocData, NavigationConfig, ShellData } from './types/pipeline.js';
-import type { OperationView } from './types/api.js';
-import { beginStep } from './utils/reporter.js';
+import type { ContentEntry, PageMeta, TransformedPage } from '../types/content.js';
+import type { MordocData, NavigationConfig, ShellData } from '../types/pipeline.js';
+import type { OperationView } from '../types/api.js';
+import { beginStep } from './reporter.js';
 
 /** The subset of `src/api/index.ts` the pipeline calls, kept local so the import can stay dynamic. */
-type ApiModule = typeof import('./api/index.js');
+type ApiModule = typeof import('../api/index.js');
 
 /**
  * Loads the API reference module, but only for projects that registered a
@@ -38,7 +38,7 @@ async function loadApiModule(projectRoot: string): Promise<ApiModule | null> {
   } catch {
     return null;
   }
-  return import('./api/index.js');
+  return import('../api/index.js');
 }
 
 /**

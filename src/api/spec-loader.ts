@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import type { ApiRegistry, OpenApiDocument, ResolvedSpec } from '../types/api.js';
 import type { Diagnostics } from './diagnostics.js';
 import { routePrefixFor } from './slug.js';
-import { beginStep } from '../utils/reporter.js';
+import { beginStep } from '../core/reporter.js';
 
 /** Directory holding the machine-generated specs, relative to the project root. */
 export const SPEC_DIR = join('api', 'specs');

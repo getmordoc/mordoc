@@ -5,7 +5,7 @@
 
 ## Tasks
 - [x] **T-001 (FR-006):** Let the build script clear `dist/` before compiling.
-- [ ] **T-002 (FR-001):** Move `pipeline.ts`, `utils/reporter.ts` and `config/` to `core/`.
+- [x] **T-002 (FR-001):** Move `pipeline.ts`, `utils/reporter.ts` and `config/` to `core/`.
 - [ ] **T-003 (FR-001):** Move `content/` to `core/content/` with its new file names, including `validation.ts`, and `diagrams/` to `core/content/diagrams/`.
 - [ ] **T-004 (FR-001):** Move `api/` to `core/openapi/`.
 - [ ] **T-005 (FR-003):** Move `scene.ts` to `types/` and `CONDITIONAL_BADGE` to `core/openapi/badges.ts`.
