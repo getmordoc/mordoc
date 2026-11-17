@@ -1,8 +1,8 @@
 import path from 'node:path';
 import fs from 'node:fs/promises';
-import type { MordocData } from '../types/pipeline.js';
-import type { ResolvedAssets } from '../types/assets.js';
-import type { ResolvedFont, ResolvedFonts } from '../types/fonts.js';
+import type { MordocData } from '../../types/pipeline.js';
+import type { ResolvedAssets } from '../../types/assets.js';
+import type { ResolvedFont, ResolvedFonts } from '../../types/fonts.js';
 
 /**
  * Public URL prefix used for rewritten asset paths.

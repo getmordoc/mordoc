@@ -1,11 +1,11 @@
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
-import { toShellData } from '../core/pipeline.js';
-import { detectCurrentLang } from '../utils/lang-utils.js';
-import { beginStep } from '../core/reporter.js';
-import type { MordocData, ShellData } from '../types/pipeline.js';
-import type { SiteConfig } from '../types/site.js';
+import { toShellData } from '../../core/pipeline.js';
+import { detectCurrentLang } from './lang-utils.js';
+import { beginStep } from '../../core/reporter.js';
+import type { MordocData, ShellData } from '../../types/pipeline.js';
+import type { SiteConfig } from '../../types/site.js';
 
 /**
  * What the head builder needs from a route, regardless of which flavor

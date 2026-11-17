@@ -3,14 +3,14 @@ import { build as viteBuild } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'node:path';
 import fs from 'node:fs/promises';
-import { runPipeline } from '../core/pipeline.js';
+import { runPipeline } from '../../core/pipeline.js';
 import { mordocVitePlugin } from '../vite/plugin.js';
-import { getMordocAppRoot } from '../utils/paths.js';
-import { beginStep, formatBytes, formatElapsed } from '../core/reporter.js';
+import { getMordocAppRoot } from '../vite/paths.js';
+import { beginStep, formatBytes, formatElapsed } from '../../core/reporter.js';
 import { runSsg } from './ssg-runner.js';
 import { copyAndRewriteAssets } from './asset-rewrite.js';
 import { runPagefindIndexer } from './pagefind-indexer.js';
-import type { MordocData } from '../types/pipeline.js';
+import type { MordocData } from '../../types/pipeline.js';
 
 export interface BuildCommandOptions {
   /** Absolute path to the user's project root. */

@@ -4,17 +4,17 @@ import path from 'node:path';
 /**
  * Resolves the absolute path to mordoc's own package root.
  *
- * This file compiles to `dist/utils/paths.js`, which sits two directories
- * below the package root. Using `import.meta.url` means the resolution
+ * This file compiles to `dist/cli/vite/paths.js`, which sits three
+ * directories below the package root. Using `import.meta.url` means the resolution
  * works regardless of where mordoc is installed — in its own repo during
  * development, or under `node_modules/mordoc/` in a user's project.
  *
- * Shared by `cli/dev.ts` and `cli/build.ts` because both Vite invocations
+ * Shared by `cli/dev/` and `cli/build/` because both Vite invocations
  * (dev server, production build) point Vite's `root` at mordoc's own
  * app source folder, not at anything inside the user's project.
  */
 export function getPackageRoot(): string {
-  return path.resolve(fileURLToPath(import.meta.url), '../../..');
+  return path.resolve(fileURLToPath(import.meta.url), '../../../..');
 }
 
 /**

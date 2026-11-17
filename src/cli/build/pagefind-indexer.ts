@@ -1,8 +1,8 @@
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import { createIndex } from 'pagefind';
-import { beginStep } from '../core/reporter.js';
-import type { MordocData } from '../types/pipeline.js';
+import { beginStep } from '../../core/reporter.js';
+import type { MordocData } from '../../types/pipeline.js';
 
 /**
  * Builds a Pagefind search index from a set of glob patterns within distDir.

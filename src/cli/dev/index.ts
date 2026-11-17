@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import { mordocVitePlugin } from '../vite/plugin.js';
-import { getMordocAppRoot, getPackageRoot } from '../utils/paths.js';
+import { getMordocAppRoot, getPackageRoot } from '../vite/paths.js';
 
 /** Markers in `index.html` replaced at request time. */
 const SSR_LANG_MARKER = '<!--ssr-lang-->';

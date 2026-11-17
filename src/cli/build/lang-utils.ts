@@ -1,4 +1,4 @@
-import type { LanguageConfig } from '../types/language.js';
+import type { LanguageConfig } from '../../types/language.js';
 
 /**
  * Returns the active language code from the current pathname.

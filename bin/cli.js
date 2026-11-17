@@ -4,8 +4,8 @@
 // so it can be executed directly by Node without a build step.
 // The actual logic lives in compiled output under dist/.
 
-import { runDevCommand } from '../dist/cli/dev.js';
-import { runBuildCommand } from '../dist/cli/build.js';
+import { runDevCommand } from '../dist/cli/dev/index.js';
+import { runBuildCommand } from '../dist/cli/build/index.js';
 
 const command = process.argv[2];
 const verbose = process.argv.includes('--verbose');
