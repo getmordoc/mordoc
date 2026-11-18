@@ -3,10 +3,10 @@ import { createBrowserRouter } from 'react-router';
 import pagesIndex from 'virtual:mordoc/pages-index';
 import loaders from 'virtual:mordoc/page-loaders';
 import { App } from './App.js';
-import { Content } from './content/Content.js';
-import { Operation } from './api/Operation.js';
-import { NotFound } from './content/not-found/NotFound.js';
-import { RouteError } from './content/route-error/RouteError.js';
+import { Content } from './components/Content.js';
+import { Operation } from './openapi/Operation.js';
+import { NotFound } from './pages/not-found/NotFound.js';
+import { RouteError } from './pages/route-error/RouteError.js';
 
 /**
  * The one canonical fact about which shell a page renders in. Set once per

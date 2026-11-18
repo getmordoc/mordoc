@@ -1,0 +1,287 @@
+import { loadSiteConfig, loadFonts } from './config/site-loader.js';
+import { loadLanguageConfig } from './config/language-loader.js';
+import { loadTopnavConfig } from './config/topnav-loader.js';
+import { loadSidenavConfig } from './config/sidenav-loader.js';
+import { loadAssets } from './config/assets-loader.js';
+import { loadVariables } from './config/variables-loader.js';
+import { loadContent } from './content/loader.js';
+import { loadNavTranslations } from './config/translations-loader.js';
+import { loadHeaderLinks } from './config/header-loader.js';
+import { loadFooterConfig } from './config/footer-loader.js';
+import { parseContent } from './content/parse.js';
+import { transformContent } from './content/transform.js';
+import { ContentValidator } from './content/validation.js';
+import path from 'node:path';
+import fs from 'node:fs/promises';
+export { loadNavTranslations, loadHeaderLinks, loadFooterConfig };
+import type { ContentEntry, PageMeta, TransformedPage } from '../types/content.js';
+import type { MordocData, NavigationConfig, ShellData } from '../types/pipeline.js';
+import type { OperationView } from '../types/api.js';
+import { beginStep } from './reporter.js';
+
+/**
+ * The subset of `core/openapi/index.ts` the pipeline calls, kept local so the
+ * import can stay dynamic.
+ */
+type ApiModule = typeof import('./openapi/index.js');
+
+/**
+ * Loads the API reference module, but only for projects that registered a
+ * spec.
+ *
+ * The existence check is what buys the cost isolation: a project without
+ * `config/api.yaml` never imports `core/openapi/`, and so never loads the
+ * OpenAPI library behind it. That gets most of the benefit of shipping the
+ * feature as a separate package without designing a plugin API against a
+ * sample size of one.
+ */
+async function loadApiModule(projectRoot: string): Promise<ApiModule | null> {
+  try {
+    await fs.access(path.join(projectRoot, 'config', 'api.yaml'));
+  } catch {
+    return null;
+  }
+  return import('./openapi/index.js');
+}
+
+/**
+ * Loads the project's navigation configuration.
+ *
+ * If `config/navigation/topnav.yaml` exists, every sidenav file it
+ * references is loaded and the resolved tree is returned. Otherwise the
+ * single `config/navigation/sidenav.yaml` is loaded as a site-wide sidenav.
+ *
+ * Exported separately from `runPipeline` because the Vite plugin's HMR
+ * handler will need to re-resolve navigation independently when any nav
+ * file changes — without re-reading site.json or re-transforming content.
+ */
+export async function loadNavigation(projectRoot: string): Promise<NavigationConfig> {
+  const topnav = await loadTopnavConfig(projectRoot);
+  if (topnav) {
+    return { kind: 'topnav', topnav };
+  }
+  const sidenav = await loadSidenavConfig(projectRoot);
+  return { kind: 'sidenav', sidenav };
+}
+
+/**
+ * Runs the full Mordoc data pipeline for a project.
+ *
+ * Stages, in order:
+ *   1. Load every config file (site, language, navigation, assets).
+ *   2. Discover content files and build the route manifest.
+ *   3. Parse each markdown file into frontmatter + Markdoc AST.
+ *   4. Transform each AST into a renderable tree with TOC.
+ *   5. For projects with `config/api.yaml`: load and bundle the specs,
+ *      discover and parse enrichment under `api/enrichment/`, join them into
+ *      `OperationView`s, and run the navigation checks. Skipped entirely —
+ *      module never imported — otherwise.
+ *   6. Report Markdoc's validation results for the pages and the
+ *      enrichment files together, and stop when `failOnContentErrors` is set
+ *      and one of them is an error.
+ *
+ * Returns a single, JSON-serializable `MordocData`. This is the canonical
+ * hand-off shape consumed by both the Vite plugin (in dev) and the SSG
+ * build (in prod). The pipeline itself knows nothing about either —
+ * keeping it framework-agnostic means new consumers (a CI checker, a
+ * different bundler) can be added without touching this code.
+ *
+ * @param projectRoot - Absolute path to the user's project root.
+ * @param options.failOnContentErrors - Stop with a `ValidationFailedError`
+ *   when content validation finds an error. `mordoc build` sets it; the dev
+ *   server does not, so a mistake while writing is reported but the server
+ *   keeps running.
+ */
+export async function runPipeline(
+  projectRoot: string,
+  options: { verbose?: boolean; failOnContentErrors?: boolean } = {},
+): Promise<MordocData> {
+  const verbose = options.verbose ?? false;
+  const overallStep = beginStep('reading the project');
+
+  const configStep = beginStep('config & content loaded', { indent: '  ' });
+  const site = await loadSiteConfig(projectRoot);
+  const language = await loadLanguageConfig(projectRoot, site.defaultLanguage);
+  const navigation = await loadNavigation(projectRoot);
+  const assets = await loadAssets(projectRoot);
+  const fonts = await loadFonts(projectRoot, site);
+
+  const contentMap = await loadContent(
+    projectRoot,
+    site.defaultLanguage,
+    language?.languages ?? null,
+  );
+
+  const translations = await loadNavTranslations(
+    projectRoot,
+    language?.languages ?? [site.defaultLanguage],
+    site.defaultLanguage,
+  );
+  const headerLinks = await loadHeaderLinks(projectRoot);
+  const footer = await loadFooterConfig(projectRoot);
+
+  const variables = await loadVariables(projectRoot);
+  const parsedContent = await parseContent(contentMap);
+  // A new, empty validator for this run.
+  const validator = new ContentValidator(projectRoot);
+  const transformedContent = transformContent(parsedContent, variables, validator);
+  configStep.done('config & content loaded');
+
+  // Runs after navigation and content are both in hand, because the
+  // navigation checks compare the spec's operations against the authored nav
+  // tree and resolve `operation:` references into routes. `navigation` is
+  // mutated in place by that pass; `loadNavigation` itself is untouched and
+  // keeps its independent-HMR contract.
+  const api = await loadApiModule(projectRoot);
+  const registry = api ? await api.loadApiRegistry(projectRoot) : null;
+  const apiResult =
+    api && registry
+      ? await api.runApiStages({
+          projectRoot,
+          registry,
+          contentMap,
+          navigation,
+          variables,
+          defaultLanguage: site.defaultLanguage,
+          languages: contentMap.languages,
+          verbose,
+          validator,
+        })
+      : { operations: [] as OperationView[], warningCount: 0 };
+  const { operations, warningCount: apiWarnings } = apiResult;
+
+  // The pages and the API reference texts are reported as one list, so an
+  // author sees every problem in a single build.
+  validator.report();
+  if (options.failOnContentErrors) validator.stopOnErrors();
+
+  let customHead: string | null = null;
+  try {
+    const raw = await fs.readFile(path.join(projectRoot, 'config', 'custom-head.html'), 'utf-8');
+    customHead = raw.trim() || null;
+  } catch {
+    // optional file — absent is the normal case
+  }
+
+  const opsSummary = operations.length > 0 ? `, ${operations.length} operation(s)` : '';
+  overallStep.done(`ready · ${transformedContent.length} page(s)${opsSummary}`);
+
+  return { site, language, navigation, assets, fonts, pages: transformedContent, operations, translations, headerLinks, footer, variables, customHead, apiWarnings };
+}
+
+/**
+ * Re-runs the parse + transform stages for a single content entry.
+ *
+ * This is the per-file granular update primitive the Vite plugin's
+ * `handleHotUpdate` will call when one markdown file changes — it returns
+ * a fresh `TransformedPage` for that entry alone, without touching any
+ * other page or any config.
+ *
+ * The wrapping `ContentMap` is synthetic; `parseContent` only iterates
+ * `entries`, so a one-element list is sufficient.
+ *
+ * @param variables - Current variables map from `MordocData.variables`.
+ *   Must match what was used in the last full pipeline run so that
+ *   `{{ $VAR }}` expressions resolve consistently during HMR.
+ */
+export async function reparsePage(
+  entry: ContentEntry,
+  variables: Record<string, unknown> = {},
+): Promise<TransformedPage> {
+  const parsed = await parseContent({
+    entries: [entry],
+    languages: [entry.language],
+  });
+  // Reported, never thrown: this runs on every save in the dev server, which
+  // keeps running while the author fixes the page.
+  const validator = new ContentValidator(process.cwd());
+  const [transformed] = transformContent(parsed, variables, validator);
+  validator.report();
+  if (!transformed) {
+    // parseContent + transformContent both produce one output per input
+    // entry, so this branch should be unreachable. Guarded so a future
+    // refactor can't silently return undefined.
+    throw new Error(`reparsePage produced no result for ${entry.filePath}`);
+  }
+  return transformed;
+}
+
+/**
+ * Stable fingerprint of which routes exist — used to decide whether a
+ * config or content-tree edit requires a full browser reload (v1 skips
+ * mutating the route table client-side when pages are added or removed).
+ */
+export function pagesRouteSignature(pages: TransformedPage[]): string {
+  return pages
+    .map((p) => `${p.entry.language}\t${p.entry.routePath}`)
+    .sort()
+    .join('|');
+}
+
+/**
+ * Builds the route index: every authored page followed by every generated
+ * operation page.
+ *
+ * The two flavors share one list because they share one route table and one
+ * per-route lazy-module channel — `kind` is the only thing the shell needs
+ * to pick the right component. Sorted by route so the emitted virtual module
+ * is stable across builds regardless of discovery order.
+ *
+ * Exported because the Vite plugin builds the same index for
+ * `virtual:mordoc/pages-index` and must not drift from what the SSG renders.
+ */
+export function buildPagesIndex(data: MordocData): PageMeta[] {
+  const pages: PageMeta[] = data.pages.map((p) => {
+    const meta: PageMeta = {
+      routePath: p.entry.routePath,
+      language: p.entry.language,
+      kind: 'page',
+    };
+    if (p.frontmatter.layout === 'landing') meta.layout = 'landing';
+    if (p.entry.isFallback) meta.isFallback = true;
+    return meta;
+  });
+
+  const operations: PageMeta[] = data.operations.map((view) => {
+    const meta: PageMeta = {
+      routePath: view.routePath,
+      language: view.language,
+      kind: 'operation',
+    };
+    if (view.isFallback) meta.isFallback = true;
+    return meta;
+  });
+
+  return [...pages, ...operations].sort((a, b) => a.routePath.localeCompare(b.routePath));
+}
+
+/** Projects `MordocData` to `ShellData`. Used by `ssg-runner.ts` to build
+ * the data passed into `entry-server.tsx`'s `render()`.
+ */
+export function toShellData(data: MordocData): ShellData {
+  return {
+    site: data.site,
+    language: data.language,
+    navigation: data.navigation,
+    assets: data.assets,
+    pagesIndex: buildPagesIndex(data),
+    translations: data.translations,
+    headerLinks: data.headerLinks,
+    footer: data.footer,
+  };
+}
+
+/**
+ * Replaces one page in an in-memory `MordocData` after `reparsePage`.
+ * Matches by `routePath`, which is always unique (enforced by detectCollisions).
+ * Using filePath would be ambiguous once synthetic fallback entries share the
+ * same filePath as the real default-language entry.
+ */
+export function replaceTransformedPage(data: MordocData, page: TransformedPage): void {
+  const idx = data.pages.findIndex((p) => p.entry.routePath === page.entry.routePath);
+  if (idx === -1) {
+    throw new Error(`replaceTransformedPage: no page for route "${page.entry.routePath}"`);
+  }
+  data.pages[idx] = page;
+  data.pages.sort((a, b) => a.entry.routePath.localeCompare(b.entry.routePath));
+}

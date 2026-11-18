@@ -5,7 +5,8 @@ import type { RenderableTreeNode } from '@markdoc/markdoc';
  *
  * Two families live here:
  *   - Build-time shapes (`ApiRegistry`, `ResolvedSpec`, `EnrichmentEntry`,
- *     `ParsedEnrichment`) — consumed only by `src/api/` on the Node side.
+ *     `ParsedEnrichment`) — consumed only by `src/core/openapi/` on the Node
+ *     side.
  *   - Ship-time shapes (`FieldView`, `OperationView`) — the flat,
  *     JSON-serializable payload that reaches the browser.
  *
@@ -115,7 +116,7 @@ export type EnrichmentKind = 'operation' | 'schema';
 
 /**
  * One discovered enrichment file under `api/enrichment/<specId>/`. Written
- * once, in English — see `src/api/enrichment-loader.ts`.
+ * once, in English — see `src/core/openapi/enrichment-loader.ts`.
  */
 export interface EnrichmentEntry {
   /** Registry id of the API this file enriches. */
@@ -130,15 +131,6 @@ export interface EnrichmentEntry {
 // ---------------------------------------------------------------------------
 // Stage C — parsed enrichment
 // ---------------------------------------------------------------------------
-
-/**
- * The one reserved badge keyword. OpenAPI cannot express every conditional
- * rule, so a writer marks such a field `conditional` and Mordoc renders it
- * with a dedicated style (and requires an explanation — see
- * `checkConditionalBadges`). Matched case-insensitively; normalized to this
- * lowercase form at parse time.
- */
-export const CONDITIONAL_BADGE = 'conditional';
 
 /**
  * An authored badge: either the reserved `conditional` keyword, or any other

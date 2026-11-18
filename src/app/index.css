@@ -21,7 +21,7 @@
    These global tokens are overridden via config/styles/theme.css;
    component-specific tokens are overridden per-component via
    config/styles/<name>.css (e.g. config/styles/sidenav.css) — see
-   COMPONENT_THEME_FILES in src/vite/plugin.ts for the full list.
+   COMPONENT_THEME_FILES in src/cli/vite/plugin.ts for the full list.
    ============================================================ */
 :root {
   /* Surfaces */
