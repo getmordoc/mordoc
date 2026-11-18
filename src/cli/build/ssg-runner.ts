@@ -2,7 +2,6 @@ import path from 'node:path';
 import fs from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 import { toShellData } from '../../core/pipeline.js';
-import { detectCurrentLang } from './lang-utils.js';
 import { beginStep } from '../../core/reporter.js';
 import type { MordocData, ShellData } from '../../types/pipeline.js';
 import type { SiteConfig } from '../../types/site.js';
@@ -309,11 +308,10 @@ export async function runSsg(options: SsgRunnerOptions): Promise<void> {
     const request = new Request(`http://localhost${routePath}`);
     const { html: appHtml } = await ssrModule.render(request, shellData);
 
-    const pageLang = detectCurrentLang(routePath, data.language, data.site.defaultLanguage);
     const headHtml = buildHeadHtml(route, data.site, data.assets.favicon);
     const fullHeadHtml = data.customHead ? `${headHtml}\n  ${data.customHead}` : headHtml;
     // lang is a plain ASCII code — string-form replace is safe (no $-patterns)
-    const withLang = template.replace(SSR_LANG_MARKER, pageLang);
+    const withLang = template.replace(SSR_LANG_MARKER, route.language);
     const withHead = withLang.replace(SSR_HEAD_MARKER, () => fullHeadHtml);
     const finalHtml = withHead.replace(SSR_OUTLET_MARKER, () => appHtml);
 
