@@ -4,5 +4,5 @@
 **QA plan:** [qa.md](./qa.md)
 
 ## Tasks
-- [ ] **T-001 (FR-001):** Let `ssg-runner.ts` set the page's `lang` from `route.language`.
-- [ ] **T-002 (FR-002):** Delete `cli/build/lang-utils.ts` and update the comment at the top of `app/lang-utils.ts`.
+- [x] **T-001 (FR-001):** Let `ssg-runner.ts` set the page's `lang` from `route.language`.
+- [x] **T-002 (FR-002):** Delete `cli/build/lang-utils.ts` and update the comment at the top of `app/lang-utils.ts`.
