@@ -43,6 +43,7 @@ export const nl: UiStrings = {
   },
 
   diagram: {
+    ariaLabel: 'Diagram',
     previewAriaLabel: 'Diagramvoorbeeld',
     closePreviewLabel: 'Diagramvoorbeeld sluiten',
     zoomOutLabel: 'Uitzoomen',

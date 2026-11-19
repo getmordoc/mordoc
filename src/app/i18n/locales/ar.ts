@@ -48,6 +48,7 @@ export const ar: UiStrings = {
   },
 
   diagram: {
+    ariaLabel: 'رسم تخطيطي',
     previewAriaLabel: 'معاينة الرسم التخطيطي',
     closePreviewLabel: 'إغلاق معاينة الرسم التخطيطي',
     zoomOutLabel: 'تصغير',

@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useUiStrings } from '../../i18n/useUiStrings.js';
 import { formatUiString } from '../../i18n/format.js';
+import { useModalDialog } from '../../use-modal-dialog.js';
 import styles from './SearchModal.module.css';
 
 /**
@@ -124,6 +125,19 @@ interface SearchResult {
  * This is safe — the content comes from our own indexed pages, not user input.
  */
 export function SearchModal({ open, onClose }: SearchModalProps) {
+  if (!open) return null;
+  return <SearchDialog onClose={onClose} />;
+}
+
+/**
+ * The search window, a modal <dialog> (see use-modal-dialog.ts): the browser
+ * keeps the keyboard inside it and closes it on Escape, also in dev mode, where
+ * the input is disabled. It mounts anew on each opening, so it starts empty.
+ *
+ * The input is a combobox for the results: focus stays in the input, and
+ * `aria-activedescendant` tells screen readers which result is selected.
+ */
+function SearchDialog({ onClose }: { onClose: () => void }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -131,29 +145,15 @@ export function SearchModal({ open, onClose }: SearchModalProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const t = useUiStrings();
+  const dialogRef = useModalDialog(onClose);
+  const listId = useId();
+  const optionId = (index: number) => `${listId}-${index}`;
 
   const isDev = import.meta.env.DEV;
 
-  // Focus input on open; reset state on close
   useEffect(() => {
-    if (open) {
-      setQuery('');
-      setResults([]);
-      setSelectedIndex(0);
-      requestAnimationFrame(() => inputRef.current?.focus());
-    }
-  }, [open]);
-
-  // Global Escape listener — handles dev mode where the disabled input
-  // swallows keyboard events and they never reach the modal's onKeyDown.
-  useEffect(() => {
-    if (!open) return;
-    function handleEscape(e: KeyboardEvent) {
-      if (e.key === 'Escape') onClose();
-    }
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
-  }, [open, onClose]);
+    inputRef.current?.focus();
+  }, []);
 
   // Debounced search — waits 180 ms after the last keystroke
   useEffect(() => {
@@ -202,36 +202,29 @@ export function SearchModal({ open, onClose }: SearchModalProps) {
     return () => clearTimeout(timerId);
   }, [query, isDev]);
 
+  function openResult(result: SearchResult) {
+    onClose();
+    navigate(normalizePath(result.url));
+  }
+
   function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'Escape') {
-      onClose();
-    } else if (e.key === 'ArrowDown') {
+    // Keys that confirm characters in an input method (Japanese, Chinese,
+    // Korean) belong to that input method, not to the result list.
+    if (e.nativeEvent.isComposing) return;
+    if (e.key === 'ArrowDown') {
       e.preventDefault();
       setSelectedIndex((i) => Math.min(i + 1, results.length - 1));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setSelectedIndex((i) => Math.max(i - 1, 0));
     } else if (e.key === 'Enter' && results[selectedIndex]) {
-      onClose();
-      navigate(normalizePath(results[selectedIndex].url));
+      openResult(results[selectedIndex]);
     }
   }
 
-  if (!open) return null;
-
   return (
-    // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
-    <div
-      className={styles.overlay}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-      role="dialog"
-      aria-modal="true"
-      aria-label={t.search.modalAriaLabel}
-    >
-      {/* biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility */}
-      <div className={styles.modal} onKeyDown={handleKeyDown}>
+    <dialog ref={dialogRef} className={styles.overlay} aria-label={t.search.modalAriaLabel}>
+      <div className={styles.modal}>
         <div className={styles.inputRow}>
           <svg
             className={styles.searchIcon}
@@ -252,9 +245,15 @@ export function SearchModal({ open, onClose }: SearchModalProps) {
             ref={inputRef}
             className={styles.input}
             type="text"
+            role="combobox"
+            aria-autocomplete="list"
+            aria-expanded={results.length > 0}
+            aria-controls={listId}
+            aria-activedescendant={results.length > 0 ? optionId(selectedIndex) : undefined}
             placeholder={isDev ? t.search.modalPlaceholderDev : t.search.modalPlaceholder}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
             disabled={isDev}
             aria-label={t.search.inputAriaLabel}
           />
@@ -276,37 +275,37 @@ export function SearchModal({ open, onClose }: SearchModalProps) {
           <div className={styles.status}>{formatUiString(t.search.noResults, { query })}</div>
         )}
 
-        {results.length > 0 && (
-          // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
-          <ul className={styles.results} role="listbox">
-            {results.map((result, i) => (
-              // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
-              <li
-                key={result.id}
-                // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
-                role="option"
-                aria-selected={i === selectedIndex}
-                className={`${styles.result}${i === selectedIndex ? ` ${styles.resultSelected}` : ''}`}
-                onClick={() => {
-                  onClose();
-                  navigate(normalizePath(result.url));
-                }}
-                onMouseEnter={() => setSelectedIndex(i)}
-              >
-                <span className={styles.resultTitle}>{result.title}</span>
-                {result.sectionTitle && (
-                  <span className={styles.resultSection}>{result.sectionTitle}</span>
-                )}
-                {/* Pagefind wraps matched terms in <mark> — safe to inject as HTML */}
-                <span
-                  className={styles.resultExcerpt}
-                  dangerouslySetInnerHTML={{ __html: result.excerpt }}
-                />
-              </li>
-            ))}
-          </ul>
-        )}
+        <div id={listId} className={styles.results} role="listbox" hidden={results.length === 0}>
+          {results.map((result, i) => (
+            <a
+              key={result.id}
+              id={optionId(i)}
+              href={normalizePath(result.url)}
+              role="option"
+              aria-selected={i === selectedIndex}
+              tabIndex={-1}
+              className={`${styles.result}${i === selectedIndex ? ` ${styles.resultSelected}` : ''}`}
+              onClick={(e) => {
+                // A modified click opens the page in a new tab or window, as links do.
+                if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                e.preventDefault();
+                openResult(result);
+              }}
+              onMouseEnter={() => setSelectedIndex(i)}
+            >
+              <span className={styles.resultTitle}>{result.title}</span>
+              {result.sectionTitle && (
+                <span className={styles.resultSection}>{result.sectionTitle}</span>
+              )}
+              {/* Pagefind wraps matched terms in <mark> — safe to inject as HTML */}
+              <span
+                className={styles.resultExcerpt}
+                dangerouslySetInnerHTML={{ __html: result.excerpt }}
+              />
+            </a>
+          ))}
+        </div>
       </div>
-    </div>
+    </dialog>
   );
 }

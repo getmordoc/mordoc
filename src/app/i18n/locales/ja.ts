@@ -43,6 +43,7 @@ export const ja: UiStrings = {
   },
 
   diagram: {
+    ariaLabel: '図',
     previewAriaLabel: '図のプレビュー',
     closePreviewLabel: '図のプレビューを閉じる',
     zoomOutLabel: '縮小',

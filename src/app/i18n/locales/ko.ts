@@ -43,6 +43,7 @@ export const ko: UiStrings = {
   },
 
   diagram: {
+    ariaLabel: '다이어그램',
     previewAriaLabel: '다이어그램 미리보기',
     closePreviewLabel: '다이어그램 미리보기 닫기',
     zoomOutLabel: '축소',

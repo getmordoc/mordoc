@@ -51,6 +51,7 @@ export const en: UiStrings = {
   },
 
   diagram: {
+    ariaLabel: 'Diagram',
     previewAriaLabel: 'Diagram preview',
     closePreviewLabel: 'Close diagram preview',
     zoomOutLabel: 'Zoom out',
