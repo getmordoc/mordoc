@@ -109,7 +109,9 @@ export async function loadFooterConfig(projectRoot: string): Promise<FooterConfi
   try {
     parsed = yaml.load(content);
   } catch (err) {
-    throw new Error(unquotedBracketHint(content) ?? `Failed to parse ${filePath}: ${(err as Error).message}`);
+    throw new Error(
+      unquotedBracketHint(content) ?? `Failed to parse ${filePath}: ${(err as Error).message}`,
+    );
   }
 
   // An empty file parses to undefined/null — treat it the same as an empty

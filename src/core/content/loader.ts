@@ -23,7 +23,7 @@ async function dirExists(dirPath: string): Promise<boolean> {
 async function findMarkdownFiles(dir: string): Promise<string[]> {
   let entries: string[];
   try {
-    entries = await readdir(dir, { recursive: true }) as unknown as string[];
+    entries = (await readdir(dir, { recursive: true })) as unknown as string[];
   } catch (err) {
     const code = (err as NodeJS.ErrnoException).code;
     if (code === 'ENOENT') return [];
@@ -55,17 +55,15 @@ function buildEntry(
   const isIndex = withoutExt.endsWith('/index') || withoutExt === 'index';
 
   const segments = isIndex
-    ? withoutExt === 'index' ? [] : withoutExt.replace(/\/index$/, '').split('/')
+    ? withoutExt === 'index'
+      ? []
+      : withoutExt.replace(/\/index$/, '').split('/')
     : withoutExt.split('/');
 
-  const slug = isIndex
-    ? 'index'
-    : segments[segments.length - 1]!;
+  const slug = isIndex ? 'index' : segments[segments.length - 1];
 
   const prefix = language === defaultLanguage ? '' : `/${language}`;
-  const routePath = segments.length === 0
-    ? prefix || '/'
-    : `${prefix}/${segments.join('/')}`;
+  const routePath = segments.length === 0 ? prefix || '/' : `${prefix}/${segments.join('/')}`;
 
   return { language, segments, routePath, filePath, slug, isIndex };
 }
@@ -81,7 +79,7 @@ function detectCollisions(entries: ContentEntry[], language: string): void {
     if (existing) {
       throw new Error(
         `Route collision for "${entry.routePath}" in language "${language}": ` +
-        `"${existing}" and "${entry.filePath}" both resolve to the same route.`,
+          `"${existing}" and "${entry.filePath}" both resolve to the same route.`,
       );
     }
     seen.set(entry.routePath, entry.filePath);
@@ -119,12 +117,12 @@ export async function loadContent(
       if (lang === defaultLanguage) {
         throw new Error(
           `Content directory not found: ${langDir}\n` +
-          `Every Mordoc project requires a content/${defaultLanguage}/ directory.`,
+            `Every Mordoc project requires a content/${defaultLanguage}/ directory.`,
         );
       }
       console.warn(
         `⚠ No content directory for language "${lang}" — ` +
-        `content will fall back to "${defaultLanguage}" at runtime.`,
+          `content will fall back to "${defaultLanguage}" at runtime.`,
       );
       continue;
     }
@@ -135,12 +133,12 @@ export async function loadContent(
       if (lang === defaultLanguage) {
         throw new Error(
           `No markdown files found in ${langDir}.\n` +
-          `The default language content directory must contain at least an index.md file.`,
+            `The default language content directory must contain at least an index.md file.`,
         );
       }
       console.warn(
         `⚠ No markdown files in content/${lang}/ — ` +
-        `content will fall back to "${defaultLanguage}" at runtime.`,
+          `content will fall back to "${defaultLanguage}" at runtime.`,
       );
       continue;
     }
@@ -152,7 +150,7 @@ export async function loadContent(
     if (lang === defaultLanguage && !hasIndex) {
       throw new Error(
         `Missing content/${defaultLanguage}/index.md.\n` +
-        `The default language must have a root index.md — it serves as the landing page.`,
+          `The default language must have a root index.md — it serves as the landing page.`,
       );
     }
 

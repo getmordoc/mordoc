@@ -19,7 +19,7 @@ export const accordion: Schema = {
   inline: false,
   children: ['heading', 'paragraph', 'list', 'fence', 'blockquote', 'tag', 'hr'],
   attributes: {
-    title:       { type: String, required: true },
+    title: { type: String, required: true },
     defaultOpen: { type: Boolean, default: false },
   },
 };

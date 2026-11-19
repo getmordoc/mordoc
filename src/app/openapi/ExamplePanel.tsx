@@ -62,7 +62,11 @@ function WebhookPayloadPanel({ requests }: { requests: ExampleView[] }) {
             {requests.length > 1 && (
               <select
                 className={styles.select}
-                style={{ '--select-chars': Math.max(...requests.map((r) => r.label.length)) } as CSSProperties}
+                style={
+                  {
+                    '--select-chars': Math.max(...requests.map((r) => r.label.length)),
+                  } as CSSProperties
+                }
                 value={Math.min(active, requests.length - 1)}
                 onChange={(event) => setActive(Number(event.target.value))}
                 aria-label="Choose payload example"
@@ -91,6 +95,8 @@ function WebhookPayloadPanel({ requests }: { requests: ExampleView[] }) {
  */
 export function RequestExamplePanel({ view }: { view: OperationView }) {
   const requests = view.examples.filter((e) => e.kind === 'request');
+  const [activeLanguage, setActiveLanguage] = useState(0);
+  const [activeExample, setActiveExample] = useState(0);
 
   // A webhook has no code sample to select a language for — it's delivered
   // to the integrator, never called — so it gets the raw-JSON-only card
@@ -98,8 +104,6 @@ export function RequestExamplePanel({ view }: { view: OperationView }) {
   if (view.isWebhook) return <WebhookPayloadPanel requests={requests} />;
 
   const languages = [...new Set(view.samples.map((s) => s.language))];
-  const [activeLanguage, setActiveLanguage] = useState(0);
-  const [activeExample, setActiveExample] = useState(0);
 
   if (languages.length === 0) return null;
 
@@ -137,7 +141,11 @@ export function RequestExamplePanel({ view }: { view: OperationView }) {
                 // Sized to the longest label so the closed box never
                 // truncates any of them — see .select in
                 // ExamplePanel.module.css.
-                style={{ '--select-chars': Math.max(...requests.map((r) => r.label.length)) } as CSSProperties}
+                style={
+                  {
+                    '--select-chars': Math.max(...requests.map((r) => r.label.length)),
+                  } as CSSProperties
+                }
                 value={Math.min(activeExample, requests.length - 1)}
                 onChange={(event) => setActiveExample(Number(event.target.value))}
                 aria-label="Choose request example"
@@ -193,7 +201,11 @@ export function ResponseExamplePanel({
             {responses.length > 1 && (
               <select
                 className={styles.select}
-                style={{ '--select-chars': Math.max(...responses.map((r) => r.label.length)) } as CSSProperties}
+                style={
+                  {
+                    '--select-chars': Math.max(...responses.map((r) => r.label.length)),
+                  } as CSSProperties
+                }
                 value={Math.min(active, responses.length - 1)}
                 onChange={(event) => setActive(Number(event.target.value))}
                 aria-label="Choose response example"

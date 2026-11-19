@@ -14,7 +14,14 @@
  * in ArticlePage.tsx's components map.
  */
 
-import { useState, useEffect, useLayoutEffect, useCallback, useRef, type CSSProperties } from 'react';
+import {
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useCallback,
+  useRef,
+  type CSSProperties,
+} from 'react';
 import { createPortal } from 'react-dom';
 import { SceneSvg } from './SceneSvg.js';
 import type { Scene } from '../../../types/scene.js';
@@ -48,8 +55,14 @@ export function Diagram({ scene }: DiagramProps) {
   };
   const close = useCallback(() => setIsOpen(false), []);
 
-  const zoomIn = useCallback(() => setZoom((z) => Math.min(ZOOM_MAX, +(z + ZOOM_STEP).toFixed(2))), []);
-  const zoomOut = useCallback(() => setZoom((z) => Math.max(ZOOM_MIN, +(z - ZOOM_STEP).toFixed(2))), []);
+  const zoomIn = useCallback(
+    () => setZoom((z) => Math.min(ZOOM_MAX, +(z + ZOOM_STEP).toFixed(2))),
+    [],
+  );
+  const zoomOut = useCallback(
+    () => setZoom((z) => Math.max(ZOOM_MIN, +(z - ZOOM_STEP).toFixed(2))),
+    [],
+  );
 
   // `fitScale` is how much the diagram's native size must be scaled to
   // exactly fill `wrapRef`'s content box (no padding of its own — see
@@ -94,6 +107,7 @@ export function Diagram({ scene }: DiagramProps) {
   }, [isOpen, close, zoomIn, zoomOut]);
 
   const lightbox = (
+    // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
     <div
       className={styles.overlay}
       onClick={close}
@@ -107,11 +121,25 @@ export function Diagram({ scene }: DiagramProps) {
         aria-label={t.diagram.closePreviewLabel}
         type="button"
       >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <svg
+          aria-hidden="true"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 6L6 18M6 6L18 18"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </button>
 
+      {/* biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility */}
       <div className={styles.zoomControls} onClick={(e) => e.stopPropagation()}>
         <button
           className={styles.zoomButton}
@@ -134,6 +162,7 @@ export function Diagram({ scene }: DiagramProps) {
         </button>
       </div>
 
+      {/* biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility */}
       <div
         className={styles.lightboxViewport}
         // Drives the CSS aspect-ratio the viewport box sizes itself to (see
@@ -151,6 +180,7 @@ export function Diagram({ scene }: DiagramProps) {
 
   return (
     <>
+      {/* biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility */}
       <figure className={styles.figure} onClick={open}>
         <SceneSvg scene={scene} />
       </figure>

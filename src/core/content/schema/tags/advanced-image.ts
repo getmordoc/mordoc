@@ -16,8 +16,8 @@ export const advancedImage: Schema = {
   children: [],
   inline: false,
   attributes: {
-    src:     { type: String, required: true },
-    alt:     { type: String },
+    src: { type: String, required: true },
+    alt: { type: String },
     caption: { type: String },
   },
 };

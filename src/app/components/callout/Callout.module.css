@@ -4,30 +4,30 @@
 :root {
   --callout-radius: 6px;
 
-  --callout-note-accent:    #47a3d1;
+  --callout-note-accent: #47a3d1;
   --callout-warning-accent: #e6911a;
-  --callout-danger-accent:  #d22d2d;
-  --callout-tip-accent:     #22a569;
+  --callout-danger-accent: #d22d2d;
+  --callout-tip-accent: #22a569;
 
   /* Subtle per-type background tints (light mode) */
-  --callout-note-bg:    color-mix(in oklch, #47a3d1 8%, white);
+  --callout-note-bg: color-mix(in oklch, #47a3d1 8%, white);
   --callout-warning-bg: color-mix(in oklch, #e6911a 8%, white);
-  --callout-danger-bg:  color-mix(in oklch, #d22d2d 8%, white);
-  --callout-tip-bg:     color-mix(in oklch, #22a569 8%, white);
+  --callout-danger-bg: color-mix(in oklch, #d22d2d 8%, white);
+  --callout-tip-bg: color-mix(in oklch, #22a569 8%, white);
 
-  --callout-title-color:   #0f172a;
-  --callout-body-color:    #475569;
+  --callout-title-color: #0f172a;
+  --callout-body-color: #475569;
 }
 
 :global(.dark) {
   /* Subtle per-type background tints (dark mode) */
-  --callout-note-bg:    color-mix(in oklch, #47a3d1 10%, #1a1a1a);
+  --callout-note-bg: color-mix(in oklch, #47a3d1 10%, #1a1a1a);
   --callout-warning-bg: color-mix(in oklch, #e6911a 10%, #1a1a1a);
-  --callout-danger-bg:  color-mix(in oklch, #d22d2d 10%, #1a1a1a);
-  --callout-tip-bg:     color-mix(in oklch, #22a569 10%, #1a1a1a);
+  --callout-danger-bg: color-mix(in oklch, #d22d2d 10%, #1a1a1a);
+  --callout-tip-bg: color-mix(in oklch, #22a569 10%, #1a1a1a);
 
-  --callout-title-color:   #f1f5f9;
-  --callout-body-color:    #94a3b8;
+  --callout-title-color: #f1f5f9;
+  --callout-body-color: #94a3b8;
 }
 
 /* ── Base callout ────────────────────────────────────────────── */
@@ -72,10 +72,18 @@
 }
 
 /* Icon color matches the type accent so the variant is immediately obvious */
-.note    .iconWrap { color: var(--callout-note-accent); }
-.warning .iconWrap { color: var(--callout-warning-accent); }
-.danger  .iconWrap { color: var(--callout-danger-accent); }
-.tip     .iconWrap { color: var(--callout-tip-accent); }
+.note .iconWrap {
+  color: var(--callout-note-accent);
+}
+.warning .iconWrap {
+  color: var(--callout-warning-accent);
+}
+.danger .iconWrap {
+  color: var(--callout-danger-accent);
+}
+.tip .iconWrap {
+  color: var(--callout-tip-accent);
+}
 
 /* ── Body ────────────────────────────────────────────────────── */
 

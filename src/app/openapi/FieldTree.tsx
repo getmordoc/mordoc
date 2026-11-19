@@ -118,7 +118,17 @@ function LinkIcon() {
 /** Plus/Minus glyphs for the disclosure button — inline rather than a dependency, since no icon library is installed. */
 function PlusIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      aria-hidden="true"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M12 5v14M5 12h14" />
     </svg>
   );
@@ -126,7 +136,17 @@ function PlusIcon() {
 
 function MinusIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      aria-hidden="true"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M5 12h14" />
     </svg>
   );
@@ -208,19 +228,42 @@ function Field({ field, anchorPrefix, expanded, onToggle, depth }: FieldProps) {
             boundary between segments; without it, adjacent segments run
             together into one word ("amountobject<...>") both in the search
             index and in the section title SearchModal shows for a match. */}
-        <span className={styles.type}><Sep />{field.type}</span>
+        <span className={styles.type}>
+          <Sep />
+          {field.type}
+        </span>
 
         {/* The named schema behind this field — useful to a real reader too
             (it's the same object `getCustomer` returns), so it ships as
             plain text with no tooltip: this page is seen by API clients,
             not just the writers who'd know what to do with a file path. */}
-        {field.schemaRef && <span className={styles.schemaRef}><Sep />{`<${field.schemaRef}>`}</span>}
+        {field.schemaRef && (
+          <span className={styles.schemaRef}>
+            <Sep />
+            {`<${field.schemaRef}>`}
+          </span>
+        )}
 
-        {field.format && <span className={styles.format}><Sep />{field.format}</span>}
+        {field.format && (
+          <span className={styles.format}>
+            <Sep />
+            {field.format}
+          </span>
+        )}
 
-        {field.required && <span className={styles.required}><Sep />Required</span>}
+        {field.required && (
+          <span className={styles.required}>
+            <Sep />
+            Required
+          </span>
+        )}
 
-        {field.deprecated && <span className={styles.deprecated}><Sep />Deprecated</span>}
+        {field.deprecated && (
+          <span className={styles.deprecated}>
+            <Sep />
+            Deprecated
+          </span>
+        )}
         {field.badges.map((badge) => (
           <BadgeChip key={badge} badge={badge} />
         ))}
@@ -274,7 +317,7 @@ function Field({ field, anchorPrefix, expanded, onToggle, depth }: FieldProps) {
         <p className={styles.recursive}>
           <a href={`#${anchorPrefix}${field.recursiveRef}`}>
             Defined above at{' '}
-            {field.recursiveRef === '' ? field.schemaRef ?? field.type : field.recursiveRef}
+            {field.recursiveRef === '' ? (field.schemaRef ?? field.type) : field.recursiveRef}
           </a>
         </p>
       )}
@@ -337,10 +380,19 @@ interface VariantTabsProps {
  * exclusive: showing them all at once invites a reader to send fields from
  * two variants in one payload, which is exactly what `oneOf` forbids.
  */
-export function VariantTabs({ variants, anchorPrefix, expanded, onToggle, depth }: VariantTabsProps) {
+export function VariantTabs({
+  variants,
+  anchorPrefix,
+  expanded,
+  onToggle,
+  depth,
+}: VariantTabsProps) {
   const [active, setActive] = React.useState(0);
   if (variants.length === 0) return null;
-  const current = variants[Math.min(active, variants.length - 1)] as { label: string; fields: FieldView[] };
+  const current = variants[Math.min(active, variants.length - 1)] as {
+    label: string;
+    fields: FieldView[];
+  };
 
   return (
     <div className={styles.variants}>

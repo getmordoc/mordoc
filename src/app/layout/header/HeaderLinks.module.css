@@ -2,24 +2,24 @@
    HEADER LINKS TOKENS
    ============================================================ */
 :root {
-  --header-links-menu-btn-size:   40px;
+  --header-links-menu-btn-size: 40px;
   --header-links-menu-btn-radius: 8px;
 
-  --header-links-link-padding:   0.25rem;
+  --header-links-link-padding: 0.25rem;
   --header-links-link-font-size: 0.875rem;
-  --header-links-link-radius:    4px;
+  --header-links-link-radius: 4px;
 
-  --header-links-dropdown-radius:      6px;
+  --header-links-dropdown-radius: 6px;
   --header-links-dropdown-item-radius: 4px;
 
-  --header-links-button-height:    2rem;
-  --header-links-button-padding:   0.875rem;
+  --header-links-button-height: 2rem;
+  --header-links-button-padding: 0.875rem;
   --header-links-button-font-size: 0.875rem;
 
-  --header-links-dropdown-item-padding:   0.5rem 0.75rem;
+  --header-links-dropdown-item-padding: 0.5rem 0.75rem;
   --header-links-dropdown-item-font-size: 0.875rem;
 
-  --header-links-link-color:       var(--accent-emphasis);
+  --header-links-link-color: var(--accent-emphasis);
   --header-links-link-color-hover: var(--accent-strong);
 }
 
@@ -56,7 +56,9 @@
   text-decoration-color: transparent;
   border-radius: var(--header-links-link-radius);
   white-space: nowrap;
-  transition: color 0.15s, text-decoration-color 0.15s;
+  transition:
+    color 0.15s,
+    text-decoration-color 0.15s;
 }
 
 .headerLink:hover {
@@ -124,7 +126,9 @@
   text-decoration: none;
   border-radius: var(--header-links-dropdown-item-radius);
   white-space: nowrap;
-  transition: background 0.12s, color 0.12s;
+  transition:
+    background 0.12s,
+    color 0.12s;
   cursor: pointer;
   border: 0;
   background: transparent;

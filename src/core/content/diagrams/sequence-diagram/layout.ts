@@ -51,7 +51,9 @@ export function computeLayout(ast: SequenceDiagramAst): Scene {
 
   const activationIntervals = computeActivationIntervals(messages, actorIndex);
   const isActiveAt = (actorId: string, row: number) =>
-    activationIntervals.some((iv) => iv.actorId === actorId && row >= iv.startRow && row <= iv.endRow);
+    activationIntervals.some(
+      (iv) => iv.actorId === actorId && row >= iv.startRow && row <= iv.endRow,
+    );
 
   const primitives: Primitive[] = [];
 
@@ -141,14 +143,15 @@ export function computeLayout(ast: SequenceDiagramAst): Scene {
       // branch below for why that distinction matters), so folding the step
       // number into the first line reads fine as-is; no `leadMarker` needed.
       const selfActive = isActiveAt(message.from, row);
-      const selfX = columnX(actorIndex.get(message.from)!) + (selfActive ? theme.activationWidth / 2 : 0);
+      const selfX =
+        columnX(columnOf(actorIndex, message.from)) + (selfActive ? theme.activationWidth / 2 : 0);
       const selfLabelLines = message.lines.map((line, i) => (i === 0 ? `${marker} ${line}` : line));
       primitives.push(...selfMessagePrimitives(selfX, y, selfLabelLines));
       return;
     }
 
-    const fromI = actorIndex.get(message.from)!;
-    const toI = actorIndex.get(message.to)!;
+    const fromI = columnOf(actorIndex, message.from);
+    const toI = columnOf(actorIndex, message.to);
     const fromX = columnX(fromI);
     const toX = columnX(toI);
     const direction = toX > fromX ? 1 : -1;
@@ -179,7 +182,8 @@ export function computeLayout(ast: SequenceDiagramAst): Scene {
     // additional wrapped lines so its bottom line always sits a fixed
     // `labelArrowGap` above the arrow — same placement as the single-line
     // case when there's only one line.
-    const labelTopY = y - theme.labelArrowGap - Math.max(0, message.lines.length - 1) * theme.labelLineHeight;
+    const labelTopY =
+      y - theme.labelArrowGap - Math.max(0, message.lines.length - 1) * theme.labelLineHeight;
     primitives.push({
       type: 'text',
       x: (fromX + toX) / 2,
@@ -223,7 +227,15 @@ function selfMessagePrimitives(x: number, y: number, labelLines: string[]): Prim
 
   return [
     { type: 'line', x1: x, y1: top, x2: out, y2: top, stroke: theme.arrowStroke, strokeWidth: 1.5 },
-    { type: 'line', x1: out, y1: top, x2: out, y2: bottom, stroke: theme.arrowStroke, strokeWidth: 1.5 },
+    {
+      type: 'line',
+      x1: out,
+      y1: top,
+      x2: out,
+      y2: bottom,
+      stroke: theme.arrowStroke,
+      strokeWidth: 1.5,
+    },
     {
       type: 'line',
       x1: out,
@@ -268,6 +280,13 @@ function selfMessagePrimitives(x: number, y: number, labelLines: string[]): Prim
  * resumes at the actor's next touch row. Leftmost/rightmost actors can
  * never be straddled, so they always get a single unbroken bar.
  */
+/** The column of an actor; the parser declares every actor a message uses. */
+function columnOf(actorIndex: Map<string, number>, actorId: string): number {
+  const column = actorIndex.get(actorId);
+  if (column === undefined) throw new Error(`Sequence diagram: unknown actor "${actorId}".`);
+  return column;
+}
+
 function computeActivationIntervals(
   messages: SequenceDiagramAst['messages'],
   actorIndex: Map<string, number>,
@@ -285,29 +304,27 @@ function computeActivationIntervals(
     const lastRow = touchRows[touchRows.length - 1];
     const touchSet = new Set(touchRows);
 
-    let segStart: number | null = null;
-    let segEnd: number | null = null;
+    let segment: { startRow: number; endRow: number } | null = null;
 
     for (let row = firstRow; row <= lastRow; row++) {
       if (touchSet.has(row)) {
-        if (segStart === null) segStart = row;
-        segEnd = row;
+        if (segment === null) segment = { startRow: row, endRow: row };
+        else segment.endRow = row;
         continue;
       }
 
       const message = messages[row];
-      const fromCol = actorIndex.get(message.from)!;
-      const toCol = actorIndex.get(message.to)!;
+      const fromCol = columnOf(actorIndex, message.from);
+      const toCol = columnOf(actorIndex, message.to);
       const crosses = Math.min(fromCol, toCol) < col && col < Math.max(fromCol, toCol);
-      if (crosses && segStart !== null) {
-        intervals.push({ actorId, startRow: segStart, endRow: segEnd! });
-        segStart = null;
-        segEnd = null;
+      if (crosses && segment !== null) {
+        intervals.push({ actorId, ...segment });
+        segment = null;
       }
     }
 
-    if (segStart !== null) {
-      intervals.push({ actorId, startRow: segStart, endRow: segEnd! });
+    if (segment !== null) {
+      intervals.push({ actorId, ...segment });
     }
   }
 

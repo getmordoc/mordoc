@@ -22,11 +22,7 @@ export function buildLangPrefix(lang: string, defaultLanguage: string): string {
   return lang === defaultLanguage ? '' : `/${lang}`;
 }
 
-export function stripLangPrefix(
-  pathname: string,
-  lang: string,
-  defaultLanguage: string,
-): string {
+export function stripLangPrefix(pathname: string, lang: string, defaultLanguage: string): string {
   if (lang === defaultLanguage) return pathname;
   const prefix = `/${lang}`;
   const stripped = pathname.startsWith(prefix) ? pathname.slice(prefix.length) : pathname;

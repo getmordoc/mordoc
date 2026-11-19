@@ -189,7 +189,9 @@ function buildHeadHtml(route: RouteHead, site: SiteConfig, faviconUrl: string | 
       parts.push(`<meta name="twitter:description" content="${escapeHtml(socialDescription)}">`);
     }
     if (meta.ogImage) {
-      parts.push(`<meta name="twitter:image" content="${escapeHtml(site.baseUrl + meta.ogImage)}">`);
+      parts.push(
+        `<meta name="twitter:image" content="${escapeHtml(site.baseUrl + meta.ogImage)}">`,
+      );
     }
   }
 
@@ -324,7 +326,7 @@ export async function runSsg(options: SsgRunnerOptions): Promise<void> {
       const relOut = path.relative(clientOutDir, outPath).replace(/\\/g, '/');
       console.log(`  ${routePath.padEnd(40)} → ${relOut}`);
     } else {
-      progress!.update(`laying out pages as static HTML... ${done}/${total}`);
+      progress?.update(`laying out pages as static HTML... ${done}/${total}`);
     }
   }
 

@@ -13,7 +13,7 @@
  */
 
 import { Link } from 'react-router';
-import React from 'react';
+import type React from 'react';
 import styles from './Card.module.css';
 
 interface CardProps {
@@ -47,8 +47,8 @@ function ArrowIcon() {
 
 function CardInner({ title, path, icon, image, tag, children }: CardProps) {
   const hasImage = Boolean(image);
-  const hasIcon  = Boolean(icon) && !hasImage;
-  const hasBody  = Boolean(children);
+  const hasIcon = Boolean(icon) && !hasImage;
+  const hasBody = Boolean(children);
 
   return (
     <>
@@ -59,9 +59,7 @@ function CardInner({ title, path, icon, image, tag, children }: CardProps) {
       )}
       <div className={styles.body}>
         {tag && <span className={styles.tag}>{tag}</span>}
-        {hasIcon && (
-          <img src={icon} alt="" className={styles.icon} />
-        )}
+        {hasIcon && <img src={icon} alt="" className={styles.icon} />}
         <div className={styles.titleRow}>
           <span className={styles.title}>{title}</span>
           {path && <ArrowIcon />}
@@ -80,11 +78,9 @@ export function Card(props: CardProps) {
   const { path } = props;
   const hasImage = Boolean(props.image);
 
-  const className = [
-    styles.card,
-    hasImage ? styles.imageCard : '',
-    path ? styles.linked : '',
-  ].filter(Boolean).join(' ');
+  const className = [styles.card, hasImage ? styles.imageCard : '', path ? styles.linked : '']
+    .filter(Boolean)
+    .join(' ');
 
   if (path) {
     if (isExternal(path)) {

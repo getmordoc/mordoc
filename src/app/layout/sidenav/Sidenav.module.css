@@ -10,21 +10,21 @@
      link) and their focus ring — they're all the same row shape. */
   --sidenav-row-radius: 6px;
 
-  --sidenav-fg:                 #383838;
-  --sidenav-fg-muted:           #666666;
-  --sidenav-group-label-fg:     rgba(56, 56, 56, 0.7);
-  --sidenav-hover-bg:           #EFEFEF;
-  --sidenav-active-fg:          var(--accent-emphasis);
-  --sidenav-active-bg:          var(--accent-subtle);
-  --sidenav-font-weight:        500;
+  --sidenav-fg: #383838;
+  --sidenav-fg-muted: #666666;
+  --sidenav-group-label-fg: rgba(56, 56, 56, 0.7);
+  --sidenav-hover-bg: #efefef;
+  --sidenav-active-fg: var(--accent-emphasis);
+  --sidenav-active-bg: var(--accent-subtle);
+  --sidenav-font-weight: 500;
   --sidenav-active-font-weight: 600;
 }
 
 :global(.dark) {
-  --sidenav-fg:             #D6D6D6;
-  --sidenav-fg-muted:       #9E9E9E;
+  --sidenav-fg: #d6d6d6;
+  --sidenav-fg-muted: #9e9e9e;
   --sidenav-group-label-fg: rgba(214, 214, 214, 0.7);
-  --sidenav-hover-bg:       #1F1F1F;
+  --sidenav-hover-bg: #1f1f1f;
 }
 
 /* ============================================================
@@ -79,7 +79,9 @@
   font-family: var(--font-sans);
   cursor: pointer;
   text-align: left;
-  transition: color 150ms ease, background-color 150ms ease;
+  transition:
+    color 150ms ease,
+    background-color 150ms ease;
 }
 
 .menuItem:first-child > .groupLabelTrigger {
@@ -114,7 +116,9 @@
   text-decoration: none;
   cursor: pointer;
   margin-top: 10px;
-  transition: color 150ms ease, background-color 150ms ease;
+  transition:
+    color 150ms ease,
+    background-color 150ms ease;
 }
 
 .menuItem:first-child > .linkedGroupLabel {
@@ -148,7 +152,9 @@
   line-height: 1.25;
   color: var(--sidenav-fg);
   text-decoration: none;
-  transition: color 150ms ease, background-color 150ms ease;
+  transition:
+    color 150ms ease,
+    background-color 150ms ease;
 }
 
 .navLink:hover {
@@ -215,7 +221,7 @@
 
 .mobileTopnavDivider {
   border: none;
-  border-top: 1px solid #E5E5E5;
+  border-top: 1px solid #e5e5e5;
   margin: 16px 0 0;
 }
 
@@ -232,6 +238,7 @@
   .linkedGroupLabel,
   .navLink,
   .chevron {
+    /* biome-ignore lint/complexity/noImportantStyles: reduced motion has to win over every transition */
     transition: none !important;
   }
 }

@@ -16,4 +16,4 @@ changelog:
     - title: Maintenance
       labels: [chore]
     - title: Other changes
-      labels: ['*']
+      labels: ["*"]

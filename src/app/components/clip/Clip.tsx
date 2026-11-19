@@ -71,16 +71,35 @@ export function Clip({ src, thumbnail, title, alt }: ClipProps) {
             type="button"
             className={styles.toggle}
             onClick={toggle}
-            aria-label={isPlaying ? `Pause${alt ? `: ${alt}` : ''}` : `Play${alt ? `: ${alt}` : ''}`}
+            aria-label={
+              isPlaying ? `Pause${alt ? `: ${alt}` : ''}` : `Play${alt ? `: ${alt}` : ''}`
+            }
           >
             {isPlaying ? (
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg
+                aria-hidden="true"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor" />
                 <rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor" />
               </svg>
             ) : (
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7 5.5v13a1 1 0 0 0 1.53.848l10.5-6.5a1 1 0 0 0 0-1.696l-10.5-6.5A1 1 0 0 0 7 5.5Z" fill="currentColor" />
+              <svg
+                aria-hidden="true"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7 5.5v13a1 1 0 0 0 1.53.848l10.5-6.5a1 1 0 0 0 0-1.696l-10.5-6.5A1 1 0 0 0 7 5.5Z"
+                  fill="currentColor"
+                />
               </svg>
             )}
           </button>

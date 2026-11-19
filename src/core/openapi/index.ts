@@ -55,7 +55,17 @@ export interface RunApiStagesResult {
  * all was.
  */
 export async function runApiStages(input: RunApiStagesInput): Promise<RunApiStagesResult> {
-  const { projectRoot, registry, contentMap, navigation, variables, defaultLanguage, languages, verbose, validator } = input;
+  const {
+    projectRoot,
+    registry,
+    contentMap,
+    navigation,
+    variables,
+    defaultLanguage,
+    languages,
+    verbose,
+    validator,
+  } = input;
 
   const diagnostics = new Diagnostics(registry.strict);
 

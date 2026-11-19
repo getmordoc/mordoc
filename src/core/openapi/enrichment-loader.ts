@@ -29,7 +29,9 @@ async function findMarkdownFiles(dir: string): Promise<string[]> {
     if (code === 'ENOENT') return [];
     throw new Error(`Failed to read directory ${dir}: ${(err as Error).message}`);
   }
-  return entries.filter((entry) => entry.endsWith('.md')).map((entry) => entry.replaceAll(sep, '/'));
+  return entries
+    .filter((entry) => entry.endsWith('.md'))
+    .map((entry) => entry.replaceAll(sep, '/'));
 }
 
 /** Reads one API's `operations/` or `schemas/` subfolder. */

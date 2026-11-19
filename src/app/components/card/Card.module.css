@@ -2,18 +2,18 @@
    CARD TOKENS
    ============================================================ */
 :root {
-  --card-bg:           var(--color-bg);
-  --card-border:       var(--color-border);
+  --card-bg: var(--color-bg);
+  --card-border: var(--color-border);
   --card-border-hover: var(--accent);
-  --card-shadow:       0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
   --card-shadow-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
-  --card-title-color:  var(--color-fg);
-  --card-desc-color:   var(--color-fg-muted);
-  --card-tag-bg:       var(--accent-subtle);
-  --card-tag-color:    var(--accent-emphasis);
-  --card-arrow-color:  var(--color-fg-muted);
-  --card-radius:       10px;
-  --card-tag-radius:   4px;
+  --card-title-color: var(--color-fg);
+  --card-desc-color: var(--color-fg-muted);
+  --card-tag-bg: var(--accent-subtle);
+  --card-tag-color: var(--accent-emphasis);
+  --card-arrow-color: var(--color-fg-muted);
+  --card-radius: 10px;
+  --card-tag-radius: 4px;
 }
 
 /* ── Base card ───────────────────────────────────────────────── */
@@ -32,18 +32,16 @@
 
 .linked {
   cursor: pointer;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
 }
 
 .linked:hover {
   border-color: var(--card-border-hover);
   box-shadow: var(--card-shadow-hover);
   transform: translateY(-1px);
-}
-
-.linked:hover .arrow {
-  color: var(--accent-emphasis);
-  transform: translateX(3px);
 }
 
 /* ── Image variant ───────────────────────────────────────────── */
@@ -124,7 +122,14 @@
 .arrow {
   flex-shrink: 0;
   color: var(--card-arrow-color);
-  transition: color 0.15s ease, transform 0.15s ease;
+  transition:
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.linked:hover .arrow {
+  color: var(--accent-emphasis);
+  transform: translateX(3px);
 }
 
 /* ── Description ─────────────────────────────────────────────── */

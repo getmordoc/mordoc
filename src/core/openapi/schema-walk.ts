@@ -68,7 +68,10 @@ export function createApiDescriptionMarkdocConfig(): Config {
     ...base,
     nodes: {
       ...base.nodes,
-      fence: { ...fence, attributes: { ...fence.attributes, process: { type: Boolean, default: false } } },
+      fence: {
+        ...fence,
+        attributes: { ...fence.attributes, process: { type: Boolean, default: false } },
+      },
     },
   };
 }
@@ -80,7 +83,9 @@ export function createApiDescriptionMarkdocConfig(): Config {
  * the same treatment as authored prose — a list or a link in a generated
  * description renders as a list or a link, not as literal asterisks.
  */
-export function makeMarkdownRenderer(config: Config): (markdown: string) => RenderableTreeNode | null {
+export function makeMarkdownRenderer(
+  config: Config,
+): (markdown: string) => RenderableTreeNode | null {
   return (markdown: string) => {
     if (typeof markdown !== 'string' || markdown.trim() === '') return null;
     const ast = Markdoc.parse(markdown);
@@ -89,7 +94,8 @@ export function makeMarkdownRenderer(config: Config): (markdown: string) => Rend
       variables: { ...(config.variables ?? {}), slugger: createSlugger() },
     };
     const rendered = Markdoc.transform(ast, scoped);
-    if (Array.isArray(rendered)) return rendered.length > 0 ? (rendered[0] as RenderableTreeNode) : null;
+    if (Array.isArray(rendered))
+      return rendered.length > 0 ? (rendered[0] as RenderableTreeNode) : null;
     return rendered;
   };
 }
@@ -235,9 +241,7 @@ function describeCondition(ifSchema: Schema): string | null {
     } else if (Array.isArray(raw['enum'])) {
       const values = raw['enum'].map((v) => String(v));
       clauses.push(
-        values.length === 1
-          ? `${name} is ${values[0]}`
-          : `${name} is one of ${values.join(', ')}`,
+        values.length === 1 ? `${name} is ${values[0]}` : `${name} is one of ${values.join(', ')}`,
       );
     }
   }
@@ -313,7 +317,7 @@ function pluralize(word: string): string {
 function typeName(document: OpenApiDocument, schema: Schema, refName: string | null): string {
   const rawType = schema['type'];
   const type = Array.isArray(rawType)
-    ? rawType.filter((t) => t !== 'null').map(String)[0] ?? 'null'
+    ? (rawType.filter((t) => t !== 'null').map(String)[0] ?? 'null')
     : typeof rawType === 'string'
       ? rawType
       : null;
@@ -342,7 +346,11 @@ function typeName(document: OpenApiDocument, schema: Schema, refName: string | n
 }
 
 /** The component name to link to, unwrapping one level of array. */
-function linkTarget(document: OpenApiDocument, schema: Schema, refName: string | null): string | undefined {
+function linkTarget(
+  document: OpenApiDocument,
+  schema: Schema,
+  refName: string | null,
+): string | undefined {
   if (refName) return refName;
   const items = schema['items'];
   if (isObject(items)) {
@@ -515,9 +523,7 @@ export function walkProperties(opts: WalkOptions, schema: Schema, frame: Frame):
   const fields: FieldView[] = [];
   for (const [name, raw] of Object.entries(properties)) {
     if (!isObject(raw)) continue;
-    fields.push(
-      buildField(opts, name, raw, frame, required.has(name), conditions.get(name)),
-    );
+    fields.push(buildField(opts, name, raw, frame, required.has(name), conditions.get(name)));
   }
   return fields;
 }

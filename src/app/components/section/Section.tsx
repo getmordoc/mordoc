@@ -16,7 +16,7 @@
  * core/content/schema/tags/section.ts and in LandingPage.tsx's components map.
  */
 
-import React from 'react';
+import type React from 'react';
 import styles from './Section.module.css';
 
 interface SectionProps {
@@ -31,10 +31,9 @@ export function Section({ title, background, children }: SectionProps) {
     style.backgroundImage = `url(${background})`;
   }
 
-  const className = [
-    styles.section,
-    background ? styles.hasBackgroundImage : '',
-  ].filter(Boolean).join(' ');
+  const className = [styles.section, background ? styles.hasBackgroundImage : '']
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <section className={className} style={style}>

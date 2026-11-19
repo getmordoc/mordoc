@@ -1,10 +1,6 @@
 import { StrictMode } from 'react';
 import { renderToString } from 'react-dom/server';
-import {
-  createStaticHandler,
-  createStaticRouter,
-  StaticRouterProvider,
-} from 'react-router';
+import { createStaticHandler, createStaticRouter, StaticRouterProvider } from 'react-router';
 import type { ShellData } from '../types/pipeline.js';
 import { MordocDataContext } from './data-context.js';
 import { buildRoutes } from './routes.js';
@@ -29,10 +25,7 @@ import { buildRoutes } from './routes.js';
  * If the static handler returns a `Response` (e.g. a redirect from a loader),
  * this function throws — redirect handling is not yet supported.
  */
-export async function render(
-  request: Request,
-  data: ShellData,
-): Promise<{ html: string }> {
+export async function render(request: Request, data: ShellData): Promise<{ html: string }> {
   const routes = buildRoutes();
   const handler = createStaticHandler(routes);
   const context = await handler.query(request);

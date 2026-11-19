@@ -73,7 +73,8 @@ createServer((request, response) => {
     response.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }).end('Not found');
     return;
   }
-  const contentType = CONTENT_TYPES[path.extname(filePath).toLowerCase()] ?? 'application/octet-stream';
+  const contentType =
+    CONTENT_TYPES[path.extname(filePath).toLowerCase()] ?? 'application/octet-stream';
   response.writeHead(200, { 'Content-Type': contentType });
   createReadStream(filePath).pipe(response);
 }).listen(Number(portArg), HOST, () => {

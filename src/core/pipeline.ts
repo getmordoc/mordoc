@@ -166,7 +166,21 @@ export async function runPipeline(
   const opsSummary = operations.length > 0 ? `, ${operations.length} operation(s)` : '';
   overallStep.done(`ready · ${transformedContent.length} page(s)${opsSummary}`);
 
-  return { site, language, navigation, assets, fonts, pages: transformedContent, operations, translations, headerLinks, footer, variables, customHead, apiWarnings };
+  return {
+    site,
+    language,
+    navigation,
+    assets,
+    fonts,
+    pages: transformedContent,
+    operations,
+    translations,
+    headerLinks,
+    footer,
+    variables,
+    customHead,
+    apiWarnings,
+  };
 }
 
 /**

@@ -1,14 +1,14 @@
 @font-face {
-  font-family: 'Inter';
-  src: url('./assets/fonts/InterVariable.woff2') format('woff2-variations');
+  font-family: "Inter";
+  src: url("./assets/fonts/InterVariable.woff2") format("woff2-variations");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Inter';
-  src: url('./assets/fonts/InterVariable-Italic.woff2') format('truetype-variations');
+  font-family: "Inter";
+  src: url("./assets/fonts/InterVariable-Italic.woff2") format("truetype-variations");
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
@@ -25,29 +25,29 @@
    ============================================================ */
 :root {
   /* Surfaces */
-  --color-bg:            #ffffff;
-  --color-surface:       #fafafa;
-  --color-border:        #e5e5e5;
+  --color-bg: #ffffff;
+  --color-surface: #fafafa;
+  --color-border: #e5e5e5;
 
   /* Text */
-  --color-fg:            #1c1c1c;
-  --color-content-fg:    #2e2e2e;
-  --color-fg-muted:      #6b7280;
+  --color-fg: #1c1c1c;
+  --color-content-fg: #2e2e2e;
+  --color-fg-muted: #6b7280;
 
   /* Interaction */
   --color-bg-hover: #f3f4f6;
 
   /* Accent — single configurable token; all other accent vars are derived.
      Users override --accent (and optionally dark) in config/styles/theme.css. */
-  --accent:          #D64518;
-  --accent-subtle:   color-mix(in oklch, var(--accent) 8%, white);
-  --accent-muted:    color-mix(in oklch, var(--accent) 20%, white);
+  --accent: #d64518;
+  --accent-subtle: color-mix(in oklch, var(--accent) 8%, white);
+  --accent-muted: color-mix(in oklch, var(--accent) 20%, white);
   --accent-emphasis: var(--accent);
-  --accent-strong:   color-mix(in oklch, var(--accent) 80%, black);
+  --accent-strong: color-mix(in oklch, var(--accent) 80%, black);
 
   /* Typography */
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: ui-monospace, 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "Fira Code", "Consolas", monospace;
 
   /* No shared shape/shadow scale here anymore: --radius-sm/md/lg and
      --shadow-sm/md used to live here, but shape is a per-component
@@ -60,21 +60,21 @@
 
 /* Dark mode overrides — global primitives only */
 .dark {
-  --color-bg:        #121212;
-  --color-surface:   #0f0f0f;
-  --color-border:    #2e2e2e;
+  --color-bg: #121212;
+  --color-surface: #0f0f0f;
+  --color-border: #2e2e2e;
 
-  --color-fg:         #e2e8f0;
+  --color-fg: #e2e8f0;
   --color-content-fg: rgb(214, 214, 214);
-  --color-fg-muted:   #94a3b8;
+  --color-fg-muted: #94a3b8;
 
   --color-bg-hover: #1e2432;
 
   /* Accent — re-derived for dark surfaces; --accent base stays the same */
-  --accent-subtle:   color-mix(in oklch, var(--accent) 12%, #121212);
-  --accent-muted:    color-mix(in oklch, var(--accent) 25%, #121212);
+  --accent-subtle: color-mix(in oklch, var(--accent) 12%, #121212);
+  --accent-muted: color-mix(in oklch, var(--accent) 25%, #121212);
   --accent-emphasis: color-mix(in oklch, var(--accent) 70%, white);
-  --accent-strong:   color-mix(in oklch, var(--accent) 50%, white);
+  --accent-strong: color-mix(in oklch, var(--accent) 50%, white);
 }
 
 /* ============================================================

@@ -4,15 +4,15 @@
 :root {
   /* Reserved for actual interactive controls (variant tabs) — the type,
      schema-ref and format labels are plain metadata and stay neutral gray. */
-  --field-accent-color:      var(--accent-emphasis);
-  --field-code-bg:           var(--color-surface);
-  --field-required-color:    #c22c2c;
+  --field-accent-color: var(--accent-emphasis);
+  --field-code-bg: var(--color-surface);
+  --field-required-color: #c22c2c;
 
   --badge-conditional-color: #b06d10;
 }
 
 :global(.dark) {
-  --field-required-color:    #f07070;
+  --field-required-color: #f07070;
 
   --badge-conditional-color: #e6a94a;
 }
@@ -20,7 +20,7 @@
 /* ── Container — the bordered box wrapping a root-level field list.
    Nested levels sit inside it, indented, rather than each getting their
    own box (see `.children` below). ───────────────────────────────── */
-.list[data-depth='0'] {
+.list[data-depth="0"] {
   border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 0 1rem;
@@ -67,7 +67,9 @@
   opacity: 0;
   color: var(--color-fg-muted);
   text-decoration: none;
-  transition: opacity 0.15s ease, color 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    color 0.15s ease;
   position: relative;
 }
 
@@ -133,8 +135,13 @@
   text-transform: uppercase;
 }
 
-.required   { color: var(--field-required-color); }
-.deprecated { color: var(--color-fg-muted); text-decoration: line-through; }
+.required {
+  color: var(--field-required-color);
+}
+.deprecated {
+  color: var(--color-fg-muted);
+  text-decoration: line-through;
+}
 
 /* ── Expand control ─────────────────────────────────────────── */
 
@@ -153,7 +160,9 @@
   font-size: 0.75rem; /* text-xs */
   font-weight: 500; /* font-medium */
   color: color-mix(in oklch, var(--color-fg) 80%, transparent); /* text-foreground/80 */
-  transition: background-color 150ms ease, color 150ms ease;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
 }
 
 .expandToggle:hover {
@@ -170,7 +179,9 @@
   flex-shrink: 0;
 }
 
-.badge_conditional { color: var(--badge-conditional-color); }
+.badge_conditional {
+  color: var(--badge-conditional-color);
+}
 
 /* Free-text badge — inline-code shape on a light accent tint. Text stays
    neutral so it doesn't read as an interactive control. */

@@ -40,7 +40,9 @@ function normalizePath(url: string): string {
  * Returns undefined when nothing beat the top-of-page bucket, so the caller
  * falls back to the plain page result exactly as before this existed.
  */
-function bestAnchoredSubResult(subResults: PagefindSubResult[] | undefined): PagefindSubResult | undefined {
+function bestAnchoredSubResult(
+  subResults: PagefindSubResult[] | undefined,
+): PagefindSubResult | undefined {
   const anchored = (subResults ?? []).filter((sr) => sr.anchor);
   if (anchored.length === 0) return undefined;
   const score = (sr: PagefindSubResult) =>
@@ -218,13 +220,17 @@ export function SearchModal({ open, onClose }: SearchModalProps) {
   if (!open) return null;
 
   return (
+    // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
     <div
       className={styles.overlay}
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
       role="dialog"
       aria-modal="true"
       aria-label={t.search.modalAriaLabel}
     >
+      {/* biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility */}
       <div className={styles.modal} onKeyDown={handleKeyDown}>
         <div className={styles.inputRow}>
           <svg
@@ -262,29 +268,29 @@ export function SearchModal({ open, onClose }: SearchModalProps) {
           </button>
         </div>
 
-        {isDev && (
-          <div className={styles.notice}>
-            {t.search.buildRequiredNotice}
-          </div>
-        )}
+        {isDev && <div className={styles.notice}>{t.search.buildRequiredNotice}</div>}
 
-        {!isDev && isLoading && (
-          <div className={styles.status}>{t.search.loading}</div>
-        )}
+        {!isDev && isLoading && <div className={styles.status}>{t.search.loading}</div>}
 
         {!isDev && !isLoading && query.trim() && results.length === 0 && (
           <div className={styles.status}>{formatUiString(t.search.noResults, { query })}</div>
         )}
 
         {results.length > 0 && (
+          // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
           <ul className={styles.results} role="listbox">
             {results.map((result, i) => (
+              // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
               <li
                 key={result.id}
+                // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
                 role="option"
                 aria-selected={i === selectedIndex}
                 className={`${styles.result}${i === selectedIndex ? ` ${styles.resultSelected}` : ''}`}
-                onClick={() => { onClose(); navigate(normalizePath(result.url)); }}
+                onClick={() => {
+                  onClose();
+                  navigate(normalizePath(result.url));
+                }}
                 onMouseEnter={() => setSelectedIndex(i)}
               >
                 <span className={styles.resultTitle}>{result.title}</span>

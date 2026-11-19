@@ -2,11 +2,11 @@
    CODE BLOCK TOKENS
    ============================================================ */
 :root {
-  --cb-bg:         var(--color-surface);
-  --cb-border:     var(--color-border);
-  --cb-radius:                 10px;
-  --cb-copy-button-radius:      4px;
-  --cb-max-height:            480px;
+  --cb-bg: var(--color-surface);
+  --cb-border: var(--color-border);
+  --cb-radius: 10px;
+  --cb-copy-button-radius: 4px;
+  --cb-max-height: 480px;
 }
 
 /* ── Wrapper ────────────────────────────────────────────────── */
@@ -60,7 +60,9 @@
   color: var(--color-fg-muted);
   cursor: pointer;
   border-radius: var(--cb-copy-button-radius);
-  transition: background-color 150ms ease, color 150ms ease;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
 }
 
 .copyButton:hover {
@@ -204,6 +206,10 @@
   color: #a626a4;
 }
 
+:global(.token.entity) {
+  cursor: help;
+}
+
 :global(.dark) :global(.token.operator),
 :global(.dark) :global(.token.entity),
 :global(.dark) :global(.token.url),
@@ -252,8 +258,4 @@
 
 :global(.token.italic) {
   font-style: italic;
-}
-
-:global(.token.entity) {
-  cursor: help;
 }

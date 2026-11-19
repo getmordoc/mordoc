@@ -221,10 +221,7 @@ function pickMediaType(content: unknown): { mediaType: string; media: Schema } |
  * parameter's `FieldView.path` is just its bare name — it just now keeps one
  * row instead of rendering two indistinguishable ones.
  */
-function buildParameters(
-  opts: WalkOptions,
-  parameters: Schema[],
-): (FieldView & { in: string })[] {
+function buildParameters(opts: WalkOptions, parameters: Schema[]): (FieldView & { in: string })[] {
   const properties: Schema = {};
   const required: string[] = [];
   const locations = new Map<string, string>();
@@ -239,7 +236,8 @@ function buildParameters(
     properties[name] = isObject(parameter['schema']) ? (parameter['schema'] as Schema) : {};
     locations.set(name, location);
     if (parameter['required'] === true || location === 'path') required.push(name);
-    if (typeof parameter['description'] === 'string') descriptionOverrides.set(name, parameter['description']);
+    if (typeof parameter['description'] === 'string')
+      descriptionOverrides.set(name, parameter['description']);
     if (parameter['deprecated'] === true) deprecatedOverrides.add(name);
   }
 
@@ -247,7 +245,10 @@ function buildParameters(
   const frame: Frame = { path: '', schemaName: null, relPath: '', open: new Map() };
 
   return walkProperties(opts, synthetic, frame).map((field) => {
-    const result: FieldView & { in: string } = { ...field, in: locations.get(field.name) ?? 'query' };
+    const result: FieldView & { in: string } = {
+      ...field,
+      in: locations.get(field.name) ?? 'query',
+    };
     const overrideDescription = descriptionOverrides.get(field.name);
     if (overrideDescription !== undefined) {
       result.description = opts.renderMarkdown(overrideDescription);
@@ -418,7 +419,7 @@ export async function buildOperationViews(
       document: spec.document,
       renderMarkdown,
       lookupSchemaDoc: (schemaName, relPath) =>
-        schemaName ? schemaDocs.get(`${schemaName}\u0000${relPath}`) ?? null : null,
+        schemaName ? (schemaDocs.get(`${schemaName}\u0000${relPath}`) ?? null) : null,
     };
 
     for (const source of operations) {
@@ -529,7 +530,13 @@ function buildOne(input: BuildOneInput): OperationView {
       // `find` callback below.
       const scope = entry.scope;
       if (scope.in === 'request') {
-        applyEntry(entry, requestSide, `${operationId} (parameters and request body)`, enrichment.filePath, diagnostics);
+        applyEntry(
+          entry,
+          requestSide,
+          `${operationId} (parameters and request body)`,
+          enrichment.filePath,
+          diagnostics,
+        );
         continue;
       }
       const target = responses.find((r) => r.status === scope.status);
@@ -541,7 +548,13 @@ function buildOne(input: BuildOneInput): OperationView {
         );
         continue;
       }
-      applyEntry(entry, target.fields, `${operationId} response ${target.status}`, enrichment.filePath, diagnostics);
+      applyEntry(
+        entry,
+        target.fields,
+        `${operationId} response ${target.status}`,
+        enrichment.filePath,
+        diagnostics,
+      );
     }
   }
 
@@ -550,7 +563,8 @@ function buildOne(input: BuildOneInput): OperationView {
   // Operation narrative has the same scope as the spec's `description`, so it
   // replaces it — consistent with the schema-level rule. The spec's `summary`
   // (page title and nav-label fallback) is untouched.
-  const specDescription = typeof operation['description'] === 'string' ? operation['description'] : null;
+  const specDescription =
+    typeof operation['description'] === 'string' ? operation['description'] : null;
   const narrative =
     enrichment?.narrative ?? (specDescription ? renderMarkdown(specDescription) : null);
 

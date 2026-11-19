@@ -20,7 +20,7 @@ export const link: Schema = {
   render: 'ContentLink',
   children: ['strong', 'em', 's', 'code', 'text', 'tag'],
   attributes: {
-    href:  { type: String, required: true },
+    href: { type: String, required: true },
     title: { type: String },
   },
   validate: notInsideClickable('link'),

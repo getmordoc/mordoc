@@ -1,6 +1,11 @@
 import type { SiteConfig } from './site.js';
 import type { LanguageConfig } from './language.js';
-import type { ResolvedTopnavConfig, SidenavConfig, HeaderLink, FooterConfig } from './navigation.js';
+import type {
+  ResolvedTopnavConfig,
+  SidenavConfig,
+  HeaderLink,
+  FooterConfig,
+} from './navigation.js';
 import type { ResolvedAssets } from './assets.js';
 import type { ResolvedFonts } from './fonts.js';
 import type { PageMeta, TransformedPage } from './content.js';

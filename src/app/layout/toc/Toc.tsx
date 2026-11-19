@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import type React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { TocEntry } from '../../../types/content.js';
 import { useUiStrings } from '../../i18n/useUiStrings.js';
 import styles from './Toc.module.css';

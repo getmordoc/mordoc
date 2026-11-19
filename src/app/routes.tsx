@@ -63,7 +63,11 @@ export function buildRoutes(): RouteObject[] {
     // pages therefore inherit code-splitting, preloading and SSR hydration
     // from the existing machinery rather than needing a parallel path.
     const layoutKind: LayoutKind =
-      pageIndex.kind === 'operation' ? 'operation' : pageIndex.layout === 'landing' ? 'landing' : 'article';
+      pageIndex.kind === 'operation'
+        ? 'operation'
+        : pageIndex.layout === 'landing'
+          ? 'landing'
+          : 'article';
     const common = {
       loader: async () => (await pageLoader()).default,
       Component: pageIndex.kind === 'operation' ? Operation : Content,

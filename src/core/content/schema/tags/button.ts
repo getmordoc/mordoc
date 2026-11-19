@@ -12,7 +12,7 @@ export const button: Schema = {
   inline: undefined,
   children: ['paragraph', 'inline', 'text', 'strong', 'em'],
   attributes: {
-    path:    { type: String, required: true },
+    path: { type: String, required: true },
     variant: { type: String, default: 'primary', matches: ['primary', 'secondary'] },
   },
   validate: notInsideClickable('button'),

@@ -17,7 +17,7 @@
  */
 
 import { Link } from 'react-router';
-import React from 'react';
+import type React from 'react';
 import styles from './Button.module.css';
 
 interface ButtonProps {
@@ -37,7 +37,13 @@ export function Button({ path, variant = 'primary', reloadDocument, children }: 
 
   if (isExternal(path)) {
     return (
-      <a href={path} className={className} target="_blank" rel="noopener noreferrer" data-pagefind-ignore>
+      <a
+        href={path}
+        className={className}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-pagefind-ignore
+      >
         {children}
       </a>
     );

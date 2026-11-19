@@ -32,8 +32,8 @@ export const params: Schema = {
   inline: false,
   children: ['heading', 'paragraph', 'list', 'fence', 'blockquote', 'tag', 'hr'],
   attributes: {
-    in:     { type: String, default: 'request', matches: ['request', 'response'] },
+    in: { type: String, default: 'request', matches: ['request', 'response'] },
     status: { type: String },
-    mode:   { type: String, default: 'append', matches: ['append', 'replace'] },
+    mode: { type: String, default: 'append', matches: ['append', 'replace'] },
   },
 };

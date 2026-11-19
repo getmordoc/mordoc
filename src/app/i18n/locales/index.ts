@@ -23,5 +23,17 @@ import { hi } from './hi.js';
  * ../lang-utils.ts instead, which is authored by the user, not Mordoc.
  */
 export const locales: Record<string, UiStrings> = {
-  en, es, fr, de, pt, ja, zh, ko, it, nl, ru, ar, hi,
+  en,
+  es,
+  fr,
+  de,
+  pt,
+  ja,
+  zh,
+  ko,
+  it,
+  nl,
+  ru,
+  ar,
+  hi,
 };

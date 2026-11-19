@@ -43,7 +43,9 @@
   height: auto;
   border-radius: var(--image-radius);
   box-shadow: var(--image-shadow);
-  transition: filter 150ms ease, transform 150ms ease;
+  transition:
+    filter 150ms ease,
+    transform 150ms ease;
 }
 
 .figure:hover .image {
@@ -74,8 +76,12 @@
 }
 
 @keyframes overlayFadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* ── Close button ────────────────────────────────────────────── */
@@ -113,8 +119,14 @@
 }
 
 @keyframes imageFadeIn {
-  from { opacity: 0; transform: scale(0.97); }
-  to   { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .lightboxImage {

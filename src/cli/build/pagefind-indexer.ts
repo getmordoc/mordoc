@@ -10,11 +10,7 @@ import type { MordocData } from '../../types/pipeline.js';
  * root-level and subdirectory globs without negation patterns (which Pagefind
  * does not support).
  */
-async function buildIndex(
-  distDir: string,
-  globs: string[],
-  outputPath: string,
-): Promise<void> {
+async function buildIndex(distDir: string, globs: string[], outputPath: string): Promise<void> {
   const { index, errors } = await createIndex({});
   if (!index) throw new Error(`pagefind createIndex failed: ${errors.join(', ')}`);
   for (const glob of globs) {
@@ -63,7 +59,7 @@ export async function runPagefindIndexer(
     const step = verbose ? null : beginStep('building search index');
     await buildIndex(distDir, ['**/*.html'], path.join(distDir, 'pagefind'));
     if (verbose) console.log('  pagefind index → dist/pagefind/');
-    else step!.done('search index · 1 language');
+    else step?.done('search index · 1 language');
     return;
   }
 

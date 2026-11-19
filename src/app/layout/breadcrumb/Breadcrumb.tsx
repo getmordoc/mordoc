@@ -13,6 +13,7 @@ function BreadcrumbSep() {
   return (
     <span className={styles.sep} aria-hidden="true">
       <svg
+        aria-hidden="true"
         width="16"
         height="16"
         viewBox="0 0 24 24"
@@ -36,7 +37,6 @@ export function Breadcrumb({ entries }: { entries: BreadcrumbEntry[] }) {
     <nav className={styles.breadcrumb} aria-label={t.breadcrumb.ariaLabel}>
       {entries.map((entry, i) => {
         const isCurrent = i === lastIndex;
-        const isLink = !isCurrent && entry.path !== undefined;
         return (
           <span key={i} className={styles.item}>
             {i > 0 && <BreadcrumbSep />}
@@ -44,8 +44,8 @@ export function Breadcrumb({ entries }: { entries: BreadcrumbEntry[] }) {
               <span className={styles.current} aria-current="page">
                 {entry.label}
               </span>
-            ) : isLink ? (
-              <Link to={entry.path!} className={styles.link}>
+            ) : entry.path !== undefined ? (
+              <Link to={entry.path} className={styles.link}>
                 {entry.label}
               </Link>
             ) : (

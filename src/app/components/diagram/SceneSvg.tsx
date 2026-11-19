@@ -26,6 +26,7 @@ export function SceneSvg({ scene, scale }: SceneSvgProps) {
     scale !== undefined ? { width: scene.width * scale, height: scene.height * scale } : undefined;
 
   return (
+    // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
     <svg
       viewBox={`0 0 ${scene.width} ${scene.height}`}
       width={scene.width}

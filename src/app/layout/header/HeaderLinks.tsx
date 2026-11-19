@@ -33,17 +33,16 @@ function HeaderLinkItem({ item }: { item: HeaderLink }) {
   const variant = item.variant ?? 'link';
 
   if (variant === 'primary' || variant === 'secondary') {
-    return <Button path={item.path} variant={variant}>{item.label}</Button>;
+    return (
+      <Button path={item.path} variant={variant}>
+        {item.label}
+      </Button>
+    );
   }
 
   if (isExternal(item.path)) {
     return (
-      <a
-        href={item.path}
-        className={styles.headerLink}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href={item.path} className={styles.headerLink} target="_blank" rel="noopener noreferrer">
         {item.label}
       </a>
     );
@@ -82,6 +81,7 @@ function HeaderLinksOverflowMenu({ links }: { links: HeaderLink[] }) {
   return (
     <div className={styles.headerLinksMenu} ref={wrapperRef}>
       <button
+        type="button"
         className={styles.headerLinksMenuBtn}
         onClick={() => setOpen((o) => !o)}
         aria-label={t.nav.moreLinksLabel}

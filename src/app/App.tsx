@@ -9,7 +9,6 @@ import { detectCurrentLang } from './lang-utils.js';
 import type { LayoutKind } from './routes.js';
 import styles from './App.module.css';
 
-
 export function App() {
   const [sidenavOpen, setSidenavOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -73,7 +72,7 @@ export function App() {
         : '/pagefind/pagefind.js';
       switchPagefind(indexPath);
     }
-  }, [currentLang]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [currentLang, language]);
 
   // Global Cmd/Ctrl+K shortcut to open search
   useEffect(() => {
@@ -110,9 +109,7 @@ export function App() {
       <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
       <div className={styles.layout}>
         {!isLanding && (
-          <aside
-            className={`${styles.sidenavArea} ${sidenavOpen ? styles.sidenavAreaOpen : ''}`}
-          >
+          <aside className={`${styles.sidenavArea} ${sidenavOpen ? styles.sidenavAreaOpen : ''}`}>
             <MobileTopnavSection onNavigate={() => setSidenavOpen(false)} />
             <Sidenav onNavigate={() => setSidenavOpen(false)} />
           </aside>

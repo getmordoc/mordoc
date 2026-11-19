@@ -4,7 +4,10 @@ import * as yaml from 'js-yaml';
 
 const TRANSLATIONS_DIR = join('config', 'navigation', 'translations');
 
-async function loadTranslationFile(filePath: string, lang: string): Promise<Record<string, string>> {
+async function loadTranslationFile(
+  filePath: string,
+  lang: string,
+): Promise<Record<string, string>> {
   let content: string;
   try {
     content = await readFile(filePath, 'utf-8');
@@ -31,9 +34,7 @@ async function loadTranslationFile(filePath: string, lang: string): Promise<Reco
   const result: Record<string, string> = {};
   for (const [key, value] of Object.entries(parsed as Record<string, unknown>)) {
     if (typeof value !== 'string') {
-      throw new Error(
-        `Translation file for "${lang}": value for key "${key}" must be a string.`,
-      );
+      throw new Error(`Translation file for "${lang}": value for key "${key}" must be a string.`);
     }
     result[key] = value;
   }

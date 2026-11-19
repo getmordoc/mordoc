@@ -129,8 +129,7 @@ const FONT_FACE_CSS_ID = 'virtual:mordoc/font-face.css';
  * web URLs so the browser can fetch them from the dev middleware.
  */
 function rewriteAssetsForDev(assets: ResolvedAssets): ResolvedAssets {
-  const toUrl = (p: string | null) =>
-    p ? `/_assets/${path.basename(p)}` : null;
+  const toUrl = (p: string | null) => (p ? `/_assets/${path.basename(p)}` : null);
   return {
     favicon: toUrl(assets.favicon),
     logo: toUrl(assets.logo),
@@ -141,8 +140,7 @@ function rewriteAssetsForDev(assets: ResolvedAssets): ResolvedAssets {
 /** Same rewrite as {@link rewriteAssetsForDev}, for one custom font face. */
 function rewriteFontForDev(font: ResolvedFont | null): ResolvedFont | null {
   if (!font) return null;
-  const toUrl = (p: string | null) =>
-    p ? `/_assets/${path.basename(p)}` : null;
+  const toUrl = (p: string | null) => (p ? `/_assets/${path.basename(p)}` : null);
   return { family: font.family, regular: toUrl(font.regular), italic: toUrl(font.italic) };
 }
 
@@ -428,9 +426,7 @@ async function applyMordocWatchBatch(
   const configEvents = rels.filter(({ rel }) => rel.startsWith('config/'));
   const apiEvents = rels.filter(({ rel }) => rel.startsWith('api/'));
 
-  const hasContentStructural = contentEvents.some(
-    ({ abs }) => batch.get(abs) !== 'change',
-  );
+  const hasContentStructural = contentEvents.some(({ abs }) => batch.get(abs) !== 'change');
 
   // Editing a nav file re-resolves `operation:` references, which needs the
   // specs — so once a project has operations, nav changes take the full path
@@ -439,8 +435,7 @@ async function applyMordocWatchBatch(
     data.operations.length > 0 &&
     configEvents.some(
       ({ rel }) =>
-        rel.startsWith('config/navigation/') &&
-        !rel.startsWith('config/navigation/translations/'),
+        rel.startsWith('config/navigation/') && !rel.startsWith('config/navigation/translations/'),
     );
 
   // Structural content changes (route set may differ), language.json
@@ -495,8 +490,7 @@ async function applyMordocWatchBatch(
 
   const isNavStructureChange = configEvents.some(
     ({ rel }) =>
-      rel.startsWith('config/navigation/') &&
-      !rel.startsWith('config/navigation/translations/'),
+      rel.startsWith('config/navigation/') && !rel.startsWith('config/navigation/translations/'),
   );
   const isTranslationsChange = configEvents.some(({ rel }) =>
     rel.startsWith('config/navigation/translations/'),
@@ -522,8 +516,7 @@ async function applyMordocWatchBatch(
     changed = true;
   }
 
-  const isAssetsPath = (rel: string) =>
-    rel === 'config/assets' || rel.startsWith('config/assets/');
+  const isAssetsPath = (rel: string) => rel === 'config/assets' || rel.startsWith('config/assets/');
   if (configEvents.some(({ rel }) => isAssetsPath(rel))) {
     data.assets = await loadAssets(projectRoot);
     invalidateVirtualModule(server, 'virtual:mordoc/assets');
@@ -538,9 +531,7 @@ async function applyMordocWatchBatch(
     // the real entry plus any synthetic fallback entries for other languages.
     // Find all of them so the reparse stays consistent across the whole
     // fallback set.
-    const matchingPages = data.pages.filter(
-      (p) => path.normalize(p.entry.filePath) === abs,
-    );
+    const matchingPages = data.pages.filter((p) => path.normalize(p.entry.filePath) === abs);
     if (matchingPages.length === 0) {
       await rerunPipelineForDev(server, projectRoot, getData, setData, verbose);
       return;
@@ -801,9 +792,7 @@ export function mordocVitePlugin(options: MordocVitePluginOptions): Plugin {
       if (id.startsWith(RESOLVED_PREFIX + COMPONENT_THEME_PREFIX)) return '';
       if (id === RESOLVED_PREFIX + FONT_FACE_CSS_ID) {
         if (!data) {
-          throw new Error(
-            `mordoc plugin: load("${id}") called before buildStart populated data.`,
-          );
+          throw new Error(`mordoc plugin: load("${id}") called before buildStart populated data.`);
         }
         // In dev mode, rewrite the fonts' disk paths to /_assets/ web URLs so
         // the browser can fetch them via the dev-server asset middleware. In
@@ -820,9 +809,7 @@ export function mordocVitePlugin(options: MordocVitePluginOptions): Plugin {
         // buildStart populates `data` before any load can happen; this
         // guard exists only to surface an unexpected lifecycle ordering
         // rather than silently emit a broken module.
-        throw new Error(
-          `mordoc plugin: load("${id}") called before buildStart populated data.`,
-        );
+        throw new Error(`mordoc plugin: load("${id}") called before buildStart populated data.`);
       }
       if (isEager) {
         // In dev mode, rewrite asset disk paths to /_assets/ web URLs so the
@@ -843,9 +830,7 @@ export function mordocVitePlugin(options: MordocVitePluginOptions): Plugin {
         // routePath that isn't in the pipeline output. The static
         // `page-loaders` map only emits entries for known pages, so this
         // should be unreachable in normal operation.
-        throw new Error(
-          `mordoc plugin: no page found for routePath "${routePath}" (id: ${id}).`,
-        );
+        throw new Error(`mordoc plugin: no page found for routePath "${routePath}" (id: ${id}).`);
       }
       return source;
     },

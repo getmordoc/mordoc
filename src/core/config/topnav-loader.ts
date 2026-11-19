@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import * as yaml from 'js-yaml';
-import type { TopnavConfig, TopnavItem, ResolvedTopnavConfig } from '../../types/navigation.js';
+import type { TopnavConfig, ResolvedTopnavConfig } from '../../types/navigation.js';
 import { loadSidenavFile } from './sidenav-loader.js';
 
 const NAV_DIR = join('config', 'navigation');
@@ -26,15 +26,21 @@ function validateTopnavConfig(raw: unknown): TopnavConfig {
     const obj = entry as Record<string, unknown>;
 
     if (typeof obj['label'] !== 'string' || obj['label'] === '') {
-      throw new Error(`topnav.yaml: items[${index}].label is required and must be a non-empty string.`);
+      throw new Error(
+        `topnav.yaml: items[${index}].label is required and must be a non-empty string.`,
+      );
     }
 
     if (typeof obj['path'] !== 'string' || obj['path'] === '') {
-      throw new Error(`topnav.yaml: items[${index}].path is required and must be a non-empty string.`);
+      throw new Error(
+        `topnav.yaml: items[${index}].path is required and must be a non-empty string.`,
+      );
     }
 
     if (typeof obj['sidenav'] !== 'string' || obj['sidenav'] === '') {
-      throw new Error(`topnav.yaml: items[${index}].sidenav is required and must be a non-empty string.`);
+      throw new Error(
+        `topnav.yaml: items[${index}].sidenav is required and must be a non-empty string.`,
+      );
     }
 
     if (!obj['sidenav'].endsWith('.yaml') && !obj['sidenav'].endsWith('.yml')) {

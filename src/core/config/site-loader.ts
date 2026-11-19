@@ -33,12 +33,7 @@ export function fontFormat(filePath: string): string | null {
 }
 
 // Fields that must be present and non-empty for a config to be considered valid.
-const REQUIRED_FIELDS: (keyof SiteConfig)[] = [
-  'name',
-  'description',
-  'baseUrl',
-  'defaultLanguage',
-];
+const REQUIRED_FIELDS: (keyof SiteConfig)[] = ['name', 'description', 'baseUrl', 'defaultLanguage'];
 
 /**
  * Validates the raw parsed JSON from site.json and narrows it to SiteConfig.
@@ -114,7 +109,9 @@ function validateFontFace(face: unknown, slot: FontSlot): void {
   }
   const faceObj = face as Record<string, unknown>;
   if (typeof faceObj['family'] !== 'string' || faceObj['family'] === '') {
-    throw new Error(`site.json: "fonts.${slot}.family" is required and must be a non-empty string.`);
+    throw new Error(
+      `site.json: "fonts.${slot}.family" is required and must be a non-empty string.`,
+    );
   }
   // "family" gets interpolated into a generated @font-face/--font-sans CSS
   // string literal — quote or backslash characters would break that CSS,
@@ -148,7 +145,9 @@ export async function loadSiteConfig(projectRoot: string): Promise<SiteConfig> {
   } catch (err) {
     const code = (err as NodeJS.ErrnoException).code;
     if (code === 'ENOENT') {
-      throw new Error(`Config file not found: ${filePath}\nEvery Mordoc project requires a config/site.json file.`);
+      throw new Error(
+        `Config file not found: ${filePath}\nEvery Mordoc project requires a config/site.json file.`,
+      );
     }
     throw new Error(`Failed to read ${filePath}: ${(err as Error).message}`);
   }

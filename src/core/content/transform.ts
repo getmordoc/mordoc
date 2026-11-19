@@ -105,9 +105,7 @@ export function transformContent(
     // Fail loudly if that ever changes rather than silently breaking the
     // TOC and renderer downstream.
     if (Array.isArray(raw)) {
-      throw new Error(
-        `Unexpected array result from Markdoc.transform for ${page.entry.filePath}`,
-      );
+      throw new Error(`Unexpected array result from Markdoc.transform for ${page.entry.filePath}`);
     }
 
     const renderable = raw;

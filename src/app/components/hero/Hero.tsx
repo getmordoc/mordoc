@@ -20,7 +20,7 @@
  * in LandingPage.tsx's components map.
  */
 
-import React from 'react';
+import type React from 'react';
 import styles from './Hero.module.css';
 
 interface HeroProps {
@@ -51,12 +51,8 @@ export function Hero({ title, titleAccent, description, image, background, child
               </>
             )}
           </h1>
-          {description && (
-            <p className={styles.heroDescription}>{description}</p>
-          )}
-          {children && (
-            <div className={styles.heroCtas}>{children}</div>
-          )}
+          {description && <p className={styles.heroDescription}>{description}</p>}
+          {children && <div className={styles.heroCtas}>{children}</div>}
         </div>
         {image && (
           <div className={styles.heroImageWrap}>

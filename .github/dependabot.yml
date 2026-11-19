@@ -21,4 +21,4 @@ updates:
     labels: [chore]
     groups:
       actions:
-        patterns: ['*']
+        patterns: ["*"]

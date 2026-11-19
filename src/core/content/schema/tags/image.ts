@@ -18,8 +18,8 @@ export const image: Schema = {
   inline: undefined,
   children: [],
   attributes: {
-    src:   { type: String, required: true },
-    alt:   { type: String },
+    src: { type: String, required: true },
+    alt: { type: String },
     title: { type: String },
   },
 };

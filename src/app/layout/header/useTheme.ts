@@ -9,7 +9,7 @@ function readStoredTheme(): Theme {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored === 'light' || stored === 'dark') return stored;
-  } catch (e) {}
+  } catch {}
   return 'light';
 }
 
@@ -45,7 +45,7 @@ export function setTheme(theme: Theme) {
   if (theme === currentTheme) return;
   currentTheme = theme;
   syncDom(theme);
-  listeners.forEach((listener) => listener());
+  for (const listener of listeners) listener();
 }
 
 /**

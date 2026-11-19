@@ -9,7 +9,11 @@ export const API_CONFIG_PATH = join('config', 'api.yaml');
 const FILE_LABEL = 'config/api.yaml';
 
 /** Validates an optional string field, returning `undefined` when absent. */
-function optionalString(obj: Record<string, unknown>, key: string, location: string): string | undefined {
+function optionalString(
+  obj: Record<string, unknown>,
+  key: string,
+  location: string,
+): string | undefined {
   if (obj[key] === undefined) return undefined;
   if (typeof obj[key] !== 'string' || obj[key] === '') {
     throw new Error(`${FILE_LABEL}: ${location}.${key} must be a non-empty string when provided.`);

@@ -19,10 +19,14 @@ function Block({ width = '100%', height = '1rem' }: { width?: string; height?: s
 export function Skeleton() {
   const t = useUiStrings();
   return (
-    <div className={styles.page} aria-busy="true" aria-label={t.loading.pageAriaLabel}>
+    <div
+      className={styles.page}
+      role="status"
+      aria-busy="true"
+      aria-label={t.loading.pageAriaLabel}
+    >
       <div className={styles.articleArea}>
         <div className={styles.article}>
-
           {/* Breadcrumb stub */}
           <div className={styles.breadcrumbRow}>
             <Block width="8rem" height="0.75rem" />
@@ -69,7 +73,6 @@ export function Skeleton() {
               <Block width="76%" />
             </div>
           </div>
-
         </div>
       </div>
     </div>

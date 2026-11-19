@@ -56,10 +56,7 @@ export async function runDevCommand(options: DevCommandOptions): Promise<void> {
     root: mordocAppRoot,
     publicDir: path.join(projectRoot, 'public'),
     appType: 'custom',
-    plugins: [
-      react(),
-      mordocVitePlugin({ projectRoot, mode: 'dev', verbose }),
-    ],
+    plugins: [react(), mordocVitePlugin({ projectRoot, mode: 'dev', verbose })],
     server: {
       port,
       fs: {
@@ -173,10 +170,9 @@ export async function runDevCommand(options: DevCommandOptions): Promise<void> {
       }
 
       try {
-        const customHead = (await fs.readFile(
-          path.join(projectRoot, 'config', 'custom-head.html'),
-          'utf-8',
-        )).trim();
+        const customHead = (
+          await fs.readFile(path.join(projectRoot, 'config', 'custom-head.html'), 'utf-8')
+        ).trim();
         if (customHead) {
           headHtml += (headHtml ? '\n  ' : '') + customHead;
         }

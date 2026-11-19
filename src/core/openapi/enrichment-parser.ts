@@ -166,11 +166,7 @@ function splitEntries(
 }
 
 /** Reads and validates the scope attributes on one `{% params %}` tag. */
-function readScope(
-  node: Node,
-  filePath: string,
-  diagnostics: Diagnostics,
-): ParamsScope | null {
+function readScope(node: Node, filePath: string, diagnostics: Diagnostics): ParamsScope | null {
   const where = node.attributes['in'];
   const status = node.attributes['status'];
 
@@ -205,11 +201,7 @@ function readScope(
 }
 
 /** Reads the block-level `mode`, defaulting to the append semantics of an operation note. */
-function readMode(
-  node: Node,
-  filePath: string,
-  diagnostics: Diagnostics,
-): 'append' | 'replace' {
+function readMode(node: Node, filePath: string, diagnostics: Diagnostics): 'append' | 'replace' {
   const mode = node.attributes['mode'];
   if (mode === undefined) return 'append';
   if (mode === 'append' || mode === 'replace') return mode;
@@ -330,7 +322,10 @@ function createApiEnrichmentMarkdocConfig(): Config {
     ...base,
     nodes: {
       ...base.nodes,
-      heading: { ...heading, attributes: { ...heading.attributes, badge: { type: String, render: false } } },
+      heading: {
+        ...heading,
+        attributes: { ...heading.attributes, badge: { type: String, render: false } },
+      },
     },
   };
 }

@@ -10,15 +10,18 @@ export { expect };
 
 export type Theme = 'light' | 'dark';
 
-export const test = base.extend<{ failOnPageErrors: void }>({
+export const test = base.extend<{ failOnPageErrors: undefined }>({
   // A component that throws in the browser is broken, even when its HTML,
   // which was rendered at build time, still looks right.
-  failOnPageErrors: [async ({ page }, use) => {
-    const errors: Error[] = [];
-    page.on('pageerror', (error) => errors.push(error));
-    await use();
-    expect(errors, 'JavaScript errors on the page').toEqual([]);
-  }, { auto: true }],
+  failOnPageErrors: [
+    async ({ page }, use) => {
+      const errors: Error[] = [];
+      page.on('pageerror', (error) => errors.push(error));
+      await use(undefined);
+      expect(errors, 'JavaScript errors on the page').toEqual([]);
+    },
+    { auto: true },
+  ],
 });
 
 /** The theme the project stores before each page loads. */
@@ -48,7 +51,10 @@ export function accordion(scope: Locator, title: string): Locator {
 /** A code block with its language and copy button, found by part of its code. */
 export function codeBlock(scope: Locator, code: string): Locator {
   // The innermost element around both the code and its copy button.
-  return scope.locator('div').filter({ has: scope.page().locator('code', { hasText: code }) }).last();
+  return scope
+    .locator('div')
+    .filter({ has: scope.page().locator('code', { hasText: code }) })
+    .last();
 }
 
 /** Checks that each text is shown as a whole element, such as a title or a paragraph. */
@@ -59,7 +65,11 @@ export async function expectTexts(scope: Locator, texts: string[]): Promise<void
 }
 
 /** Checks that a link is shown and where it leads. */
-export async function expectLink(scope: Locator, name: string | RegExp, href: string): Promise<Locator> {
+export async function expectLink(
+  scope: Locator,
+  name: string | RegExp,
+  href: string,
+): Promise<Locator> {
   const link = scope.getByRole('link', { name, exact: typeof name === 'string' });
   await expect(link).toHaveAttribute('href', href);
   return link;
@@ -69,7 +79,9 @@ export async function expectLink(scope: Locator, name: string | RegExp, href: st
 export async function expectImageShown(image: Locator): Promise<void> {
   await image.scrollIntoViewIfNeeded();
   await expect(image).toBeVisible();
-  await expect.poll(() => image.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
+  await expect
+    .poll(() => image.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0))
+    .toBe(true);
 }
 
 /** Checks the text on the clipboard; the projects grant the clipboard permissions. */
