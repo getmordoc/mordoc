@@ -1,0 +1,19 @@
+# Groups the generated release notes by the labels from label.yml.
+changelog:
+  categories:
+    - title: Features
+      labels: [feat]
+    - title: Bug fixes
+      labels: [fix]
+    - title: Performance
+      labels: [perf]
+    - title: Refactoring
+      labels: [refactor]
+    - title: Documentation
+      labels: [docs]
+    - title: Tests
+      labels: [test]
+    - title: Maintenance
+      labels: [chore]
+    - title: Other changes
+      labels: ['*']

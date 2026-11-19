@@ -1,0 +1,85 @@
+name: Create release
+
+on:
+  workflow_dispatch:
+
+# One release at a time; a second one waits instead of cancelling the first.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    if: github.ref == 'refs/heads/main'
+    # Its rules allow only main, also when someone changes this file on another
+    # branch; npm accepts only runs from this environment.
+    environment: release
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      # Tag, release and the branch of the version pull request.
+      contents: write
+      pull-requests: write
+      # npm trusted publishing.
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # The dependencies can't read the token; the push below passes it itself.
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          registry-url: https://registry.npmjs.org
+
+      - name: Read the version
+        id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Stop when the version exists
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if git ls-remote --exit-code --tags origin "refs/tags/v$VERSION" > /dev/null; then
+            echo "::error::Tag v$VERSION already exists on GitHub."
+            exit 1
+          fi
+          if [ -n "$(npm view "mordoc@$VERSION" version 2> /dev/null)" ]; then
+            echo "::error::mordoc@$VERSION already exists on npm."
+            exit 1
+          fi
+
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+
+      - run: npm publish
+
+      - name: Create the tag and release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: gh release create "v$VERSION" --target "$GITHUB_SHA" --title "v$VERSION" --generate-notes
+
+      - name: Open the pull request that raises the minor version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          NEXT=$(npm version minor --no-git-tag-version)
+          NEXT=${NEXT#v}
+          BRANCH="chore-bump-version-to-$NEXT"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$BRANCH"
+          git add package.json package-lock.json
+          git commit -m "Raise the version to $NEXT"
+          git push "https://x-access-token:$GH_TOKEN@github.com/$GITHUB_REPOSITORY.git" "$BRANCH"
+          PR_URL=$(gh pr create --base main --head "$BRANCH" --title "Raise the version to $NEXT" \
+            --body "Raises the version to $NEXT for the work merged after this release. GitHub runs no tests on a pull request opened by a workflow: close and reopen it to run them.")
+          # label.yml doesn't run on pull requests opened by a workflow; this call
+          # also creates the label when it doesn't exist yet.
+          gh api "repos/$GITHUB_REPOSITORY/issues/${PR_URL##*/}/labels" -f "labels[]=chore" > /dev/null
