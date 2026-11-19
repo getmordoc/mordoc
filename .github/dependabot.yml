@@ -1,0 +1,24 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    # Raises the versions in package.json, so the lowest allowed version is the
+    # one the tests ran with.
+    versioning-strategy: increase
+    # Dependabot's branches have no type prefix for labeler.yml.
+    labels: [chore]
+    groups:
+      # Major updates stay out, so each gets a pull request of its own.
+      minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    labels: [chore]
+    groups:
+      actions:
+        patterns: ['*']
