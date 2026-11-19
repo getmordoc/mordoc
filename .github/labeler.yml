@@ -1,0 +1,15 @@
+# Label each pull request with the type at the start of its branch name.
+feat:
+  - head-branch: ['^feat-']
+fix:
+  - head-branch: ['^fix-']
+refactor:
+  - head-branch: ['^refactor-']
+perf:
+  - head-branch: ['^perf-']
+test:
+  - head-branch: ['^test-']
+docs:
+  - head-branch: ['^docs-']
+chore:
+  - head-branch: ['^chore-']
