@@ -1,0 +1,4 @@
+# Commits that only format code. GitHub skips them in the history of each line.
+
+# Format all files with Biome
+13ccbf522ceb80e88c89f124b6e405b6d04490ae

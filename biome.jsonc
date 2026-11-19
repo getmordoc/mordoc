@@ -1,0 +1,52 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "includes": ["**", "!**/*.svg", "!**/*.md"]
+  },
+  "formatter": {
+    "useEditorconfig": true,
+    "lineWidth": 100
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "semicolons": "always",
+      "trailingCommas": "all"
+    }
+  },
+  "css": {
+    "parser": {
+      "cssModules": true
+    }
+  },
+  "assist": {
+    "enabled": false
+  },
+  "overrides": [
+    {
+      // The build replaces the lang marker with each page's language.
+      "includes": ["src/app/index.html"],
+      "linter": { "rules": { "a11y": { "useValidLang": "off" } } }
+    }
+  ],
+  "linter": {
+    "rules": {
+      "correctness": {
+        "noUnusedVariables": "error",
+        "noUnusedImports": "error",
+        "useExhaustiveDependencies": {
+          "level": "error",
+          // Like React's own rule: an extra dependency re-runs an effect on purpose.
+          "options": { "reportUnnecessaryDependencies": false }
+        },
+        "useHookAtTopLevel": "error"
+      }
+    }
+  }
+}
