@@ -51,7 +51,9 @@ export function computeLayout(ast: SequenceDiagramAst): Scene {
 
   const activationIntervals = computeActivationIntervals(messages, actorIndex);
   const isActiveAt = (actorId: string, row: number) =>
-    activationIntervals.some((iv) => iv.actorId === actorId && row >= iv.startRow && row <= iv.endRow);
+    activationIntervals.some(
+      (iv) => iv.actorId === actorId && row >= iv.startRow && row <= iv.endRow,
+    );
 
   const primitives: Primitive[] = [];
 
@@ -141,7 +143,8 @@ export function computeLayout(ast: SequenceDiagramAst): Scene {
       // branch below for why that distinction matters), so folding the step
       // number into the first line reads fine as-is; no `leadMarker` needed.
       const selfActive = isActiveAt(message.from, row);
-      const selfX = columnX(actorIndex.get(message.from)!) + (selfActive ? theme.activationWidth / 2 : 0);
+      const selfX =
+        columnX(actorIndex.get(message.from)!) + (selfActive ? theme.activationWidth / 2 : 0);
       const selfLabelLines = message.lines.map((line, i) => (i === 0 ? `${marker} ${line}` : line));
       primitives.push(...selfMessagePrimitives(selfX, y, selfLabelLines));
       return;
@@ -179,7 +182,8 @@ export function computeLayout(ast: SequenceDiagramAst): Scene {
     // additional wrapped lines so its bottom line always sits a fixed
     // `labelArrowGap` above the arrow — same placement as the single-line
     // case when there's only one line.
-    const labelTopY = y - theme.labelArrowGap - Math.max(0, message.lines.length - 1) * theme.labelLineHeight;
+    const labelTopY =
+      y - theme.labelArrowGap - Math.max(0, message.lines.length - 1) * theme.labelLineHeight;
     primitives.push({
       type: 'text',
       x: (fromX + toX) / 2,
@@ -223,7 +227,15 @@ function selfMessagePrimitives(x: number, y: number, labelLines: string[]): Prim
 
   return [
     { type: 'line', x1: x, y1: top, x2: out, y2: top, stroke: theme.arrowStroke, strokeWidth: 1.5 },
-    { type: 'line', x1: out, y1: top, x2: out, y2: bottom, stroke: theme.arrowStroke, strokeWidth: 1.5 },
+    {
+      type: 'line',
+      x1: out,
+      y1: top,
+      x2: out,
+      y2: bottom,
+      stroke: theme.arrowStroke,
+      strokeWidth: 1.5,
+    },
     {
       type: 'line',
       x1: out,

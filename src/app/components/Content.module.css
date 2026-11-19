@@ -15,9 +15,9 @@
    as a same-value literal repeated in three places without them
    silently drifting apart the next time one changes. */
 :root {
-  --toc-width:          16rem;
-  --article-max-width:  64rem;
-  --landing-max-width:  72rem;
+  --toc-width: 16rem;
+  --article-max-width: 64rem;
+  --landing-max-width: 72rem;
 }
 
 /* ── Article layout ──────────────────────────────────────────

@@ -24,7 +24,22 @@ import {
  * for the API reference. It matches `contentComponents`, the components
  * those pages render with.
  */
-const articleTags: Record<string, Schema> = { callout, card, cardGrid, button, link, image, advancedImage, clip, videoEmbed, accordion, accordions, column, columns, params };
+const articleTags: Record<string, Schema> = {
+  callout,
+  card,
+  cardGrid,
+  button,
+  link,
+  image,
+  advancedImage,
+  clip,
+  videoEmbed,
+  accordion,
+  accordions,
+  column,
+  columns,
+  params,
+};
 
 /**
  * The tags a landing page can use: every article tag, plus `hero` and
@@ -64,6 +79,8 @@ function createMarkdocConfig(tags: Record<string, Schema>): Config {
 function assertEveryTagStatesPlacement(tags: Record<string, Schema>): void {
   const missing = Object.keys(tags).filter((name) => !Object.hasOwn(tags[name]!, 'inline'));
   if (missing.length > 0) {
-    throw new Error(`mordoc: these tags don't state where they may stand (inline): ${missing.join(', ')}`);
+    throw new Error(
+      `mordoc: these tags don't state where they may stand (inline): ${missing.join(', ')}`,
+    );
   }
 }

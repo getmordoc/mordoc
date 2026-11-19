@@ -72,10 +72,15 @@ import 'virtual:mordoc/theme/accordion';
 // on every page exit — including reloads — so the next load restores it,
 // causing a visible jump from top to the saved position. Clearing the entry
 // here (after the reload, before hydrateRoot) prevents the restoration.
-if ((performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined)?.type === 'reload') {
+if (
+  (performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined)
+    ?.type === 'reload'
+) {
   try {
     sessionStorage.removeItem('react-router-scroll-positions');
-  } catch { /* unavailable in some private-browsing modes */ }
+  } catch {
+    /* unavailable in some private-browsing modes */
+  }
 }
 
 const container = document.getElementById('app');

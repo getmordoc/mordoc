@@ -7,8 +7,8 @@ import type { Schema } from '@markdoc/markdoc';
 export const image: Schema = {
   render: 'Image',
   attributes: {
-    src:   { type: String },
-    alt:   { type: String },
+    src: { type: String },
+    alt: { type: String },
     title: { type: String },
   },
 };

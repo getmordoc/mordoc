@@ -106,7 +106,8 @@ export class Diagnostics {
 
     if (!this.hasErrors) return count;
 
-    const fullText = ({ summary, detail }: WarningRecord) => (detail ? `${summary}\n${detail}` : summary);
+    const fullText = ({ summary, detail }: WarningRecord) =>
+      detail ? `${summary}\n${detail}` : summary;
 
     const parts: string[] = [];
     if (this.errors.size > 0) {

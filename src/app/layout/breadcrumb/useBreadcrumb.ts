@@ -1,6 +1,12 @@
 import { useLocation } from 'react-router';
 import { useMordocData } from '../../data-context.js';
-import { detectCurrentLang, buildLangPrefix, stripLangPrefix, resolveLabel, applyLangToSidenav } from '../../lang-utils.js';
+import {
+  detectCurrentLang,
+  buildLangPrefix,
+  stripLangPrefix,
+  resolveLabel,
+  applyLangToSidenav,
+} from '../../lang-utils.js';
 import { samePath } from '../../path-utils.js';
 import { useUiStrings } from '../../i18n/useUiStrings.js';
 import type { SidenavConfig } from '../../../types/navigation.js';
@@ -66,7 +72,13 @@ export function useBreadcrumbEntries(): BreadcrumbEntry[] {
   const prefix = buildLangPrefix(currentLang, site.defaultLanguage);
 
   const { sectionLabel, sectionPath, sidenav } = resolveActiveSidenavRaw(navigation, contentPath);
-  const processedSidenav = applyLangToSidenav(sidenav, prefix, currentLang, site.defaultLanguage, translations);
+  const processedSidenav = applyLangToSidenav(
+    sidenav,
+    prefix,
+    currentLang,
+    site.defaultLanguage,
+    translations,
+  );
 
   const rawBreadcrumb = findBreadcrumb(processedSidenav, pathname, []) ?? [];
   const resolvedSectionLabel = sectionLabel

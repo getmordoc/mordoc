@@ -225,7 +225,11 @@ export async function loadAuthoredExamples(
  * without `status` as a separate field there would be no way to tell them
  * apart, or to find "every example belonging to this status" at all.
  */
-function specExamples(mediaType: Schema | null, kind: 'request' | 'response', status?: string): ExampleView[] {
+function specExamples(
+  mediaType: Schema | null,
+  kind: 'request' | 'response',
+  status?: string,
+): ExampleView[] {
   if (!mediaType) return [];
   const out: ExampleView[] = [];
 
@@ -267,7 +271,8 @@ export function mergeExamples(
   // two different statuses routinely reuse the same name (an "AmazonPay"
   // example under both 201 and 402) — without `status` in the map key one
   // would silently overwrite the other.
-  const put = (view: ExampleView) => merged.set(`${view.kind}:${view.status ?? ''}:${view.key}`, view);
+  const put = (view: ExampleView) =>
+    merged.set(`${view.kind}:${view.status ?? ''}:${view.key}`, view);
 
   for (const view of specExamples(requestMedia, 'request')) put(view);
   for (const { status, media } of responses) {

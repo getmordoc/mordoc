@@ -20,9 +20,7 @@ export function Topnav() {
         <NavLink
           key={item.path}
           to={`${prefix}${item.path}`}
-          className={({ isActive }) =>
-            isActive ? `${styles.link} ${styles.active}` : styles.link
-          }
+          className={({ isActive }) => (isActive ? `${styles.link} ${styles.active}` : styles.link)}
         >
           {resolveLabel(item.label, currentLang, site.defaultLanguage, translations)}
         </NavLink>

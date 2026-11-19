@@ -123,7 +123,8 @@ export function Operation() {
     : null;
 
   const hasBody = (view.requestBody?.fields.length ?? 0) > 0;
-  const selectedResponse = view.responses.find((r) => r.status === selectedStatus) ?? view.responses[0];
+  const selectedResponse =
+    view.responses.find((r) => r.status === selectedStatus) ?? view.responses[0];
 
   return (
     <div className={styles.page}>
@@ -150,10 +151,30 @@ export function Operation() {
           <div className={styles.fieldsCol}>
             <h2 className={styles.sectionTitle}>Request</h2>
 
-            <ParamGroup title="Path parameters" fields={view.parameters.path} expanded={expanded} onToggle={toggle} />
-            <ParamGroup title="Query parameters" fields={view.parameters.query} expanded={expanded} onToggle={toggle} />
-            <ParamGroup title="Header parameters" fields={view.parameters.header} expanded={expanded} onToggle={toggle} />
-            <ParamGroup title="Cookie parameters" fields={view.parameters.cookie} expanded={expanded} onToggle={toggle} />
+            <ParamGroup
+              title="Path parameters"
+              fields={view.parameters.path}
+              expanded={expanded}
+              onToggle={toggle}
+            />
+            <ParamGroup
+              title="Query parameters"
+              fields={view.parameters.query}
+              expanded={expanded}
+              onToggle={toggle}
+            />
+            <ParamGroup
+              title="Header parameters"
+              fields={view.parameters.header}
+              expanded={expanded}
+              onToggle={toggle}
+            />
+            <ParamGroup
+              title="Cookie parameters"
+              fields={view.parameters.cookie}
+              expanded={expanded}
+              onToggle={toggle}
+            />
 
             {hasBody && view.requestBody && (
               <div className={styles.subsection}>

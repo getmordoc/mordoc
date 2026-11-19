@@ -26,7 +26,11 @@ function isExternal(href: string) {
 
 export function ContentLink({ href, title, children }: ContentLinkProps) {
   if (href.startsWith('#')) {
-    return <a href={href} title={title}>{children}</a>;
+    return (
+      <a href={href} title={title}>
+        {children}
+      </a>
+    );
   }
 
   if (isExternal(href)) {

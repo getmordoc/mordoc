@@ -26,15 +26,21 @@ function validateTopnavConfig(raw: unknown): TopnavConfig {
     const obj = entry as Record<string, unknown>;
 
     if (typeof obj['label'] !== 'string' || obj['label'] === '') {
-      throw new Error(`topnav.yaml: items[${index}].label is required and must be a non-empty string.`);
+      throw new Error(
+        `topnav.yaml: items[${index}].label is required and must be a non-empty string.`,
+      );
     }
 
     if (typeof obj['path'] !== 'string' || obj['path'] === '') {
-      throw new Error(`topnav.yaml: items[${index}].path is required and must be a non-empty string.`);
+      throw new Error(
+        `topnav.yaml: items[${index}].path is required and must be a non-empty string.`,
+      );
     }
 
     if (typeof obj['sidenav'] !== 'string' || obj['sidenav'] === '') {
-      throw new Error(`topnav.yaml: items[${index}].sidenav is required and must be a non-empty string.`);
+      throw new Error(
+        `topnav.yaml: items[${index}].sidenav is required and must be a non-empty string.`,
+      );
     }
 
     if (!obj['sidenav'].endsWith('.yaml') && !obj['sidenav'].endsWith('.yml')) {

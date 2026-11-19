@@ -37,7 +37,7 @@ function validateLanguageConfig(raw: unknown, defaultLanguage: string): Language
   if (!config.languages.includes(defaultLanguage)) {
     throw new Error(
       `language.json: the defaultLanguage "${defaultLanguage}" from site.json ` +
-      `is not listed in the languages array. Add it or update site.json.`,
+        `is not listed in the languages array. Add it or update site.json.`,
     );
   }
 

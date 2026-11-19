@@ -5,10 +5,10 @@
   /* Solid background color and text colors — design decisions, not
      content. A `background` image (set per-instance in markdown) layers
      on top of --hero-bg via its own inline style. */
-  --hero-bg:                 transparent;
-  --hero-title-color:        var(--color-fg);
+  --hero-bg: transparent;
+  --hero-title-color: var(--color-fg);
   --hero-title-accent-color: var(--accent-emphasis);
-  --hero-desc-color:         var(--color-fg-muted);
+  --hero-desc-color: var(--color-fg-muted);
 
   --hero-image-radius: 10px;
   --hero-image-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);

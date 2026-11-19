@@ -36,9 +36,9 @@ export const clip: Schema = {
   inline: false,
   children: [],
   attributes: {
-    src:       { type: String, required: true },
+    src: { type: String, required: true },
     thumbnail: { type: String },
-    title:     { type: String },
-    alt:       { type: String },
+    title: { type: String },
+    alt: { type: String },
   },
 };

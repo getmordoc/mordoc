@@ -24,7 +24,7 @@ export const link: Schema = {
   inline: undefined,
   children: ['strong', 'em', 's', 'code', 'text', 'tag'],
   attributes: {
-    path:  { type: String, required: true },
+    path: { type: String, required: true },
     title: { type: String },
   },
   transform(node, config) {

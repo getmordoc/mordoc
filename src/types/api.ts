@@ -314,7 +314,12 @@ export interface OperationView {
   deprecated?: boolean;
   parameters: ParameterGroups;
   requestBody: { mediaType: string; required: boolean; fields: FieldView[] } | null;
-  responses: { status: string; description: string; mediaType: string | null; fields: FieldView[] }[];
+  responses: {
+    status: string;
+    description: string;
+    mediaType: string | null;
+    fields: FieldView[];
+  }[];
   examples: ExampleView[];
   /**
    * One code sample per language × request example — a curl invocation

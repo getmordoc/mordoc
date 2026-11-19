@@ -82,15 +82,35 @@ export function VideoEmbed({ src, thumbnail, title, alt, aspectRatio }: VideoEmb
             allowFullScreen
           />
         ) : (
-          <a href={src} target="_blank" rel="noreferrer noopener" className={styles.card} aria-label={`Open: ${label}`}>
+          <a
+            href={src}
+            target="_blank"
+            rel="noreferrer noopener"
+            className={styles.card}
+            aria-label={`Open: ${label}`}
+          >
             {thumbnail ? (
-              <img className={styles.thumbnail} src={thumbnail} alt="" onLoad={handleThumbnailLoad} />
+              <img
+                className={styles.thumbnail}
+                src={thumbnail}
+                alt=""
+                onLoad={handleThumbnailLoad}
+              />
             ) : (
               <div className={styles.fallback} />
             )}
             <span className={styles.toggle}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7 5.5v13a1 1 0 0 0 1.53.848l10.5-6.5a1 1 0 0 0 0-1.696l-10.5-6.5A1 1 0 0 0 7 5.5Z" fill="currentColor" />
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7 5.5v13a1 1 0 0 0 1.53.848l10.5-6.5a1 1 0 0 0 0-1.696l-10.5-6.5A1 1 0 0 0 7 5.5Z"
+                  fill="currentColor"
+                />
               </svg>
             </span>
           </a>

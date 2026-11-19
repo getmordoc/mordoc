@@ -110,7 +110,8 @@ export function Footer() {
   const currentLang = detectCurrentLang(location.pathname, language, site.defaultLanguage);
   const config = footer ?? DEFAULT_FOOTER;
 
-  const resolveLine = (line: string) => resolveLabel(line, currentLang, site.defaultLanguage, translations);
+  const resolveLine = (line: string) =>
+    resolveLabel(line, currentLang, site.defaultLanguage, translations);
 
   const columns = ZONES.map((zone) => (config[zone] ?? []).map(resolveLine));
 

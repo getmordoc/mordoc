@@ -1,6 +1,16 @@
 import {
-  test, expect, openPage, projectTheme, expectTheme, accordion, codeBlock,
-  expectTexts, expectLink, expectImageShown, expectClipboard, type Theme,
+  test,
+  expect,
+  openPage,
+  projectTheme,
+  expectTheme,
+  accordion,
+  codeBlock,
+  expectTexts,
+  expectLink,
+  expectImageShown,
+  expectClipboard,
+  type Theme,
 } from './helpers.ts';
 
 /*
@@ -19,10 +29,18 @@ test.describe('pages', () => {
   test('home page shows the heroes, sections, card grid, buttons and diagram', async ({ page }) => {
     const content = await openPage(page, '/');
 
-    await expect(content.getByRole('heading', { level: 1, name: 'Every component, one journey.' })).toBeVisible();
-    await expect(content.getByRole('heading', { level: 1, name: 'A hero with an image' })).toBeVisible();
-    await expect(content.getByRole('heading', { level: 2, name: 'What is on this site' })).toBeVisible();
-    await expect(content.getByRole('heading', { level: 2, name: 'A section with a background image' })).toBeVisible();
+    await expect(
+      content.getByRole('heading', { level: 1, name: 'Every component, one journey.' }),
+    ).toBeVisible();
+    await expect(
+      content.getByRole('heading', { level: 1, name: 'A hero with an image' }),
+    ).toBeVisible();
+    await expect(
+      content.getByRole('heading', { level: 2, name: 'What is on this site' }),
+    ).toBeVisible();
+    await expect(
+      content.getByRole('heading', { level: 2, name: 'A section with a background image' }),
+    ).toBeVisible();
     await expectTexts(content, ['A section can also have no title.']);
     await expectLink(content, 'Read the guide', '/guide');
     await expectLink(content, 'See the media', '/media');
@@ -37,7 +55,11 @@ test.describe('pages', () => {
     const content = await openPage(page, '/guide/callouts');
 
     await expectTexts(content, [
-      'Note', 'Tip', 'Warning', 'Danger', 'Before you leave',
+      'Note',
+      'Tip',
+      'Warning',
+      'Danger',
+      'Before you leave',
       'The guide saves your route every evening.',
       'Never climb the volcano without a guide.',
       'A callout without a type is a note.',
@@ -45,13 +67,23 @@ test.describe('pages', () => {
       'Pack food for the road.',
     ]);
     await expect(codeBlock(content, 'journey plan stop-a stop-d')).toBeVisible();
-    await expect(content.getByRole('blockquote')).toContainText('Every journey starts at your own front door.');
+    await expect(content.getByRole('blockquote')).toContainText(
+      'Every journey starts at your own front door.',
+    );
   });
 
   test('cards page shows plain, icon, image, linked and tagged cards', async ({ page }) => {
     const content = await openPage(page, '/guide/cards');
 
-    await expectTexts(content, ['Plain card', 'Icon card', 'Image card', 'Stop A', 'Stop B', 'Stop C', 'Stop D']);
+    await expectTexts(content, [
+      'Plain card',
+      'Icon card',
+      'Image card',
+      'Stop A',
+      'Stop B',
+      'Stop C',
+      'Stop D',
+    ]);
     await expectLink(content, /^Linked card/, '/guide/buttons');
     const taggedCard = await expectLink(content, /Card with a tag/, '/guide/columns');
     await expect(taggedCard).toContainText('Beta');
@@ -89,13 +121,25 @@ test.describe('pages', () => {
   test('headings and tables page shows every heading level and a table', async ({ page }) => {
     const content = await openPage(page, '/guide/text');
 
-    for (const [level, name] of [[2, 'second'], [3, 'third'], [4, 'fourth'], [5, 'fifth'], [6, 'sixth']] as const) {
-      await expect(content.getByRole('heading', { level, name: `A ${name}-level heading` })).toBeVisible();
+    for (const [level, name] of [
+      [2, 'second'],
+      [3, 'third'],
+      [4, 'fourth'],
+      [5, 'fifth'],
+      [6, 'sixth'],
+    ] as const) {
+      await expect(
+        content.getByRole('heading', { level, name: `A ${name}-level heading` }),
+      ).toBeVisible();
     }
     await expect(content.locator('h2#custom-id')).toContainText('A heading with its own ID');
     await expectLink(content, 'this link', '#custom-id');
     const table = content.getByRole('table');
-    await expect(table.getByRole('columnheader')).toHaveText(['Stop', 'Days on foot', 'Distance from stop A']);
+    await expect(table.getByRole('columnheader')).toHaveText([
+      'Stop',
+      'Days on foot',
+      'Distance from stop A',
+    ]);
     await expect(table.getByRole('row', { name: 'Stop D 120 2,200 km' })).toBeVisible();
   });
 
@@ -106,7 +150,9 @@ test.describe('pages', () => {
     await expectLink(content, 'Mordoc on GitHub', 'https://github.com/getmordoc/mordoc');
     await expectLink(content, 'Variables', '#variables');
     await expectLink(content, 'Buttons, with a title', '/guide/buttons');
-    await expectTexts(content, ['Variables come from the site\'s settings. This product is called Components, and its support address is help@components.example.']);
+    await expectTexts(content, [
+      "Variables come from the site's settings. This product is called Components, and its support address is help@components.example.",
+    ]);
   });
 
   test('code page shows highlighted code blocks with variables filled in', async ({ page }) => {
@@ -138,33 +184,56 @@ test.describe('pages', () => {
   test('advanced images page shows images with and without a caption', async ({ page }) => {
     const content = await openPage(page, '/media/advanced-images');
 
-    const withCaption = content.getByRole('figure', { name: 'The journey in four stops', exact: true });
+    const withCaption = content.getByRole('figure', {
+      name: 'The journey in four stops',
+      exact: true,
+    });
     await expectImageShown(withCaption.getByRole('img', { name: ROUTE_MAP }));
     await expectImageShown(content.getByRole('img', { name: VOLCANO }));
-    const fromVariable = content.getByRole('figure', { name: 'The journey in four stops, from a variable' });
+    const fromVariable = content.getByRole('figure', {
+      name: 'The journey in four stops, from a variable',
+    });
     await expectImageShown(fromVariable.getByRole('img', { name: ROUTE_MAP_FROM_VARIABLE }));
   });
 
   test('video page shows clips and video embeds', async ({ page }) => {
     const content = await openPage(page, '/media/video');
 
-    await expect(content.getByRole('figure', { name: 'The volcano' }).getByRole('button', { name: `Play: ${CLIP}` })).toBeVisible();
+    await expect(
+      content
+        .getByRole('figure', { name: 'The volcano' })
+        .getByRole('button', { name: `Play: ${CLIP}` }),
+    ).toBeVisible();
     await expect(content.getByRole('button', { name: `Play: ${CLIP}` })).toHaveCount(2);
-    for (const name of ['Big Buck Bunny (Blender Foundation, CC BY 3.0)', 'The same video in 4:3']) {
+    for (const name of [
+      'Big Buck Bunny (Blender Foundation, CC BY 3.0)',
+      'The same video in 4:3',
+    ]) {
       const iframe = content.getByRole('figure', { name }).locator('iframe');
       await iframe.scrollIntoViewIfNeeded();
       await expect(iframe).toHaveAttribute('src', 'https://www.youtube.com/embed/aqz-KE-bpKQ');
       // The embedded player loads from YouTube itself; the video is not played.
       await expect(iframe.contentFrame().locator('body')).not.toBeEmpty();
     }
-    await expectLink(content, 'Open: A video from an unknown service', 'https://video.example.com/watch/volcano');
+    await expectLink(
+      content,
+      'Open: A video from an unknown service',
+      'https://video.example.com/watch/volcano',
+    );
   });
 
   test('diagrams page shows a sequence diagram', async ({ page }) => {
     const content = await openPage(page, '/media/diagrams');
 
     const diagram = content.getByRole('figure').getByRole('img');
-    for (const text of ['Traveller', 'Travel guide', 'Watchtower', 'Map', 'Plan a journey', 'The pass is open']) {
+    for (const text of [
+      'Traveller',
+      'Travel guide',
+      'Watchtower',
+      'Map',
+      'Plan a journey',
+      'The pass is open',
+    ]) {
       await expect(diagram).toContainText(text);
     }
     await expect(diagram).not.toContainText('Comments start with a hash');
@@ -232,7 +301,9 @@ test.describe('interactions', () => {
     const video = clip.locator('video');
 
     await clip.getByRole('button', { name: `Play: ${CLIP}` }).click();
-    await expect.poll(() => video.evaluate((v: HTMLVideoElement) => !v.paused && v.currentTime > 0)).toBe(true);
+    await expect
+      .poll(() => video.evaluate((v: HTMLVideoElement) => !v.paused && v.currentTime > 0))
+      .toBe(true);
     await clip.getByRole('button', { name: `Pause: ${CLIP}` }).click();
     await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.paused)).toBe(true);
   });
@@ -240,14 +311,19 @@ test.describe('interactions', () => {
   test('a code block copies its code', async ({ page }) => {
     const content = await openPage(page, '/guide/code');
 
-    await codeBlock(content, 'npm install @components/journey').getByRole('button', { name: 'Copy code' }).click();
+    await codeBlock(content, 'npm install @components/journey')
+      .getByRole('button', { name: 'Copy code' })
+      .click();
     await expectClipboard(page, 'npm install @components/journey@2.4.0');
   });
 
   test('a heading copies its link', async ({ page }) => {
     const content = await openPage(page, '/guide/text');
 
-    await content.getByRole('heading', { name: 'A table' }).getByRole('link', { name: 'Copy link to this section' }).click();
+    await content
+      .getByRole('heading', { name: 'A table' })
+      .getByRole('link', { name: 'Copy link to this section' })
+      .click();
     await expect(page).toHaveURL(/\/guide\/text#a-table$/);
     await expectClipboard(page, /\/guide\/text#a-table$/);
   });
@@ -255,7 +331,10 @@ test.describe('interactions', () => {
   test('the table of contents jumps to a heading', async ({ page }) => {
     await openPage(page, '/guide/text');
 
-    await page.getByRole('navigation', { name: 'On this page' }).getByRole('link', { name: 'A table' }).click();
+    await page
+      .getByRole('navigation', { name: 'On this page' })
+      .getByRole('link', { name: 'A table' })
+      .click();
     await expect(page).toHaveURL(/#a-table$/);
     await expect(page.getByRole('heading', { name: 'A table' })).toBeInViewport();
   });

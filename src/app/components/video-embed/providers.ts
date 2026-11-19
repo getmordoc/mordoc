@@ -28,7 +28,8 @@ interface VideoProvider {
 const providers: VideoProvider[] = [
   {
     name: 'YouTube',
-    matches: (hostname) => hostname === 'youtube.com' || hostname === 'youtu.be' || hostname.endsWith('.youtube.com'),
+    matches: (hostname) =>
+      hostname === 'youtube.com' || hostname === 'youtu.be' || hostname.endsWith('.youtube.com'),
     embedUrl: (url) => {
       // youtu.be/<id> — the id is the entire pathname.
       if (url.hostname === 'youtu.be') {

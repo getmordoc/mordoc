@@ -85,7 +85,9 @@ function summarizeBuildOutput(result: unknown): string {
     }
   }
 
-  const largestText = largest ? ` · largest: ${largest.fileName} (${formatBytes(largest.bytes)})` : '';
+  const largestText = largest
+    ? ` · largest: ${largest.fileName} (${formatBytes(largest.bytes)})`
+    : '';
   return `${chunkCount} chunk${chunkCount === 1 ? '' : 's'} · ${formatBytes(totalBytes)}${largestText}`;
 }
 
@@ -173,10 +175,7 @@ export async function runBuildCommand(options: BuildCommandOptions): Promise<voi
     root: mordocAppRoot,
     publicDir,
     logLevel: verbose ? 'info' : 'silent',
-    plugins: [
-      react(),
-      mordocVitePlugin({ projectRoot, mode: 'build', data }),
-    ],
+    plugins: [react(), mordocVitePlugin({ projectRoot, mode: 'build', data })],
     build: {
       outDir: clientOutDir,
       // We wiped above; suppress Vite's "outDir is outside root" guard.
@@ -201,10 +200,7 @@ export async function runBuildCommand(options: BuildCommandOptions): Promise<voi
     // `dist/`. Disable publicDir entirely for this pass.
     publicDir: false,
     logLevel: verbose ? 'info' : 'silent',
-    plugins: [
-      react(),
-      mordocVitePlugin({ projectRoot, mode: 'build', data }),
-    ],
+    plugins: [react(), mordocVitePlugin({ projectRoot, mode: 'build', data })],
     build: {
       outDir: ssrOutDir,
       emptyOutDir: false,
@@ -238,11 +234,7 @@ export async function runBuildCommand(options: BuildCommandOptions): Promise<voi
   // frameworks (Astro, SvelteKit, Nuxt, Remix) use for the same reason.
   // The cleanup step at the end of this command wipes ssrOutDir
   // entirely, so this file vanishes along with the rest.
-  await fs.writeFile(
-    path.join(ssrOutDir, 'package.json'),
-    '{"type":"module"}\n',
-    'utf-8',
-  );
+  await fs.writeFile(path.join(ssrOutDir, 'package.json'), '{"type":"module"}\n', 'utf-8');
 
   await runSsg({ data, clientOutDir, ssrOutDir, verbose });
 
@@ -263,7 +255,9 @@ export async function runBuildCommand(options: BuildCommandOptions): Promise<voi
     console.log(`\n⚠ ${data.apiWarnings} warning(s) — rerun with --verbose for detail`);
   }
 
-  console.log(`\n✔ all done — build complete (${formatElapsed(performance.now() - buildStartedAt)})`);
+  console.log(
+    `\n✔ all done — build complete (${formatElapsed(performance.now() - buildStartedAt)})`,
+  );
   console.log(`  output → ${clientOutDir}\n`);
 }
 
@@ -298,16 +292,13 @@ async function writeSitemapAndRobots(data: MordocData, clientOutDir: string): Pr
   const sitemap =
     '<?xml version="1.0" encoding="UTF-8"?>\n' +
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-    urlEntries + '\n' +
+    urlEntries +
+    '\n' +
     '</urlset>\n';
 
   await fs.writeFile(path.join(clientOutDir, 'sitemap.xml'), sitemap, 'utf-8');
 
-  const robots =
-    'User-agent: *\n' +
-    'Allow: /\n' +
-    '\n' +
-    `Sitemap: ${baseUrl}/sitemap.xml\n`;
+  const robots = 'User-agent: *\n' + 'Allow: /\n' + '\n' + `Sitemap: ${baseUrl}/sitemap.xml\n`;
 
   await fs.writeFile(path.join(clientOutDir, 'robots.txt'), robots, 'utf-8');
 

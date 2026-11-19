@@ -48,8 +48,8 @@ export const fence: Schema = {
   render: 'CodeBlock',
   attributes: {
     language: { type: String },
-    content:  { type: String, render: true },
-    process:  { type: Boolean, default: true },
+    content: { type: String, render: true },
+    process: { type: Boolean, default: true },
   },
   transform(node, config) {
     const attributes = node.transformAttributes(config);

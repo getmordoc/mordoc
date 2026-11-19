@@ -23,10 +23,7 @@ interface CardGridProps {
 
 export function CardGrid({ cols, children }: CardGridProps) {
   return (
-    <div
-      className={styles.cardGrid}
-      style={{ '--cols': cols } as React.CSSProperties}
-    >
+    <div className={styles.cardGrid} style={{ '--cols': cols } as React.CSSProperties}>
       {children}
     </div>
   );

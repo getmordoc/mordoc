@@ -37,7 +37,13 @@ export function Button({ path, variant = 'primary', reloadDocument, children }: 
 
   if (isExternal(path)) {
     return (
-      <a href={path} className={className} target="_blank" rel="noopener noreferrer" data-pagefind-ignore>
+      <a
+        href={path}
+        className={className}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-pagefind-ignore
+      >
         {children}
       </a>
     );

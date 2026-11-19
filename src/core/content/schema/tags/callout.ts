@@ -12,7 +12,7 @@ export const callout: Schema = {
   inline: false,
   children: ['paragraph', 'list', 'fence', 'blockquote'],
   attributes: {
-    type:  { type: String, default: 'note', matches: ['note', 'warning', 'danger', 'tip'] },
+    type: { type: String, default: 'note', matches: ['note', 'warning', 'danger', 'tip'] },
     title: { type: String },
   },
 };

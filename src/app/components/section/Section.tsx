@@ -31,10 +31,9 @@ export function Section({ title, background, children }: SectionProps) {
     style.backgroundImage = `url(${background})`;
   }
 
-  const className = [
-    styles.section,
-    background ? styles.hasBackgroundImage : '',
-  ].filter(Boolean).join(' ');
+  const className = [styles.section, background ? styles.hasBackgroundImage : '']
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <section className={className} style={style}>

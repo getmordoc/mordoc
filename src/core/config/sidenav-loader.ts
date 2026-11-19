@@ -13,10 +13,11 @@ function validateItem(item: unknown, location: string, fileName: string): Sidena
 
   const obj = item as Record<string, unknown>;
 
-  if (obj['operation'] !== undefined && (typeof obj['operation'] !== 'string' || obj['operation'] === '')) {
-    throw new Error(
-      `${fileName}: ${location}.operation must be a non-empty string when provided.`,
-    );
+  if (
+    obj['operation'] !== undefined &&
+    (typeof obj['operation'] !== 'string' || obj['operation'] === '')
+  ) {
+    throw new Error(`${fileName}: ${location}.operation must be a non-empty string when provided.`);
   }
 
   // An `operation:` item may omit its label — the spec's `summary` fills in
@@ -58,7 +59,11 @@ function validateItem(item: unknown, location: string, fileName: string): Sidena
     }
   }
 
-  if (obj['path'] === undefined && obj['children'] === undefined && obj['operation'] === undefined) {
+  if (
+    obj['path'] === undefined &&
+    obj['children'] === undefined &&
+    obj['operation'] === undefined
+  ) {
     throw new Error(
       `${fileName}: ${location} must have either "path", "operation", "children", or both.`,
     );

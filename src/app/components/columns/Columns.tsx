@@ -29,11 +29,7 @@ interface ColumnsProps {
 }
 
 export function Columns({ divider = false, children }: ColumnsProps) {
-  return (
-    <div className={`${styles.columns} ${divider ? styles.divided : ''}`}>
-      {children}
-    </div>
-  );
+  return <div className={`${styles.columns} ${divider ? styles.divided : ''}`}>{children}</div>;
 }
 
 export default Columns;

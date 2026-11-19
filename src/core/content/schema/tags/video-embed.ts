@@ -36,10 +36,10 @@ export const videoEmbed: Schema = {
   inline: false,
   children: [],
   attributes: {
-    src:         { type: String, required: true },
-    thumbnail:   { type: String },
-    title:       { type: String },
-    alt:         { type: String },
+    src: { type: String, required: true },
+    thumbnail: { type: String },
+    title: { type: String },
+    alt: { type: String },
     aspectRatio: { type: String },
   },
 };

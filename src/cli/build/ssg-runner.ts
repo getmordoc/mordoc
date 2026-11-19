@@ -189,7 +189,9 @@ function buildHeadHtml(route: RouteHead, site: SiteConfig, faviconUrl: string | 
       parts.push(`<meta name="twitter:description" content="${escapeHtml(socialDescription)}">`);
     }
     if (meta.ogImage) {
-      parts.push(`<meta name="twitter:image" content="${escapeHtml(site.baseUrl + meta.ogImage)}">`);
+      parts.push(
+        `<meta name="twitter:image" content="${escapeHtml(site.baseUrl + meta.ogImage)}">`,
+      );
     }
   }
 

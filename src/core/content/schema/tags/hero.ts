@@ -17,10 +17,10 @@ export const hero: Schema = {
   inline: false,
   children: ['tag', 'paragraph'],
   attributes: {
-    title:       { type: String, required: true },
+    title: { type: String, required: true },
     titleAccent: { type: String },
     description: { type: String },
-    image:       { type: String },
-    background:  { type: String },
+    image: { type: String },
+    background: { type: String },
   },
 };

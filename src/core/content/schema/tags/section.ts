@@ -13,7 +13,7 @@ export const section: Schema = {
   inline: false,
   children: ['heading', 'paragraph', 'list', 'fence', 'blockquote', 'tag', 'hr'],
   attributes: {
-    title:      { type: String },
+    title: { type: String },
     background: { type: String },
   },
 };

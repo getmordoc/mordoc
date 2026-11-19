@@ -27,10 +27,14 @@ export function NotFound() {
     <div className={styles.page}>
       <div className={styles.articleArea}>
         <div className={styles.article}>
-          <p className={styles.code404} aria-hidden="true">404</p>
+          <p className={styles.code404} aria-hidden="true">
+            404
+          </p>
           <h1 className={styles.title}>{t.notFound.title}</h1>
           <p className={styles.description}>
-            {beforePath}<code className={styles.path}>{location.pathname}</code>{afterPath}
+            {beforePath}
+            <code className={styles.path}>{location.pathname}</code>
+            {afterPath}
           </p>
           <Button path="/">{t.notFound.goHomeButton}</Button>
         </div>

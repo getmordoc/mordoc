@@ -7,7 +7,7 @@
    that page (layout, structure, one-off elements).
    ============================================================ */
 :root {
-  --blockquote-radius:  6px;
+  --blockquote-radius: 6px;
   --inline-code-radius: 4px;
 }
 

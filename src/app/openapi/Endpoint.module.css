@@ -9,13 +9,13 @@
    have no dark-mode override.
    ============================================================ */
 :root {
-  --method-fg:             #fff;
-  --method-get-color:      #15803d;
-  --method-post-color:     #1d63b5;
-  --method-put-color:      #b45309;
-  --method-patch-color:    #7c3aed;
-  --method-delete-color:   #c22c2c;
-  --method-default-color:  #475569;
+  --method-fg: #fff;
+  --method-get-color: #15803d;
+  --method-post-color: #1d63b5;
+  --method-put-color: #b45309;
+  --method-patch-color: #7c3aed;
+  --method-delete-color: #c22c2c;
+  --method-default-color: #475569;
 }
 
 .endpoint {
@@ -38,11 +38,21 @@
   line-height: 1;
 }
 
-.get    { background-color: var(--method-get-color); }
-.post   { background-color: var(--method-post-color); }
-.put    { background-color: var(--method-put-color); }
-.patch  { background-color: var(--method-patch-color); }
-.delete { background-color: var(--method-delete-color); }
+.get {
+  background-color: var(--method-get-color);
+}
+.post {
+  background-color: var(--method-post-color);
+}
+.put {
+  background-color: var(--method-put-color);
+}
+.patch {
+  background-color: var(--method-patch-color);
+}
+.delete {
+  background-color: var(--method-delete-color);
+}
 
 .path {
   font-family: var(--font-mono);

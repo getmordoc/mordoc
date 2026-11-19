@@ -29,14 +29,18 @@ export function notInsideClickable(what: string): Schema['validate'] {
   return (_node, config) => {
     const parents = config.validation?.parents ?? [];
     const insideClickable = parents.some(
-      (parent) => parent.type === 'link' || (parent.type === 'tag' && (parent.tag === 'link' || parent.tag === 'button')),
+      (parent) =>
+        parent.type === 'link' ||
+        (parent.type === 'tag' && (parent.tag === 'link' || parent.tag === 'button')),
     );
     if (!insideClickable) return [];
-    return [{
-      id: 'clickable-inside-clickable',
-      level: 'critical',
-      message: `A ${what} can't be placed inside a link or a button, because one click can only go to one place.`,
-    }];
+    return [
+      {
+        id: 'clickable-inside-clickable',
+        level: 'critical',
+        message: `A ${what} can't be placed inside a link or a button, because one click can only go to one place.`,
+      },
+    ];
   };
 }
 
@@ -48,7 +52,9 @@ export function notInsideClickable(what: string): Schema['validate'] {
  */
 export function formatValidateError(result: ValidateError, projectRoot: string): string {
   const filePath = result.location?.file ?? '';
-  const file = filePath ? path.relative(projectRoot, filePath).replace(/\\/g, '/') : '(unknown file)';
+  const file = filePath
+    ? path.relative(projectRoot, filePath).replace(/\\/g, '/')
+    : '(unknown file)';
   // Markdoc counts lines from 0; editors count from 1.
   const line = (result.location?.start.line ?? result.lines[0] ?? 0) + 1;
   return `${file}:${line}  ${result.error.level}  ${result.error.message}`;
@@ -93,7 +99,9 @@ export class ContentValidator {
 
   /** Throws a `ValidationFailedError` when a result is an error. */
   stopOnErrors(): void {
-    const blocking = this.results.filter((result) => BLOCKING_LEVELS.has(result.error.level)).length;
+    const blocking = this.results.filter((result) =>
+      BLOCKING_LEVELS.has(result.error.level),
+    ).length;
     if (blocking > 0) throw new ValidationFailedError(blocking);
   }
 }

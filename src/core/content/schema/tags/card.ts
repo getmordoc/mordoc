@@ -14,9 +14,9 @@ export const card: Schema = {
   children: ['paragraph', 'inline', 'list'],
   attributes: {
     title: { type: String, required: true },
-    path:  { type: String },
-    icon:  { type: String },
+    path: { type: String },
+    icon: { type: String },
     image: { type: String },
-    tag:   { type: String },
+    tag: { type: String },
   },
 };

@@ -11,7 +11,7 @@ function parseFrontmatter(raw: string | undefined, filePath: string): Frontmatte
   if (!raw || raw.trim() === '') {
     throw new Error(
       `${filePath}: missing frontmatter.\n` +
-      `Every content file must have a YAML frontmatter block with at least a "title" field.`,
+        `Every content file must have a YAML frontmatter block with at least a "title" field.`,
     );
   }
 
@@ -52,15 +52,16 @@ export async function parseContent(contentMap: ContentMap): Promise<ParsedPage[]
     try {
       raw = await readFile(entry.filePath, 'utf-8');
     } catch (err) {
-      throw new Error(
-        `Failed to read ${entry.filePath}: ${(err as Error).message}`,
-      );
+      throw new Error(`Failed to read ${entry.filePath}: ${(err as Error).message}`);
     }
 
     // The file path makes Markdoc put it in every node's location, so its
     // validation results name the file without Mordoc adding it.
     const ast = Markdoc.parse(raw, entry.filePath);
-    const frontmatter = parseFrontmatter(ast.attributes['frontmatter'] as string | undefined, entry.filePath);
+    const frontmatter = parseFrontmatter(
+      ast.attributes['frontmatter'] as string | undefined,
+      entry.filePath,
+    );
 
     pages.push({ entry, frontmatter, ast });
   }

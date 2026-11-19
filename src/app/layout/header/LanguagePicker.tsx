@@ -148,7 +148,9 @@ export function LanguagePicker({ languages, currentLang, onChange }: LanguagePic
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label={formatUiString(t.nav.languageTriggerLabel, { language: getLanguageName(currentLang) })}
+        aria-label={formatUiString(t.nav.languageTriggerLabel, {
+          language: getLanguageName(currentLang),
+        })}
       >
         <GlobeIcon />
         <span className={styles.code}>{getLanguageName(currentLang)}</span>

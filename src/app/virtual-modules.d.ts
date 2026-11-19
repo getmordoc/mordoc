@@ -43,10 +43,7 @@ declare module 'virtual:mordoc/page-loaders' {
   // A record keyed by routePath, each value a function that dynamically
   // imports the matching lazy page module. The plugin emits a literal
   // `import()` expression per route so Vite can statically code-split.
-  const value: Record<
-    string,
-    () => Promise<{ default: import('../types/content.js').PageData }>
-  >;
+  const value: Record<string, () => Promise<{ default: import('../types/content.js').PageData }>>;
   export default value;
 }
 

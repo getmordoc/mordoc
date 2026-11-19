@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router';
 import { useMordocData } from '../../data-context.js';
-import { detectCurrentLang, buildLangPrefix, stripLangPrefix, resolveLabel, applyLangToSidenav } from '../../lang-utils.js';
+import {
+  detectCurrentLang,
+  buildLangPrefix,
+  stripLangPrefix,
+  resolveLabel,
+  applyLangToSidenav,
+} from '../../lang-utils.js';
 import { samePath } from '../../path-utils.js';
 import { useUiStrings } from '../../i18n/useUiStrings.js';
 import type { SidenavConfig, SidenavItem } from '../../../types/navigation.js';
@@ -109,7 +115,11 @@ function SidenavNode({
           href={item.path}
           onClick={handleLinkedGroupClick}
           aria-expanded={open}
-          className={isLabelActive ? `${styles.linkedGroupLabel} ${styles.linkActive}` : styles.linkedGroupLabel}
+          className={
+            isLabelActive
+              ? `${styles.linkedGroupLabel} ${styles.linkActive}`
+              : styles.linkedGroupLabel
+          }
         >
           <span>{item.label}</span>
           <ChevronIcon open={open} />

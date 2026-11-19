@@ -68,7 +68,8 @@ export function beginStep(text: string, options: { indent?: string } = {}): Step
 
   let frame = 0;
   let label = text;
-  const render = () => process.stdout.write(`\r\x1b[K${indent}${SPINNER_FRAMES[frame]} ${label}...`);
+  const render = () =>
+    process.stdout.write(`\r\x1b[K${indent}${SPINNER_FRAMES[frame]} ${label}...`);
   render();
 
   const timer = setInterval(() => {

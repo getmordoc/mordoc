@@ -35,9 +35,7 @@ export function Accordions({ children }: AccordionsProps) {
 
   return (
     <div className={styles.accordions}>
-      <AccordionsContext.Provider value={{ name }}>
-        {children}
-      </AccordionsContext.Provider>
+      <AccordionsContext.Provider value={{ name }}>{children}</AccordionsContext.Provider>
     </div>
   );
 }

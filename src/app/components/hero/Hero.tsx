@@ -51,12 +51,8 @@ export function Hero({ title, titleAccent, description, image, background, child
               </>
             )}
           </h1>
-          {description && (
-            <p className={styles.heroDescription}>{description}</p>
-          )}
-          {children && (
-            <div className={styles.heroCtas}>{children}</div>
-          )}
+          {description && <p className={styles.heroDescription}>{description}</p>}
+          {children && <div className={styles.heroCtas}>{children}</div>}
         </div>
         {image && (
           <div className={styles.heroImageWrap}>

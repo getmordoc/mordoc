@@ -2,14 +2,14 @@
    OPERATION PAGE TOKENS
    ============================================================ */
 :root {
-  --operation-rail-width:      420px;
-  --operation-max-width:       48rem; /* max-w-3xl, for the description only */
+  --operation-rail-width: 420px;
+  --operation-max-width: 48rem; /* max-w-3xl, for the description only */
   /* Deliberately wider than the guide page's reading column + TOC rail
      (80rem): the page splits into fields and code-sample columns, so it
      uses more of a wide screen. Beyond that width the box is centered, so
      its left edge no longer lines up with guide pages. The footer matches
      this width — see .footerArea. */
-  --operation-page-max-width:  90rem;
+  --operation-page-max-width: 90rem;
 }
 
 /* ── Content container ─────────────────────────────────────

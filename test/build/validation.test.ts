@@ -29,7 +29,9 @@ function build(dir: string): BuildResult {
 
 /** Reads the problems a test site is expected to report, one per line, whatever the line endings. */
 function expectedProblems(dir: string): string[] {
-  return readFileSync(path.join(dir, 'expected.txt'), 'utf-8').split(/\r?\n/).filter((line) => line !== '');
+  return readFileSync(path.join(dir, 'expected.txt'), 'utf-8')
+    .split(/\r?\n/)
+    .filter((line) => line !== '');
 }
 
 // Sorted, so the order in which Mordoc reports the problems doesn't matter.

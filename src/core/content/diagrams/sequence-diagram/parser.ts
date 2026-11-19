@@ -52,9 +52,7 @@ const ACTOR_LINE = new RegExp(
   `^actor\\s+(${IDENTIFIER})(?:\\s+as\\s+"([^"]*)")?(?:\\s+icon=(\\S+))?\\s*$`,
 );
 
-const MESSAGE_LINE = new RegExp(
-  `^(${IDENTIFIER})\\s*(-->|->)\\s*(${IDENTIFIER})\\s*:\\s*(.+)$`,
-);
+const MESSAGE_LINE = new RegExp(`^(${IDENTIFIER})\\s*(-->|->)\\s*(${IDENTIFIER})\\s*:\\s*(.+)$`);
 
 export function parse(content: string): SequenceDiagramAst {
   // A Map (not an array) so re-declaring an already auto-registered actor
@@ -94,7 +92,10 @@ export function parse(content: string): SequenceDiagramAst {
       const [, from, arrow, to, text] = messageMatch;
       ensureActor(from);
       ensureActor(to);
-      const lines = text.trim().split('\\n').map((textLine) => textLine.trim());
+      const lines = text
+        .trim()
+        .split('\\n')
+        .map((textLine) => textLine.trim());
       messages.push({ from, to, lines, style: arrow === '-->' ? 'dashed' : 'solid' });
       continue;
     }

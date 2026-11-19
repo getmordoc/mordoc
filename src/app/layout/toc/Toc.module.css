@@ -5,8 +5,8 @@
    consistent keyboard-navigation accessibility across the app.
    ============================================================ */
 :root {
-  --toc-link-hover-fg:      var(--accent-emphasis);
-  --toc-link-active-fg:     var(--accent-emphasis);
+  --toc-link-hover-fg: var(--accent-emphasis);
+  --toc-link-active-fg: var(--accent-emphasis);
   --toc-link-active-border: var(--accent-emphasis);
 }
 
@@ -49,10 +49,18 @@
 }
 
 /* Indentation by heading level */
-.link[data-level="3"] { padding-left: 28px; }
-.link[data-level="4"] { padding-left: 36px; }
-.link[data-level="5"] { padding-left: 44px; }
-.link[data-level="6"] { padding-left: 52px; }
+.link[data-level="3"] {
+  padding-left: 28px;
+}
+.link[data-level="4"] {
+  padding-left: 36px;
+}
+.link[data-level="5"] {
+  padding-left: 44px;
+}
+.link[data-level="6"] {
+  padding-left: 52px;
+}
 
 .link:hover {
   color: var(--toc-link-hover-fg);
