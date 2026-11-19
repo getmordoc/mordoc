@@ -10,7 +10,7 @@
  * registered in ArticlePage.tsx's and LandingPage.tsx's components maps.
  */
 
-import React from 'react';
+import type React from 'react';
 import styles from './Callout.module.css';
 
 interface CalloutProps {

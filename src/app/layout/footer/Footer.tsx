@@ -38,7 +38,7 @@ function parseFooterLine(line: string): FooterRun[] {
     if (index > lastIndex) {
       runs.push({ text: line.slice(lastIndex, index) });
     }
-    runs.push({ text: match[1]!, path: match[2] });
+    runs.push({ text: match[1], path: match[2] });
     lastIndex = index + match[0].length;
   }
   if (lastIndex < line.length) {
@@ -121,7 +121,7 @@ export function Footer() {
     <footer className={styles.footer} data-pagefind-ignore>
       <div className={styles.columns}>
         {ZONES.map((zone, i) => (
-          <FooterColumn key={zone} lines={columns[i]!} />
+          <FooterColumn key={zone} lines={columns[i]} />
         ))}
       </div>
     </footer>

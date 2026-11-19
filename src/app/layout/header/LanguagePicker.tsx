@@ -144,6 +144,7 @@ export function LanguagePicker({ languages, currentLang, onChange }: LanguagePic
   return (
     <div className={styles.wrapper} ref={ref}>
       <button
+        type="button"
         className={styles.trigger}
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
@@ -157,10 +158,13 @@ export function LanguagePicker({ languages, currentLang, onChange }: LanguagePic
       </button>
 
       {open && (
+        // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
         <ul className={styles.dropdown} role="listbox" aria-label={t.nav.selectLanguageLabel}>
           {languages.map((lang) => (
+            // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
             <li
               key={lang}
+              // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
               role="option"
               aria-selected={lang === currentLang}
               className={`${styles.option}${lang === currentLang ? ` ${styles.optionActive}` : ''}`}

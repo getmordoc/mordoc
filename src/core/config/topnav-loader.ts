@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import * as yaml from 'js-yaml';
-import type { TopnavConfig, TopnavItem, ResolvedTopnavConfig } from '../../types/navigation.js';
+import type { TopnavConfig, ResolvedTopnavConfig } from '../../types/navigation.js';
 import { loadSidenavFile } from './sidenav-loader.js';
 
 const NAV_DIR = join('config', 'navigation');

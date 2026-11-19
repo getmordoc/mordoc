@@ -95,6 +95,8 @@ function WebhookPayloadPanel({ requests }: { requests: ExampleView[] }) {
  */
 export function RequestExamplePanel({ view }: { view: OperationView }) {
   const requests = view.examples.filter((e) => e.kind === 'request');
+  const [activeLanguage, setActiveLanguage] = useState(0);
+  const [activeExample, setActiveExample] = useState(0);
 
   // A webhook has no code sample to select a language for — it's delivered
   // to the integrator, never called — so it gets the raw-JSON-only card
@@ -102,8 +104,6 @@ export function RequestExamplePanel({ view }: { view: OperationView }) {
   if (view.isWebhook) return <WebhookPayloadPanel requests={requests} />;
 
   const languages = [...new Set(view.samples.map((s) => s.language))];
-  const [activeLanguage, setActiveLanguage] = useState(0);
-  const [activeExample, setActiveExample] = useState(0);
 
   if (languages.length === 0) return null;
 

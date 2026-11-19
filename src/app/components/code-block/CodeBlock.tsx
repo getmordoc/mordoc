@@ -117,6 +117,7 @@ export function CodeBlock({ language = '', content = '' }: CodeBlockProps) {
         >
           {copied ? (
             <svg
+              aria-hidden="true"
               width="16"
               height="16"
               viewBox="0 0 24 24"
@@ -133,6 +134,7 @@ export function CodeBlock({ language = '', content = '' }: CodeBlockProps) {
             </svg>
           ) : (
             <svg
+              aria-hidden="true"
               width="16"
               height="16"
               viewBox="0 0 24 24"

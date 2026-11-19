@@ -91,6 +91,7 @@ export function Header({ sidenavOpen, onMenuToggle, onSearchOpen, showMenu = tru
         <div className={styles.leftSection}>
           {showMenu && (
             <button
+              type="button"
               className={styles.menuBtn}
               onClick={onMenuToggle}
               aria-label={sidenavOpen ? t.nav.closeMenu : t.nav.openMenu}

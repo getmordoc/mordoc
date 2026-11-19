@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import type React from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router';
 import { useMordocData } from '../../data-context.js';
 import {
@@ -99,13 +100,14 @@ function SidenavNode({
 
   // Variant 2 — linked group: whole row navigates + toggles as one unit
   if (item.path && item.children) {
+    const path = item.path;
     function handleLinkedGroupClick(e: React.MouseEvent<HTMLAnchorElement>) {
       e.preventDefault();
       if (isLabelActive && open) {
         setOpen(false);
       } else {
         setOpen(true);
-        if (!isLabelActive) navigate(item.path!);
+        if (!isLabelActive) navigate(path);
       }
     }
 
@@ -137,6 +139,7 @@ function SidenavNode({
   return (
     <li className={styles.menuItem}>
       <button
+        type="button"
         className={styles.groupLabelTrigger}
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}

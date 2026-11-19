@@ -206,6 +206,10 @@
   color: #a626a4;
 }
 
+:global(.token.entity) {
+  cursor: help;
+}
+
 :global(.dark) :global(.token.operator),
 :global(.dark) :global(.token.entity),
 :global(.dark) :global(.token.url),
@@ -254,8 +258,4 @@
 
 :global(.token.italic) {
   font-style: italic;
-}
-
-:global(.token.entity) {
-  cursor: help;
 }

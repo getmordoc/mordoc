@@ -44,11 +44,6 @@
   transform: translateY(-1px);
 }
 
-.linked:hover .arrow {
-  color: var(--accent-emphasis);
-  transform: translateX(3px);
-}
-
 /* ── Image variant ───────────────────────────────────────────── */
 
 .imageWrap {
@@ -130,6 +125,11 @@
   transition:
     color 0.15s ease,
     transform 0.15s ease;
+}
+
+.linked:hover .arrow {
+  color: var(--accent-emphasis);
+  transform: translateX(3px);
 }
 
 /* ── Description ─────────────────────────────────────────────── */

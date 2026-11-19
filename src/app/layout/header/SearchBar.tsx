@@ -16,7 +16,7 @@ export function SearchBar({ onOpen }: { onOpen: () => void }) {
   }, []);
 
   return (
-    <button className={styles.searchBar} onClick={onOpen}>
+    <button type="button" className={styles.searchBar} onClick={onOpen}>
       <svg
         className={styles.icon}
         width="16"

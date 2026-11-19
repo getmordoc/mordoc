@@ -60,7 +60,7 @@ function buildEntry(
       : withoutExt.replace(/\/index$/, '').split('/')
     : withoutExt.split('/');
 
-  const slug = isIndex ? 'index' : segments[segments.length - 1]!;
+  const slug = isIndex ? 'index' : segments[segments.length - 1];
 
   const prefix = language === defaultLanguage ? '' : `/${language}`;
   const routePath = segments.length === 0 ? prefix || '/' : `${prefix}/${segments.join('/')}`;

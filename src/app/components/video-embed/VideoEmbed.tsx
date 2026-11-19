@@ -101,6 +101,7 @@ export function VideoEmbed({ src, thumbnail, title, alt, aspectRatio }: VideoEmb
             )}
             <span className={styles.toggle}>
               <svg
+                aria-hidden="true"
                 width="20"
                 height="20"
                 viewBox="0 0 24 24"

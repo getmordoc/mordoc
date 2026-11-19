@@ -326,7 +326,7 @@ export async function runSsg(options: SsgRunnerOptions): Promise<void> {
       const relOut = path.relative(clientOutDir, outPath).replace(/\\/g, '/');
       console.log(`  ${routePath.padEnd(40)} → ${relOut}`);
     } else {
-      progress!.update(`laying out pages as static HTML... ${done}/${total}`);
+      progress?.update(`laying out pages as static HTML... ${done}/${total}`);
     }
   }
 

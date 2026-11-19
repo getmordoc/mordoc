@@ -89,7 +89,7 @@ function validateSidenavArray(raw: unknown, fileName: string): SidenavConfig {
  * Shared by both the standalone sidenav loader and the topnav loader.
  */
 export async function loadSidenavFile(filePath: string): Promise<SidenavConfig> {
-  const fileName = filePath.split(/[\\/]/).pop()!;
+  const fileName = filePath.split(/[\\/]/).pop() ?? filePath;
 
   let content: string;
   try {

@@ -238,6 +238,7 @@
   .linkedGroupLabel,
   .navLink,
   .chevron {
+    /* biome-ignore lint/complexity/noImportantStyles: reduced motion has to win over every transition */
     transition: none !important;
   }
 }

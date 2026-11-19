@@ -72,7 +72,7 @@ export function App() {
         : '/pagefind/pagefind.js';
       switchPagefind(indexPath);
     }
-  }, [currentLang]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [currentLang, language]);
 
   // Global Cmd/Ctrl+K shortcut to open search
   useEffect(() => {

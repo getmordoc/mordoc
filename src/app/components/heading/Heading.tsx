@@ -13,7 +13,8 @@
  * core/content/schema/nodes/heading.ts.
  */
 
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import { useUiStrings } from '../../i18n/useUiStrings.js';
 import styles from './Heading.module.css';
 

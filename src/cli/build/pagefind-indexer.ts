@@ -59,7 +59,7 @@ export async function runPagefindIndexer(
     const step = verbose ? null : beginStep('building search index');
     await buildIndex(distDir, ['**/*.html'], path.join(distDir, 'pagefind'));
     if (verbose) console.log('  pagefind index → dist/pagefind/');
-    else step!.done('search index · 1 language');
+    else step?.done('search index · 1 language');
     return;
   }
 

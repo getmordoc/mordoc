@@ -13,7 +13,7 @@
  * LandingPage.tsx's components maps.
  */
 
-import React from 'react';
+import type React from 'react';
 import styles from './CardGrid.module.css';
 
 interface CardGridProps {

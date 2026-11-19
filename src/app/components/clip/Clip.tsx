@@ -77,6 +77,7 @@ export function Clip({ src, thumbnail, title, alt }: ClipProps) {
           >
             {isPlaying ? (
               <svg
+                aria-hidden="true"
                 width="20"
                 height="20"
                 viewBox="0 0 24 24"
@@ -88,6 +89,7 @@ export function Clip({ src, thumbnail, title, alt }: ClipProps) {
               </svg>
             ) : (
               <svg
+                aria-hidden="true"
                 width="20"
                 height="20"
                 viewBox="0 0 24 24"

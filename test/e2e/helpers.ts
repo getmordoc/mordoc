@@ -10,14 +10,14 @@ export { expect };
 
 export type Theme = 'light' | 'dark';
 
-export const test = base.extend<{ failOnPageErrors: void }>({
+export const test = base.extend<{ failOnPageErrors: undefined }>({
   // A component that throws in the browser is broken, even when its HTML,
   // which was rendered at build time, still looks right.
   failOnPageErrors: [
     async ({ page }, use) => {
       const errors: Error[] = [];
       page.on('pageerror', (error) => errors.push(error));
-      await use();
+      await use(undefined);
       expect(errors, 'JavaScript errors on the page').toEqual([]);
     },
     { auto: true },

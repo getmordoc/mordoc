@@ -16,7 +16,7 @@
  * core/content/schema/tags/section.ts and in LandingPage.tsx's components map.
  */
 
-import React from 'react';
+import type React from 'react';
 import styles from './Section.module.css';
 
 interface SectionProps {

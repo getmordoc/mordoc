@@ -81,6 +81,7 @@ function HeaderLinksOverflowMenu({ links }: { links: HeaderLink[] }) {
   return (
     <div className={styles.headerLinksMenu} ref={wrapperRef}>
       <button
+        type="button"
         className={styles.headerLinksMenuBtn}
         onClick={() => setOpen((o) => !o)}
         aria-label={t.nav.moreLinksLabel}
