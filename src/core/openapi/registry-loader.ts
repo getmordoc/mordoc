@@ -35,7 +35,7 @@ function validateEntry(raw: unknown, location: string): ApiRegistryEntry {
     }
   }
 
-  const id = obj['id'] as string;
+  const id = obj.id as string;
   if (!/^[a-zA-Z0-9_-]+$/.test(id)) {
     // The id names folders on disk (api/examples/<id>/, api/enrichment/<id>/),
     // is used as a lookup handle throughout, and is the default route segment
@@ -48,7 +48,7 @@ function validateEntry(raw: unknown, location: string): ApiRegistryEntry {
 
   return {
     id,
-    spec: obj['spec'] as string,
+    spec: obj.spec as string,
     routePrefix: optionalString(obj, 'routePrefix', location),
   };
 }
@@ -100,19 +100,19 @@ export async function loadApiRegistry(projectRoot: string): Promise<ApiRegistry 
     rawEntries = parsed;
   } else if (typeof parsed === 'object' && parsed !== null) {
     const obj = parsed as Record<string, unknown>;
-    if (obj['strict'] !== undefined) {
-      if (typeof obj['strict'] !== 'boolean') {
+    if (obj.strict !== undefined) {
+      if (typeof obj.strict !== 'boolean') {
         throw new Error(`${FILE_LABEL}: "strict" must be a boolean when provided.`);
       }
-      strict = obj['strict'];
+      strict = obj.strict;
     }
-    if (!Array.isArray(obj['specs'])) {
+    if (!Array.isArray(obj.specs)) {
       throw new Error(
         `${FILE_LABEL}: expected either a top-level array of API entries, or an ` +
           `object with a "specs" array.`,
       );
     }
-    rawEntries = obj['specs'];
+    rawEntries = obj.specs;
   } else {
     throw new Error(
       `${FILE_LABEL}: expected either a top-level array of API entries, or an ` +

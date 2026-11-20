@@ -11,7 +11,7 @@ import { buildScene } from '../../diagrams/build-scene.js';
  * false, the code block shows its `content` as written.
  */
 function codeBlockContent(node: Node, config: Config, process: boolean): string {
-  const raw = typeof node.attributes['content'] === 'string' ? node.attributes['content'] : '';
+  const raw = typeof node.attributes.content === 'string' ? node.attributes.content : '';
   const hasProcessedText = process && node.children.length > 0;
   if (!hasProcessedText) return raw;
 
@@ -53,8 +53,8 @@ export const fence: Schema = {
   },
   transform(node, config) {
     const attributes = node.transformAttributes(config);
-    const language = typeof attributes['language'] === 'string' ? attributes['language'] : '';
-    const content = codeBlockContent(node, config, attributes['process'] !== false);
+    const language = typeof attributes.language === 'string' ? attributes.language : '';
+    const content = codeBlockContent(node, config, attributes.process !== false);
 
     if (language.endsWith('-diagram')) {
       const scene = buildScene(language, content);

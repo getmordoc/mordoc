@@ -44,9 +44,7 @@ export const heading: Schema = {
 
     const slugger = (config.variables as { slugger?: Slugger } | undefined)?.slugger;
     const explicitId =
-      typeof attributes['id'] === 'string' && attributes['id'] !== ''
-        ? attributes['id']
-        : undefined;
+      typeof attributes.id === 'string' && attributes.id !== '' ? attributes.id : undefined;
 
     const text = extractText(children);
     const id = explicitId ?? (slugger ? slugger(text) : text);

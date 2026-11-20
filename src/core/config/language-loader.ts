@@ -11,17 +11,17 @@ function validateLanguageConfig(raw: unknown, defaultLanguage: string): Language
 
   const obj = raw as Record<string, unknown>;
 
-  if (!Array.isArray(obj['languages'])) {
+  if (!Array.isArray(obj.languages)) {
     throw new Error('language.json: "languages" must be an array.');
   }
 
-  if (obj['languages'].length === 0) {
+  if (obj.languages.length === 0) {
     throw new Error('language.json: "languages" array must not be empty.');
   }
 
   const seen = new Set<string>();
 
-  for (const [index, entry] of (obj['languages'] as unknown[]).entries()) {
+  for (const [index, entry] of (obj.languages as unknown[]).entries()) {
     if (typeof entry !== 'string' || entry === '') {
       throw new Error(`language.json: languages[${index}] must be a non-empty string.`);
     }

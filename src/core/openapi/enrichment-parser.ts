@@ -48,7 +48,7 @@ const FIELD_HEADING_LEVEL = 3;
 function astText(node: Node): string {
   let text = '';
   if (node.type === 'text' || node.type === 'code') {
-    const content = node.attributes['content'];
+    const content = node.attributes.content;
     if (typeof content === 'string') text += content;
   }
   for (const child of node.children) {
@@ -93,7 +93,7 @@ function transformNodes(nodes: Node[], config: Config): RenderableTreeNode | nul
  * reported by validation, as the enrichment config declares `badge` a string.
  */
 function readBadge(node: Node): Badge | null {
-  const raw = node.attributes['badge'];
+  const raw = node.attributes.badge;
   if (typeof raw !== 'string') return null;
   const text = raw.trim();
   if (text === '') return null;
@@ -134,7 +134,7 @@ function splitEntries(
 
   for (const child of children) {
     const isFieldHeading =
-      child.type === 'heading' && child.attributes['level'] === FIELD_HEADING_LEVEL;
+      child.type === 'heading' && child.attributes.level === FIELD_HEADING_LEVEL;
 
     if (isFieldHeading) {
       flush();
@@ -167,8 +167,8 @@ function splitEntries(
 
 /** Reads and validates the scope attributes on one `{% params %}` tag. */
 function readScope(node: Node, filePath: string, diagnostics: Diagnostics): ParamsScope | null {
-  const where = node.attributes['in'];
-  const status = node.attributes['status'];
+  const where = node.attributes.in;
+  const status = node.attributes.status;
 
   if (where === undefined || where === 'request') {
     if (status !== undefined) {
@@ -202,7 +202,7 @@ function readScope(node: Node, filePath: string, diagnostics: Diagnostics): Para
 
 /** Reads the block-level `mode`, defaulting to the append semantics of an operation note. */
 function readMode(node: Node, filePath: string, diagnostics: Diagnostics): 'append' | 'replace' {
-  const mode = node.attributes['mode'];
+  const mode = node.attributes.mode;
   if (mode === undefined) return 'append';
   if (mode === 'append' || mode === 'replace') return mode;
   diagnostics.warn(

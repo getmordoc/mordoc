@@ -23,20 +23,20 @@ function validateHeaderLinks(raw: unknown): HeaderLinksConfig {
 
     const obj = entry as Record<string, unknown>;
 
-    if (typeof obj['label'] !== 'string' || obj['label'] === '') {
+    if (typeof obj.label !== 'string' || obj.label === '') {
       throw new Error(
         `headernav.yaml: items[${index}].label is required and must be a non-empty string.`,
       );
     }
 
-    if (typeof obj['path'] !== 'string' || obj['path'] === '') {
+    if (typeof obj.path !== 'string' || obj.path === '') {
       throw new Error(
         `headernav.yaml: items[${index}].path is required and must be a non-empty string.`,
       );
     }
 
-    if (obj['variant'] !== undefined) {
-      if (typeof obj['variant'] !== 'string' || !VALID_VARIANTS.has(obj['variant'])) {
+    if (obj.variant !== undefined) {
+      if (typeof obj.variant !== 'string' || !VALID_VARIANTS.has(obj.variant)) {
         throw new Error(
           `headernav.yaml: items[${index}].variant must be 'link', 'primary', or 'secondary'.`,
         );

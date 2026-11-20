@@ -28,9 +28,9 @@ function shellQuote(value: string): string {
 
 /** The server the sample points at. Falls back to a placeholder host when the spec declares none. */
 function serverUrl(document: OpenApiDocument): string {
-  const servers = document['servers'];
+  const servers = document.servers;
   if (Array.isArray(servers) && servers.length > 0 && isObject(servers[0])) {
-    const url = (servers[0] as Record<string, unknown>)['url'];
+    const url = (servers[0] as Record<string, unknown>).url;
     if (typeof url === 'string' && url !== '') return url.replace(/\/+$/, '');
   }
   return 'https://api.example.com';

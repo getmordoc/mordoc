@@ -36,12 +36,12 @@ function extractToc(root: RenderableTreeNode): TocEntry[] {
 
     let level: number | null = null;
     if (node.name === 'Heading') {
-      const l = node.attributes['level'];
+      const l = node.attributes.level;
       if (typeof l === 'number' && l >= 2 && l <= 6) level = l;
     }
     if (level === null) return;
 
-    const id = typeof node.attributes['id'] === 'string' ? node.attributes['id'] : '';
+    const id = typeof node.attributes.id === 'string' ? node.attributes.id : '';
     if (id === '') return;
     const title = extractText(node.children).trim();
     if (title === '') return;

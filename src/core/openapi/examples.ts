@@ -48,34 +48,34 @@ function synthesize(
 
   const schema = mergeAllOf(document, resolved.schema);
 
-  if (schema['example'] !== undefined) return schema['example'];
-  if (Array.isArray(schema['examples']) && schema['examples'].length > 0) {
-    return schema['examples'][0];
+  if (schema.example !== undefined) return schema.example;
+  if (Array.isArray(schema.examples) && schema.examples.length > 0) {
+    return schema.examples[0];
   }
-  if (schema['default'] !== undefined) return schema['default'];
-  if (Array.isArray(schema['enum']) && schema['enum'].length > 0) return schema['enum'][0];
-  if (schema['const'] !== undefined) return schema['const'];
+  if (schema.default !== undefined) return schema.default;
+  if (Array.isArray(schema.enum) && schema.enum.length > 0) return schema.enum[0];
+  if (schema.const !== undefined) return schema.const;
 
   const nextOpen = new Set(open);
   if (resolved.pointer !== null) nextOpen.add(resolved.pointer);
 
-  const alternatives = schema['oneOf'] ?? schema['anyOf'];
+  const alternatives = schema.oneOf ?? schema.anyOf;
   if (Array.isArray(alternatives) && alternatives.length > 0 && isObject(alternatives[0])) {
     return synthesize(document, alternatives[0] as Schema, nextOpen, depth + 1);
   }
 
-  const rawType = schema['type'];
+  const rawType = schema.type;
   const type = Array.isArray(rawType)
     ? rawType.filter((t) => t !== 'null').map(String)[0]
     : typeof rawType === 'string'
       ? rawType
-      : isObject(schema['properties'])
+      : isObject(schema.properties)
         ? 'object'
         : undefined;
 
   switch (type) {
     case 'object': {
-      const properties = schema['properties'];
+      const properties = schema.properties;
       if (!isObject(properties)) return {};
       const out: Record<string, unknown> = {};
       for (const [name, raw] of Object.entries(properties)) {
@@ -85,7 +85,7 @@ function synthesize(
       return out;
     }
     case 'array': {
-      const items = schema['items'];
+      const items = schema.items;
       if (!isObject(items)) return [];
       return [synthesize(document, items, nextOpen, depth + 1)];
     }
@@ -97,7 +97,7 @@ function synthesize(
       return true;
     case 'null':
       return null;
-    case 'string':
+    // 'string', and a schema without a known type.
     default:
       return placeholderString(schema);
   }
@@ -105,7 +105,7 @@ function synthesize(
 
 /** A plausible string for a schema with no example of its own, guided by `format`. */
 function placeholderString(schema: Schema): string {
-  switch (schema['format']) {
+  switch (schema.format) {
     case 'date-time':
       return '2024-01-01T00:00:00Z';
     case 'date':
@@ -233,20 +233,20 @@ function specExamples(
   if (!mediaType) return [];
   const out: ExampleView[] = [];
 
-  const named = mediaType['examples'];
+  const named = mediaType.examples;
   if (isObject(named)) {
     for (const [key, raw] of Object.entries(named)) {
       if (!isObject(raw)) continue;
-      const value = raw['value'];
+      const value = raw.value;
       if (value === undefined) continue;
-      const label = typeof raw['summary'] === 'string' ? raw['summary'] : humanizeKey(key);
+      const label = typeof raw.summary === 'string' ? raw.summary : humanizeKey(key);
       out.push({ kind, key, label, status, json: value });
     }
   }
 
-  if (mediaType['example'] !== undefined) {
+  if (mediaType.example !== undefined) {
     const key = status ?? 'default';
-    out.push({ kind, key, label: humanizeKey(key), status, json: mediaType['example'] });
+    out.push({ kind, key, label: humanizeKey(key), status, json: mediaType.example });
   }
 
   return out;
@@ -301,25 +301,25 @@ export function mergeExamples(
   const existing = [...merged.values()];
   if (
     requestMedia &&
-    isObject(requestMedia['schema']) &&
+    isObject(requestMedia.schema) &&
     !existing.some((e) => e.kind === 'request')
   ) {
     put({
       kind: 'request',
       key: 'default',
       label: humanizeKey('example'),
-      json: synthesizeExample(document, requestMedia['schema'] as Schema),
+      json: synthesizeExample(document, requestMedia.schema as Schema),
     });
   }
   for (const { status, media } of responses) {
     const hasOne = existing.some((e) => e.kind === 'response' && e.status === status);
-    if (media && isObject(media['schema']) && !hasOne) {
+    if (media && isObject(media.schema) && !hasOne) {
       put({
         kind: 'response',
         key: status,
         label: status,
         status,
-        json: synthesizeExample(document, media['schema'] as Schema),
+        json: synthesizeExample(document, media.schema as Schema),
       });
     }
   }

@@ -91,10 +91,10 @@ export async function runApiStages(input: RunApiStagesInput): Promise<RunApiStag
   const knownOperations = new Set(operations.map((v) => `${v.specId}/${v.operationId}`));
   const knownSchemas = new Set<string>();
   for (const spec of specs) {
-    const components = spec.document['components'];
+    const components = spec.document.components;
     const schemas =
       typeof components === 'object' && components !== null
-        ? (components as Record<string, unknown>)['schemas']
+        ? (components as Record<string, unknown>).schemas
         : undefined;
     if (typeof schemas === 'object' && schemas !== null) {
       for (const name of Object.keys(schemas)) knownSchemas.add(`${spec.id}/${name}`);

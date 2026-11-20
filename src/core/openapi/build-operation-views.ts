@@ -88,8 +88,8 @@ function collectOperations(spec: ResolvedSpec, diagnostics: Diagnostics): Operat
   const out: OperationSource[] = [];
   const seen = new Map<string, string>();
 
-  collectFromItemMap(spec, spec.document['paths'], false, out, seen, diagnostics);
-  collectFromItemMap(spec, spec.document['webhooks'], true, out, seen, diagnostics);
+  collectFromItemMap(spec, spec.document.paths, false, out, seen, diagnostics);
+  collectFromItemMap(spec, spec.document.webhooks, true, out, seen, diagnostics);
 
   return out;
 }
@@ -114,8 +114,8 @@ function collectFromItemMap(
     if (!isObject(rawItem)) continue;
     const item = resolveSchema(spec.document, rawItem).schema;
 
-    const pathLevelParameters = Array.isArray(item['parameters'])
-      ? item['parameters'].filter(isObject)
+    const pathLevelParameters = Array.isArray(item.parameters)
+      ? item.parameters.filter(isObject)
       : [];
 
     for (const method of HTTP_METHODS) {
@@ -130,7 +130,7 @@ function collectFromItemMap(
         ? `webhook ${method.toUpperCase()} ${path}`
         : `${method.toUpperCase()} ${path}`;
 
-      const operationId = operation['operationId'];
+      const operationId = operation.operationId;
       if (typeof operationId !== 'string' || operationId === '') {
         diagnostics.fail(
           `${spec.id}: ${reference} has no "operationId". ` +
@@ -157,15 +157,15 @@ function collectFromItemMap(
 
 /** Merges path-level and operation-level parameters, the operation's own winning. */
 function effectiveParameters(document: OpenApiDocument, source: OperationSource): Schema[] {
-  const own = Array.isArray(source.operation['parameters'])
-    ? source.operation['parameters'].filter(isObject)
+  const own = Array.isArray(source.operation.parameters)
+    ? source.operation.parameters.filter(isObject)
     : [];
 
   const byIdentity = new Map<string, Schema>();
   for (const raw of [...source.pathLevelParameters, ...own]) {
     const parameter = resolveSchema(document, raw).schema;
-    const name = parameter['name'];
-    const location = parameter['in'];
+    const name = parameter.name;
+    const location = parameter.in;
     if (typeof name !== 'string' || typeof location !== 'string') continue;
     byIdentity.set(`${location}:${name}`, parameter);
   }
@@ -229,16 +229,16 @@ function buildParameters(opts: WalkOptions, parameters: Schema[]): (FieldView & 
   const deprecatedOverrides = new Set<string>();
 
   for (const parameter of parameters) {
-    const name = parameter['name'];
-    const location = parameter['in'];
+    const name = parameter.name;
+    const location = parameter.in;
     if (typeof name !== 'string' || typeof location !== 'string') continue;
 
-    properties[name] = isObject(parameter['schema']) ? (parameter['schema'] as Schema) : {};
+    properties[name] = isObject(parameter.schema) ? (parameter.schema as Schema) : {};
     locations.set(name, location);
-    if (parameter['required'] === true || location === 'path') required.push(name);
-    if (typeof parameter['description'] === 'string')
-      descriptionOverrides.set(name, parameter['description']);
-    if (parameter['deprecated'] === true) deprecatedOverrides.add(name);
+    if (parameter.required === true || location === 'path') required.push(name);
+    if (typeof parameter.description === 'string')
+      descriptionOverrides.set(name, parameter.description);
+    if (parameter.deprecated === true) deprecatedOverrides.add(name);
   }
 
   const synthetic: Schema = { type: 'object', properties, required };
@@ -483,16 +483,16 @@ function buildOne(input: BuildOneInput): OperationView {
   const parameters = buildParameters(walkOptions, effectiveParameters(document, source));
 
   // --- request body ---------------------------------------------------------
-  const rawBody = operation['requestBody'];
+  const rawBody = operation.requestBody;
   const body = isObject(rawBody) ? resolveSchema(document, rawBody).schema : null;
-  const requestMedia = body ? pickMediaType(body['content']) : null;
+  const requestMedia = body ? pickMediaType(body.content) : null;
   const requestFields =
-    requestMedia && isObject(requestMedia.media['schema'])
-      ? walkSchema(walkOptions, requestMedia.media['schema'] as Schema)
+    requestMedia && isObject(requestMedia.media.schema)
+      ? walkSchema(walkOptions, requestMedia.media.schema as Schema)
       : [];
 
   // --- responses ------------------------------------------------------------
-  const rawResponses = operation['responses'];
+  const rawResponses = operation.responses;
   const responses: {
     status: string;
     description: string;
@@ -504,16 +504,16 @@ function buildOne(input: BuildOneInput): OperationView {
     for (const [status, raw] of Object.entries(rawResponses)) {
       if (!isObject(raw)) continue;
       const response = resolveSchema(document, raw).schema;
-      const media = pickMediaType(response['content']);
+      const media = pickMediaType(response.content);
       responses.push({
         status,
         // A response's own description comes from the spec and is not
         // enrichable; its *fields* are.
-        description: typeof response['description'] === 'string' ? response['description'] : '',
+        description: typeof response.description === 'string' ? response.description : '',
         mediaType: media?.mediaType ?? null,
         fields:
-          media && isObject(media.media['schema'])
-            ? walkSchema(walkOptions, media.media['schema'] as Schema)
+          media && isObject(media.media.schema)
+            ? walkSchema(walkOptions, media.media.schema as Schema)
             : [],
         media: media?.media ?? null,
       });
@@ -563,8 +563,7 @@ function buildOne(input: BuildOneInput): OperationView {
   // Operation narrative has the same scope as the spec's `description`, so it
   // replaces it — consistent with the schema-level rule. The spec's `summary`
   // (page title and nav-label fallback) is untouched.
-  const specDescription =
-    typeof operation['description'] === 'string' ? operation['description'] : null;
+  const specDescription = typeof operation.description === 'string' ? operation.description : null;
   const narrative =
     enrichment?.narrative ?? (specDescription ? renderMarkdown(specDescription) : null);
 
@@ -624,13 +623,13 @@ function buildOne(input: BuildOneInput): OperationView {
     routePath,
     language: defaultLanguage,
     specId: spec.id,
-    summary: typeof operation['summary'] === 'string' ? operation['summary'] : operationId,
+    summary: typeof operation.summary === 'string' ? operation.summary : operationId,
     narrative,
     parameters: groupedParameters,
     requestBody: requestMedia
       ? {
           mediaType: requestMedia.mediaType,
-          required: body?.['required'] === true,
+          required: body?.required === true,
           fields: requestFields,
         }
       : null,
@@ -639,7 +638,7 @@ function buildOne(input: BuildOneInput): OperationView {
     samples,
   };
 
-  if (operation['deprecated'] === true) view.deprecated = true;
+  if (operation.deprecated === true) view.deprecated = true;
   if (isWebhook) view.isWebhook = true;
 
   return view;

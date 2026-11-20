@@ -28,7 +28,7 @@ function parseFrontmatter(raw: string | undefined, filePath: string): Frontmatte
 
   const obj = parsed as Record<string, unknown>;
 
-  if (typeof obj['title'] !== 'string' || obj['title'] === '') {
+  if (typeof obj.title !== 'string' || obj.title === '') {
     throw new Error(`${filePath}: frontmatter "title" is required and must be a non-empty string.`);
   }
 
@@ -59,7 +59,7 @@ export async function parseContent(contentMap: ContentMap): Promise<ParsedPage[]
     // validation results name the file without Mordoc adding it.
     const ast = Markdoc.parse(raw, entry.filePath);
     const frontmatter = parseFrontmatter(
-      ast.attributes['frontmatter'] as string | undefined,
+      ast.attributes.frontmatter as string | undefined,
       entry.filePath,
     );
 
