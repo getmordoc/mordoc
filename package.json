@@ -52,8 +52,8 @@
     "typescript": "^7.0.2"
   },
   "dependencies": {
-    "@markdoc/markdoc": "^0.5.12",
-    "@redocly/openapi-core": "^2.71.2",
+    "@markdoc/markdoc": "^0.5.13",
+    "@redocly/openapi-core": "^2.79.0",
     "@vitejs/plugin-react": "^6.1.1",
     "js-yaml": "^5.4.2",
     "pagefind": "^1.5.2",
