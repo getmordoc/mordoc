@@ -3,9 +3,9 @@
  * in a lightbox.
  *
  * Renders a <figure>; its image sits in a button, so the lightbox opens with
- * the mouse and with the keyboard. The lightbox is a full-screen overlay
- * mounted via a React portal on document.body. The portal approach avoids
- * z-index stacking context fights with the fixed header and sidebar.
+ * the mouse and with the keyboard. The lightbox is a full-screen modal
+ * <dialog> (see use-modal-dialog.ts), mounted via a React portal on
+ * document.body.
  *
  * SSR safety: the portal is only rendered when `isOpen` is true, which starts
  * as false — so document.body is never accessed during server-side rendering.
@@ -19,6 +19,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useUiStrings } from '../../i18n/useUiStrings.js';
+import { useModalDialog } from '../../use-modal-dialog.js';
 import styles from './AdvancedImage.module.css';
 
 interface AdvancedImageProps {
@@ -29,41 +30,63 @@ interface AdvancedImageProps {
 
 export function AdvancedImage({ src, alt = '', caption }: AdvancedImageProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const close = useCallback(() => setIsOpen(false), []);
   const t = useUiStrings();
 
-  const open = () => setIsOpen(true);
+  return (
+    <>
+      <figure className={styles.figure}>
+        <button
+          type="button"
+          className={styles.trigger}
+          onClick={() => setIsOpen(true)}
+          aria-haspopup="dialog"
+          // The image's alt text names the button; without one it would have no name.
+          aria-label={alt || t.image.previewFallbackLabel}
+        >
+          <img src={src} alt={alt} className={styles.image} />
+        </button>
+        {caption && <figcaption className={styles.caption}>{caption}</figcaption>}
+      </figure>
 
-  const close = useCallback(() => setIsOpen(false), []);
+      {isOpen &&
+        createPortal(
+          <ImageLightbox src={src} alt={alt} caption={caption} onClose={close} />,
+          document.body,
+        )}
+    </>
+  );
+}
 
-  // Escape key closes the lightbox; body scroll is locked while open
+/** The image larger, in a modal dialog; body scroll is locked while it is open. */
+function ImageLightbox({
+  src,
+  alt,
+  caption,
+  onClose,
+}: Required<Pick<AdvancedImageProps, 'src' | 'alt'>> & {
+  caption?: string;
+  onClose: () => void;
+}) {
+  const t = useUiStrings();
+  const dialogRef = useModalDialog(onClose);
+
   useEffect(() => {
-    if (!isOpen) return;
-
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close();
-    };
-
     document.body.style.overflow = 'hidden';
-    window.addEventListener('keydown', handleKey);
-
     return () => {
       document.body.style.overflow = '';
-      window.removeEventListener('keydown', handleKey);
     };
-  }, [isOpen, close]);
+  }, []);
 
-  const lightbox = (
-    // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
-    <div
+  return (
+    <dialog
+      ref={dialogRef}
       className={styles.overlay}
-      onClick={close}
-      role="dialog"
-      aria-modal="true"
       aria-label={alt || t.image.previewFallbackLabel}
     >
       <button
         className={styles.closeButton}
-        onClick={close}
+        onClick={onClose}
         aria-label={t.image.closePreviewLabel}
         type="button"
       >
@@ -85,25 +108,11 @@ export function AdvancedImage({ src, alt = '', caption }: AdvancedImageProps) {
         </svg>
       </button>
 
-      {/* biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility */}
-      <div className={styles.lightboxImageWrap} onClick={(e) => e.stopPropagation()}>
+      <div className={styles.lightboxImageWrap}>
         <img src={src} alt={alt} className={styles.lightboxImage} />
         {caption && <p className={styles.lightboxCaption}>{caption}</p>}
       </div>
-    </div>
-  );
-
-  return (
-    <>
-      <figure className={styles.figure}>
-        <button type="button" className={styles.trigger} onClick={open}>
-          <img src={src} alt={alt} className={styles.image} />
-        </button>
-        {caption && <figcaption className={styles.caption}>{caption}</figcaption>}
-      </figure>
-
-      {isOpen && createPortal(lightbox, document.body)}
-    </>
+    </dialog>
   );
 }
 

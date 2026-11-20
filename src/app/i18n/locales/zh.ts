@@ -43,6 +43,7 @@ export const zh: UiStrings = {
   },
 
   diagram: {
+    ariaLabel: '图表',
     previewAriaLabel: '图表预览',
     closePreviewLabel: '关闭图表预览',
     zoomOutLabel: '缩小',

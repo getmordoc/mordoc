@@ -2,12 +2,12 @@
  * Diagram — the one React component every diagram type renders through
  * (only sequence-diagram exists today; a future flowchart-diagram etc.
  * reuses this unchanged). Renders the Scene inline as SVG via SceneSvg.tsx,
- * and opens a fullscreen lightbox on click.
+ * in a button that opens a fullscreen lightbox, with the mouse and the keyboard.
  *
- * Mirrors Image.tsx's lightbox pattern exactly: useState + createPortal to
- * document.body + Escape-key close + body-scroll lock. See that file for the
- * SSR-safety reasoning (the portal only renders once `isOpen` flips true, so
- * document.body is never touched during server-side rendering).
+ * Mirrors AdvancedImage.tsx's lightbox: a modal <dialog> (see
+ * use-modal-dialog.ts) in a portal on document.body, rendered only once
+ * `isOpen` flips true, so document.body is never touched during server-side
+ * rendering.
  *
  * Wired via the `fence` node's transform in core/content/schema/nodes/fence.ts
  * (which produces a `Diagram` tag for any ```<type>-diagram fence), registered
@@ -26,6 +26,7 @@ import { createPortal } from 'react-dom';
 import { SceneSvg } from './SceneSvg.js';
 import type { Scene } from '../../../types/scene.js';
 import { useUiStrings } from '../../i18n/useUiStrings.js';
+import { useModalDialog } from '../../use-modal-dialog.js';
 import styles from './Diagram.module.css';
 
 interface DiagramProps {
@@ -38,6 +39,32 @@ const ZOOM_STEP = 0.25;
 
 export function Diagram({ scene }: DiagramProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const close = useCallback(() => setIsOpen(false), []);
+
+  return (
+    <>
+      <figure className={styles.figure}>
+        <button
+          type="button"
+          className={styles.trigger}
+          onClick={() => setIsOpen(true)}
+          aria-haspopup="dialog"
+        >
+          <SceneSvg scene={scene} />
+        </button>
+      </figure>
+
+      {isOpen && createPortal(<DiagramLightbox scene={scene} onClose={close} />, document.body)}
+    </>
+  );
+}
+
+/**
+ * The diagram larger, in a modal dialog, with zoom buttons and +/- keys; body
+ * scroll is locked while it is open. Each opening starts at 100%, freshly
+ * fitted, because the lightbox mounts anew.
+ */
+function DiagramLightbox({ scene, onClose }: DiagramProps & { onClose: () => void }) {
   // `zoom` is a multiplier on top of `fitScale`, not an absolute scale —
   // 100% means "the whole diagram fits the lightbox viewport", whatever
   // that takes, so small diagrams get scaled up and large ones scaled down.
@@ -45,15 +72,7 @@ export function Diagram({ scene }: DiagramProps) {
   const [fitScale, setFitScale] = useState<number | null>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const t = useUiStrings();
-
-  // Each open starts back at 100% (freshly re-fit) rather than remembering
-  // the last zoom level from a previous visit to the lightbox.
-  const open = () => {
-    setZoom(1);
-    setFitScale(null);
-    setIsOpen(true);
-  };
-  const close = useCallback(() => setIsOpen(false), []);
+  const dialogRef = useModalDialog(onClose);
 
   const zoomIn = useCallback(
     () => setZoom((z) => Math.min(ZOOM_MAX, +(z + ZOOM_STEP).toFixed(2))),
@@ -68,7 +87,6 @@ export function Diagram({ scene }: DiagramProps) {
   // exactly fill `wrapRef`'s content box (no padding of its own — see
   // Diagram.module.css) — measured live so it tracks viewport resizes too.
   useLayoutEffect(() => {
-    if (!isOpen) return;
     const node = wrapRef.current;
     if (!node) return;
 
@@ -83,17 +101,15 @@ export function Diagram({ scene }: DiagramProps) {
     const observer = new ResizeObserver(measure);
     observer.observe(node);
     return () => observer.disconnect();
-  }, [isOpen, scene.width, scene.height]);
+  }, [scene.width, scene.height]);
 
   const effectiveScale = (fitScale ?? 1) * zoom;
 
-  // Escape key closes the lightbox; +/- zoom; body scroll is locked while open.
+  // +/- zoom; Escape is the dialog's own. Body scroll is locked while open.
   useEffect(() => {
-    if (!isOpen) return;
-
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close();
-      else if (e.key === '+' || e.key === '=') zoomIn();
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.key === '+' || e.key === '=') zoomIn();
       else if (e.key === '-') zoomOut();
     };
 
@@ -104,20 +120,13 @@ export function Diagram({ scene }: DiagramProps) {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', handleKey);
     };
-  }, [isOpen, close, zoomIn, zoomOut]);
+  }, [zoomIn, zoomOut]);
 
-  const lightbox = (
-    // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
-    <div
-      className={styles.overlay}
-      onClick={close}
-      role="dialog"
-      aria-modal="true"
-      aria-label={t.diagram.previewAriaLabel}
-    >
+  return (
+    <dialog ref={dialogRef} className={styles.overlay} aria-label={t.diagram.previewAriaLabel}>
       <button
         className={styles.closeButton}
-        onClick={close}
+        onClick={onClose}
         aria-label={t.diagram.closePreviewLabel}
         type="button"
       >
@@ -139,8 +148,7 @@ export function Diagram({ scene }: DiagramProps) {
         </svg>
       </button>
 
-      {/* biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility */}
-      <div className={styles.zoomControls} onClick={(e) => e.stopPropagation()}>
+      <div className={styles.zoomControls}>
         <button
           className={styles.zoomButton}
           onClick={zoomOut}
@@ -162,31 +170,18 @@ export function Diagram({ scene }: DiagramProps) {
         </button>
       </div>
 
-      {/* biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility */}
       <div
         className={styles.lightboxViewport}
         // Drives the CSS aspect-ratio the viewport box sizes itself to (see
         // Diagram.module.css) so the box matches this diagram's own shape
         // instead of a fixed rectangle unrelated to it.
         style={{ '--diagram-ratio': scene.width / scene.height } as CSSProperties}
-        onClick={(e) => e.stopPropagation()}
       >
         <div ref={wrapRef} className={styles.lightboxDiagramWrap}>
           {fitScale !== null && <SceneSvg scene={scene} scale={effectiveScale} />}
         </div>
       </div>
-    </div>
-  );
-
-  return (
-    <>
-      {/* biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility */}
-      <figure className={styles.figure} onClick={open}>
-        <SceneSvg scene={scene} />
-      </figure>
-
-      {isOpen && createPortal(lightbox, document.body)}
-    </>
+    </dialog>
   );
 }
 

@@ -24,16 +24,30 @@
 /* ============================================================
    OVERLAY — full-screen backdrop
    ============================================================ */
+/* A modal <dialog> that fills the screen; the browser's own dialog box and
+   backdrop are reset, so it looks like a plain overlay. */
 .overlay {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 8vh 1rem 0;
+  border: 0;
+  color: inherit;
   background: var(--modal-overlay-bg);
-  display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding-top: 8vh;
-  padding-inline: 1rem;
+}
+
+.overlay[open] {
+  display: flex;
+}
+
+.overlay::backdrop {
+  background: transparent;
 }
 
 /* ============================================================
@@ -147,6 +161,8 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
+  color: inherit;
+  text-decoration: none;
   padding: 10px 12px;
   border-radius: var(--modal-result-radius);
   cursor: pointer;

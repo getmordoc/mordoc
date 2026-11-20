@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { useUiStrings } from '../../i18n/useUiStrings.js';
 import { formatUiString } from '../../i18n/format.js';
 import styles from './LanguagePicker.module.css';
@@ -118,37 +118,75 @@ function GlobeIcon() {
 export function LanguagePicker({ languages, currentLang, onChange }: LanguagePickerProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+  const listId = useId();
   const t = useUiStrings();
 
   useEffect(() => {
     if (!open) return;
 
-    function handlePointerDown(e: MouseEvent) {
+    // Opening puts the keyboard on the current language.
+    listRef.current?.querySelector<HTMLButtonElement>('[aria-current="true"]')?.focus();
+
+    // A click or the keyboard moving outside the picker closes the list.
+    function handleOutside(e: Event) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         setOpen(false);
       }
     }
 
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key === 'Escape') {
+        setOpen(false);
+        triggerRef.current?.focus();
+      }
     }
 
-    document.addEventListener('mousedown', handlePointerDown);
+    document.addEventListener('mousedown', handleOutside);
+    document.addEventListener('focusin', handleOutside);
     document.addEventListener('keydown', handleKeyDown);
     return () => {
-      document.removeEventListener('mousedown', handlePointerDown);
+      document.removeEventListener('mousedown', handleOutside);
+      document.removeEventListener('focusin', handleOutside);
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [open]);
 
+  // The arrow keys, Home and End move the keyboard between the languages.
+  function handleListKeyDown(e: React.KeyboardEvent<HTMLUListElement>) {
+    const buttons = [...e.currentTarget.querySelectorAll('button')];
+    const current = buttons.indexOf(document.activeElement as HTMLButtonElement);
+    const next =
+      e.key === 'ArrowDown'
+        ? Math.min(current + 1, buttons.length - 1)
+        : e.key === 'ArrowUp'
+          ? Math.max(current - 1, 0)
+          : e.key === 'Home'
+            ? 0
+            : e.key === 'End'
+              ? buttons.length - 1
+              : null;
+    if (next === null) return;
+    e.preventDefault();
+    buttons[next]?.focus();
+  }
+
   return (
     <div className={styles.wrapper} ref={ref}>
       <button
+        ref={triggerRef}
         type="button"
         className={styles.trigger}
         onClick={() => setOpen((o) => !o)}
-        aria-haspopup="listbox"
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            setOpen(true);
+          }
+        }}
         aria-expanded={open}
+        aria-controls={open ? listId : undefined}
         aria-label={formatUiString(t.nav.languageTriggerLabel, {
           language: getLanguageName(currentLang),
         })}
@@ -158,22 +196,27 @@ export function LanguagePicker({ languages, currentLang, onChange }: LanguagePic
       </button>
 
       {open && (
-        // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
-        <ul className={styles.dropdown} role="listbox" aria-label={t.nav.selectLanguageLabel}>
+        <ul
+          ref={listRef}
+          id={listId}
+          className={styles.dropdown}
+          aria-label={t.nav.selectLanguageLabel}
+          onKeyDown={handleListKeyDown}
+        >
           {languages.map((lang) => (
-            // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
-            <li
-              key={lang}
-              // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
-              role="option"
-              aria-selected={lang === currentLang}
-              className={`${styles.option}${lang === currentLang ? ` ${styles.optionActive}` : ''}`}
-              onClick={() => {
-                onChange(lang);
-                setOpen(false);
-              }}
-            >
-              {getLanguageName(lang)}
+            <li key={lang}>
+              <button
+                type="button"
+                aria-current={lang === currentLang ? 'true' : undefined}
+                className={`${styles.option}${lang === currentLang ? ` ${styles.optionActive}` : ''}`}
+                onClick={() => {
+                  onChange(lang);
+                  setOpen(false);
+                  triggerRef.current?.focus();
+                }}
+              >
+                {getLanguageName(lang)}
+              </button>
             </li>
           ))}
         </ul>

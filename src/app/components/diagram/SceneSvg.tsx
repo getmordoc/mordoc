@@ -11,6 +11,7 @@
 
 import { Fragment, useLayoutEffect, useRef, useState } from 'react';
 import type { Scene, Primitive } from '../../../types/scene.js';
+import { useUiStrings } from '../../i18n/useUiStrings.js';
 
 interface SceneSvgProps {
   scene: Scene;
@@ -22,12 +23,15 @@ interface SceneSvgProps {
 }
 
 export function SceneSvg({ scene, scale }: SceneSvgProps) {
+  const t = useUiStrings();
   const sizeStyle =
     scale !== undefined ? { width: scene.width * scale, height: scene.height * scale } : undefined;
 
   return (
-    // biome-ignore lint/a11y: keyboard and screen reader support follows in fix-accessibility
+    // aria-label names the diagram without role="img", which would hide the
+    // labels inside from screen readers, and without the tooltip a <title> shows.
     <svg
+      aria-label={t.diagram.ariaLabel}
       viewBox={`0 0 ${scene.width} ${scene.height}`}
       width={scene.width}
       height={scene.height}

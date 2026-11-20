@@ -63,16 +63,32 @@
 
 /* ── Lightbox overlay ────────────────────────────────────────── */
 
+/* A modal <dialog> that fills the screen; the browser's own dialog box and
+   backdrop are reset, so it looks like a plain overlay. */
 .overlay {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: inherit;
   background: var(--image-overlay-bg);
-  display: flex;
   align-items: center;
   justify-content: center;
   animation: overlayFadeIn 150ms ease forwards;
   cursor: zoom-out;
+}
+
+.overlay[open] {
+  display: flex;
+}
+
+.overlay::backdrop {
+  background: transparent;
 }
 
 @keyframes overlayFadeIn {

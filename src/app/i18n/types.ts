@@ -78,6 +78,8 @@ export interface UiStrings {
   };
 
   diagram: {
+    /** The diagram's aria-label, its name for screen readers. Original: "Diagram" */
+    ariaLabel: string;
     /** Lightbox dialog aria-label. Original: "Diagram preview" */
     previewAriaLabel: string;
     /** Lightbox close button aria-label. Original: "Close diagram preview" */

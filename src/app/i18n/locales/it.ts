@@ -43,6 +43,7 @@ export const it: UiStrings = {
   },
 
   diagram: {
+    ariaLabel: 'Diagramma',
     previewAriaLabel: 'Anteprima del diagramma',
     closePreviewLabel: 'Chiudi anteprima del diagramma',
     zoomOutLabel: 'Riduci zoom',
