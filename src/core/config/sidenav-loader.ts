@@ -13,57 +13,50 @@ function validateItem(item: unknown, location: string, fileName: string): Sidena
 
   const obj = item as Record<string, unknown>;
 
-  if (
-    obj['operation'] !== undefined &&
-    (typeof obj['operation'] !== 'string' || obj['operation'] === '')
-  ) {
+  if (obj.operation !== undefined && (typeof obj.operation !== 'string' || obj.operation === '')) {
     throw new Error(`${fileName}: ${location}.operation must be a non-empty string when provided.`);
   }
 
   // An `operation:` item may omit its label — the spec's `summary` fills in
   // when the reference is resolved, so the sidebar stays correct without the
   // nav file restating text the spec already carries.
-  const labelOptional = obj['operation'] !== undefined;
-  if (obj['label'] === undefined && labelOptional) {
+  const labelOptional = obj.operation !== undefined;
+  if (obj.label === undefined && labelOptional) {
     // Left for the resolver to fill.
-  } else if (typeof obj['label'] !== 'string' || obj['label'] === '') {
+  } else if (typeof obj.label !== 'string' || obj.label === '') {
     throw new Error(`${fileName}: ${location}.label is required and must be a non-empty string.`);
   }
 
-  if (obj['path'] !== undefined && (typeof obj['path'] !== 'string' || obj['path'] === '')) {
+  if (obj.path !== undefined && (typeof obj.path !== 'string' || obj.path === '')) {
     throw new Error(`${fileName}: ${location}.path must be a non-empty string when provided.`);
   }
 
-  if (obj['operation'] !== undefined && obj['path'] !== undefined) {
+  if (obj.operation !== undefined && obj.path !== undefined) {
     throw new Error(
       `${fileName}: ${location} declares both "operation" and "path". Use "operation" alone — ` +
         `its route is derived from the spec and the registry's content prefix.`,
     );
   }
 
-  if (obj['expanded'] !== undefined && typeof obj['expanded'] !== 'boolean') {
+  if (obj.expanded !== undefined && typeof obj.expanded !== 'boolean') {
     throw new Error(`${fileName}: ${location}.expanded must be a boolean when provided.`);
   }
 
-  if (obj['children'] !== undefined) {
-    if (!Array.isArray(obj['children'])) {
+  if (obj.children !== undefined) {
+    if (!Array.isArray(obj.children)) {
       throw new Error(`${fileName}: ${location}.children must be an array.`);
     }
 
-    if (obj['children'].length === 0) {
+    if (obj.children.length === 0) {
       throw new Error(`${fileName}: ${location}.children must not be empty when provided.`);
     }
 
-    for (const [i, child] of (obj['children'] as unknown[]).entries()) {
+    for (const [i, child] of (obj.children as unknown[]).entries()) {
       validateItem(child, `${location}.children[${i}]`, fileName);
     }
   }
 
-  if (
-    obj['path'] === undefined &&
-    obj['children'] === undefined &&
-    obj['operation'] === undefined
-  ) {
+  if (obj.path === undefined && obj.children === undefined && obj.operation === undefined) {
     throw new Error(
       `${fileName}: ${location} must have either "path", "operation", "children", or both.`,
     );

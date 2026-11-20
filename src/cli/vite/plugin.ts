@@ -151,7 +151,7 @@ function rewriteFontsForDev(fonts: ResolvedFonts): ResolvedFonts {
 
 /** True if `id` is a lazy per-route page module id (after prefix). */
 function isPageModuleId(id: string): boolean {
-  return id.startsWith(PAGE_MODULE_PREFIX + '/');
+  return id.startsWith(`${PAGE_MODULE_PREFIX}/`);
 }
 
 /** Extracts the routePath back out of a lazy page module id. */
@@ -326,7 +326,7 @@ export function generateFontFaceCss(fonts: ResolvedFonts): string {
     .map((slot) => generateFontFaceBlock(fonts[slot], slot))
     .filter((block) => block !== '');
   if (blocks.length === 0) return '';
-  return blocks.join('\n\n') + '\n';
+  return `${blocks.join('\n\n')}\n`;
 }
 
 /**

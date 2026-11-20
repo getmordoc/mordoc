@@ -55,7 +55,7 @@ function validateSiteConfig(raw: unknown): SiteConfig {
 
   // Validate baseUrl with the built-in URL parser — it handles all the edge
   // cases (missing protocol, invalid characters, etc.) so we don't have to.
-  const baseUrl = obj['baseUrl'] as string;
+  const baseUrl = obj.baseUrl as string;
   try {
     new URL(baseUrl);
   } catch {
@@ -67,25 +67,25 @@ function validateSiteConfig(raw: unknown): SiteConfig {
     throw new Error(`site.json: "baseUrl" must not end with a trailing slash. Got: "${baseUrl}"`);
   }
 
-  const meta = obj['metadata'];
+  const meta = obj.metadata;
   if (meta !== undefined) {
     if (typeof meta !== 'object' || meta === null || Array.isArray(meta)) {
       throw new Error('site.json: "metadata" must be an object.');
     }
     const metaObj = meta as Record<string, unknown>;
-    if (metaObj['ogImage'] !== undefined) {
-      if (typeof metaObj['ogImage'] !== 'string') {
+    if (metaObj.ogImage !== undefined) {
+      if (typeof metaObj.ogImage !== 'string') {
         throw new Error('site.json: "metadata.ogImage" must be a string.');
       }
-      if (!metaObj['ogImage'].startsWith('/')) {
+      if (!metaObj.ogImage.startsWith('/')) {
         throw new Error(
-          `site.json: "metadata.ogImage" must be a root-relative path starting with "/" (e.g. "/images/og-cover.png"). Got: "${metaObj['ogImage']}"`,
+          `site.json: "metadata.ogImage" must be a root-relative path starting with "/" (e.g. "/images/og-cover.png"). Got: "${metaObj.ogImage}"`,
         );
       }
     }
   }
 
-  const fonts = obj['fonts'];
+  const fonts = obj.fonts;
   if (fonts !== undefined) {
     if (typeof fonts !== 'object' || fonts === null || Array.isArray(fonts)) {
       throw new Error('site.json: "fonts" must be an object.');
@@ -108,7 +108,7 @@ function validateFontFace(face: unknown, slot: FontSlot): void {
     throw new Error(`site.json: "fonts.${slot}" must be an object.`);
   }
   const faceObj = face as Record<string, unknown>;
-  if (typeof faceObj['family'] !== 'string' || faceObj['family'] === '') {
+  if (typeof faceObj.family !== 'string' || faceObj.family === '') {
     throw new Error(
       `site.json: "fonts.${slot}.family" is required and must be a non-empty string.`,
     );
@@ -116,9 +116,9 @@ function validateFontFace(face: unknown, slot: FontSlot): void {
   // "family" gets interpolated into a generated @font-face/--font-sans CSS
   // string literal — quote or backslash characters would break that CSS,
   // so reject them here rather than let a typo produce silently-broken output.
-  if (/['"\\]/.test(faceObj['family'])) {
+  if (/['"\\]/.test(faceObj.family)) {
     throw new Error(
-      `site.json: "fonts.${slot}.family" must not contain quote or backslash characters. Got: "${faceObj['family']}"`,
+      `site.json: "fonts.${slot}.family" must not contain quote or backslash characters. Got: "${faceObj.family}"`,
     );
   }
   for (const field of ['regular', 'italic'] as const) {

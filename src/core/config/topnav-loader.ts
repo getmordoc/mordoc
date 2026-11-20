@@ -25,32 +25,32 @@ function validateTopnavConfig(raw: unknown): TopnavConfig {
 
     const obj = entry as Record<string, unknown>;
 
-    if (typeof obj['label'] !== 'string' || obj['label'] === '') {
+    if (typeof obj.label !== 'string' || obj.label === '') {
       throw new Error(
         `topnav.yaml: items[${index}].label is required and must be a non-empty string.`,
       );
     }
 
-    if (typeof obj['path'] !== 'string' || obj['path'] === '') {
+    if (typeof obj.path !== 'string' || obj.path === '') {
       throw new Error(
         `topnav.yaml: items[${index}].path is required and must be a non-empty string.`,
       );
     }
 
-    if (typeof obj['sidenav'] !== 'string' || obj['sidenav'] === '') {
+    if (typeof obj.sidenav !== 'string' || obj.sidenav === '') {
       throw new Error(
         `topnav.yaml: items[${index}].sidenav is required and must be a non-empty string.`,
       );
     }
 
-    if (!obj['sidenav'].endsWith('.yaml') && !obj['sidenav'].endsWith('.yml')) {
+    if (!obj.sidenav.endsWith('.yaml') && !obj.sidenav.endsWith('.yml')) {
       throw new Error(`topnav.yaml: items[${index}].sidenav must be a .yaml or .yml filename.`);
     }
 
-    if (seenSidenavs.has(obj['sidenav'] as string)) {
-      throw new Error(`topnav.yaml: duplicate sidenav reference "${obj['sidenav']}".`);
+    if (seenSidenavs.has(obj.sidenav as string)) {
+      throw new Error(`topnav.yaml: duplicate sidenav reference "${obj.sidenav}".`);
     }
-    seenSidenavs.add(obj['sidenav'] as string);
+    seenSidenavs.add(obj.sidenav as string);
   }
 
   return raw as TopnavConfig;

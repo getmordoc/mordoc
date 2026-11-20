@@ -163,7 +163,7 @@ function resolveActiveSidenav(
   if (navigation.kind === 'sidenav') return navigation.sidenav;
 
   const match = navigation.topnav
-    .filter((item) => samePath(contentPath, item.path) || contentPath.startsWith(item.path + '/'))
+    .filter((item) => samePath(contentPath, item.path) || contentPath.startsWith(`${item.path}/`))
     .sort((a, b) => b.path.length - a.path.length)[0];
 
   return match?.sidenav ?? [];

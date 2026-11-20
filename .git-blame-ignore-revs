@@ -1,4 +1,8 @@
-# Commits that only format code. GitHub skips them in the history of each line.
+# Commits that only change formatting or code style, not behavior. GitHub skips
+# them in the history of each line.
 
 # Format all files with Biome
 13ccbf522ceb80e88c89f124b6e405b6d04490ae
+
+# Read static keys with a dot and build strings with template literals
+a4366681d511f8bacbca2a9c341dadd21a06ac7d

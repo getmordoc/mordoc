@@ -298,7 +298,7 @@ async function writeSitemapAndRobots(data: MordocData, clientOutDir: string): Pr
 
   await fs.writeFile(path.join(clientOutDir, 'sitemap.xml'), sitemap, 'utf-8');
 
-  const robots = 'User-agent: *\n' + 'Allow: /\n' + '\n' + `Sitemap: ${baseUrl}/sitemap.xml\n`;
+  const robots = `User-agent: *\nAllow: /\n\nSitemap: ${baseUrl}/sitemap.xml\n`;
 
   await fs.writeFile(path.join(clientOutDir, 'robots.txt'), robots, 'utf-8');
 

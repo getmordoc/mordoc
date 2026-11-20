@@ -146,8 +146,8 @@ function resolve(document: OpenApiDocument, schema: Schema): Resolved {
   let pointer: string | null = null;
   const seen = new Set<string>();
 
-  while (typeof current['$ref'] === 'string') {
-    const ref = current['$ref'];
+  while (typeof current.$ref === 'string') {
+    const ref = current.$ref;
     if (seen.has(ref)) break;
     seen.add(ref);
     const target = resolvePointer(document, ref);
@@ -175,7 +175,7 @@ function resolve(document: OpenApiDocument, schema: Schema): Resolved {
  * condition declared in a base still derives on the composed view.
  */
 function mergeAllOf(document: OpenApiDocument, schema: Schema): Schema {
-  const allOf = schema['allOf'];
+  const allOf = schema.allOf;
   if (!Array.isArray(allOf)) return schema;
 
   const properties: Schema = {};
@@ -183,22 +183,22 @@ function mergeAllOf(document: OpenApiDocument, schema: Schema): Schema {
   const dependentRequired: Schema = {};
   const conditionals: Schema[] = [];
   const merged: Schema = { ...schema };
-  delete merged['allOf'];
+  delete merged.allOf;
 
   const absorb = (part: Schema) => {
     const flattened = mergeAllOf(document, part);
-    if (isObject(flattened['properties'])) {
-      Object.assign(properties, flattened['properties']);
+    if (isObject(flattened.properties)) {
+      Object.assign(properties, flattened.properties);
     }
-    if (Array.isArray(flattened['required'])) {
-      for (const name of flattened['required']) {
+    if (Array.isArray(flattened.required)) {
+      for (const name of flattened.required) {
         if (typeof name === 'string') required.add(name);
       }
     }
-    if (isObject(flattened['dependentRequired'])) {
-      Object.assign(dependentRequired, flattened['dependentRequired']);
+    if (isObject(flattened.dependentRequired)) {
+      Object.assign(dependentRequired, flattened.dependentRequired);
     }
-    if (isObject(flattened['if'])) conditionals.push(flattened);
+    if (isObject(flattened.if)) conditionals.push(flattened);
     for (const key of ['type', 'description', 'title', 'format'] as const) {
       if (merged[key] === undefined && flattened[key] !== undefined) {
         merged[key] = flattened[key];
@@ -213,10 +213,10 @@ function mergeAllOf(document: OpenApiDocument, schema: Schema): Schema {
   // The outer schema's own members are absorbed last so they win on collision.
   absorb({ ...schema, allOf: undefined });
 
-  if (Object.keys(properties).length > 0) merged['properties'] = properties;
-  if (required.size > 0) merged['required'] = [...required];
-  if (Object.keys(dependentRequired).length > 0) merged['dependentRequired'] = dependentRequired;
-  if (conditionals.length > 0) merged['__conditionals'] = conditionals;
+  if (Object.keys(properties).length > 0) merged.properties = properties;
+  if (required.size > 0) merged.required = [...required];
+  if (Object.keys(dependentRequired).length > 0) merged.dependentRequired = dependentRequired;
+  if (conditionals.length > 0) merged.__conditionals = conditionals;
 
   return merged;
 }
@@ -230,16 +230,16 @@ function mergeAllOf(document: OpenApiDocument, schema: Schema): Schema {
  * `{ properties: { payment_method: { const: card } } }` → "payment_method is card".
  */
 function describeCondition(ifSchema: Schema): string | null {
-  const properties = ifSchema['properties'];
+  const properties = ifSchema.properties;
   if (!isObject(properties)) return null;
 
   const clauses: string[] = [];
   for (const [name, raw] of Object.entries(properties)) {
     if (!isObject(raw)) continue;
-    if (raw['const'] !== undefined) {
-      clauses.push(`${name} is ${String(raw['const'])}`);
-    } else if (Array.isArray(raw['enum'])) {
-      const values = raw['enum'].map((v) => String(v));
+    if (raw.const !== undefined) {
+      clauses.push(`${name} is ${String(raw.const)}`);
+    } else if (Array.isArray(raw.enum)) {
+      const values = raw.enum.map((v) => String(v));
       clauses.push(
         values.length === 1 ? `${name} is ${values[0]}` : `${name} is one of ${values.join(', ')}`,
       );
@@ -262,12 +262,12 @@ function deriveConditions(schema: Schema): Map<string, string> {
   const out = new Map<string, string>();
 
   const applyIfThen = (host: Schema) => {
-    const ifSchema = host['if'];
-    const thenSchema = host['then'];
+    const ifSchema = host.if;
+    const thenSchema = host.then;
     if (!isObject(ifSchema) || !isObject(thenSchema)) return;
     const condition = describeCondition(ifSchema);
     if (!condition) return;
-    const required = thenSchema['required'];
+    const required = thenSchema.required;
     if (!Array.isArray(required)) return;
     for (const name of required) {
       if (typeof name === 'string' && !out.has(name)) out.set(name, condition);
@@ -275,14 +275,14 @@ function deriveConditions(schema: Schema): Map<string, string> {
   };
 
   applyIfThen(schema);
-  const nested = schema['__conditionals'];
+  const nested = schema.__conditionals;
   if (Array.isArray(nested)) {
     for (const host of nested) {
       if (isObject(host)) applyIfThen(host);
     }
   }
 
-  const dependent = schema['dependentRequired'];
+  const dependent = schema.dependentRequired;
   if (isObject(dependent)) {
     for (const [trigger, names] of Object.entries(dependent)) {
       if (!Array.isArray(names)) continue;
@@ -315,7 +315,7 @@ function pluralize(word: string): string {
 
 /** Renders a schema's type for display: "string", "object", "array of strings". */
 function typeName(document: OpenApiDocument, schema: Schema, refName: string | null): string {
-  const rawType = schema['type'];
+  const rawType = schema.type;
   const type = Array.isArray(rawType)
     ? (rawType.filter((t) => t !== 'null').map(String)[0] ?? 'null')
     : typeof rawType === 'string'
@@ -323,7 +323,7 @@ function typeName(document: OpenApiDocument, schema: Schema, refName: string | n
       : null;
 
   if (type === 'array') {
-    const items = schema['items'];
+    const items = schema.items;
     if (isObject(items)) {
       const resolvedItems = resolve(document, items);
       // `refName: null` even when the item is itself a named `$ref` — same
@@ -340,8 +340,8 @@ function typeName(document: OpenApiDocument, schema: Schema, refName: string | n
 
   if (type) return type;
   if (refName) return 'object';
-  if (isObject(schema['properties'])) return 'object';
-  if (Array.isArray(schema['oneOf']) || Array.isArray(schema['anyOf'])) return 'oneOf';
+  if (isObject(schema.properties)) return 'object';
+  if (Array.isArray(schema.oneOf) || Array.isArray(schema.anyOf)) return 'oneOf';
   return 'any';
 }
 
@@ -352,7 +352,7 @@ function linkTarget(
   refName: string | null,
 ): string | undefined {
   if (refName) return refName;
-  const items = schema['items'];
+  const items = schema.items;
   if (isObject(items)) {
     const resolvedItems = resolve(document, items);
     if (resolvedItems.name) return resolvedItems.name;
@@ -374,7 +374,7 @@ function resolveDescription(
   const authored = opts.lookupSchemaDoc(schemaName, relPath);
   if (authored) return { description: authored, source: 'schema-doc' };
 
-  const raw = schema['description'];
+  const raw = schema.description;
   return {
     description: typeof raw === 'string' ? opts.renderMarkdown(raw) : null,
     source: 'spec',
@@ -416,9 +416,9 @@ function buildField(
   // branch has looped — the item schema is what counts, not the array wrapper.
   // Missing this is how a self-referential `children: array<Node>` escapes the
   // cycle guard: the array itself carries no `$ref` for the guard to see.
-  const isArray = merged['type'] === 'array' && isObject(merged['items']);
+  const isArray = merged.type === 'array' && isObject(merged.items);
   const content = isArray
-    ? resolve(opts.document, merged['items'] as Schema)
+    ? resolve(opts.document, merged.items as Schema)
     : { schema: merged, name: resolved.name, pointer: resolved.pointer };
   const contentSchema = isArray ? mergeAllOf(opts.document, content.schema) : merged;
 
@@ -444,10 +444,10 @@ function buildField(
   const ref = linkTarget(opts.document, merged, resolved.name);
   if (ref) field.schemaRef = ref;
   if (requiredWhen) field.requiredWhen = requiredWhen;
-  if (Array.isArray(merged['enum'])) field.enum = merged['enum'].map((v) => String(v));
-  if (typeof merged['format'] === 'string') field.format = merged['format'];
-  if (merged['default'] !== undefined) field.default = merged['default'];
-  if (merged['deprecated'] === true) field.deprecated = true;
+  if (Array.isArray(merged.enum)) field.enum = merged.enum.map((v) => String(v));
+  if (typeof merged.format === 'string') field.format = merged.format;
+  if (merged.default !== undefined) field.default = merged.default;
+  if (merged.deprecated === true) field.deprecated = true;
 
   // A pointer already open on this branch means the schema refers back to
   // itself. Render a link to the ancestor instead of expanding, which is the
@@ -487,7 +487,7 @@ function buildVariants(
   schema: Schema,
   frame: Frame,
 ): { label: string; fields: FieldView[] }[] | undefined {
-  const raw = schema['oneOf'] ?? schema['anyOf'];
+  const raw = schema.oneOf ?? schema.anyOf;
   if (!Array.isArray(raw) || raw.length === 0) return undefined;
 
   const variants: { label: string; fields: FieldView[] }[] = [];
@@ -496,8 +496,7 @@ function buildVariants(
     const resolved = resolve(opts.document, member);
     const merged = mergeAllOf(opts.document, resolved.schema);
     const label =
-      resolved.name ??
-      (typeof merged['title'] === 'string' ? merged['title'] : `Option ${index + 1}`);
+      resolved.name ?? (typeof merged.title === 'string' ? merged.title : `Option ${index + 1}`);
     const variantFrame: Frame = {
       ...frame,
       schemaName: resolved.name ?? frame.schemaName,
@@ -510,12 +509,12 @@ function buildVariants(
 
 /** Walks an object schema's `properties` into field rows, in declaration order. */
 export function walkProperties(opts: WalkOptions, schema: Schema, frame: Frame): FieldView[] {
-  const properties = schema['properties'];
+  const properties = schema.properties;
   if (!isObject(properties)) return [];
 
   const required = new Set(
-    Array.isArray(schema['required'])
-      ? schema['required'].filter((n): n is string => typeof n === 'string')
+    Array.isArray(schema.required)
+      ? schema.required.filter((n): n is string => typeof n === 'string')
       : [],
   );
   const conditions = deriveConditions(schema);
