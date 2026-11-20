@@ -46,6 +46,15 @@
           "options": { "reportUnnecessaryDependencies": false }
         },
         "useHookAtTopLevel": "error"
+      },
+      // The usual JavaScript conventions: a dot for static keys, template
+      // literals for strings with values, no case that repeats the default.
+      "complexity": {
+        "useLiteralKeys": "warn",
+        "noUselessSwitchCase": "warn"
+      },
+      "style": {
+        "useTemplate": "warn"
       }
     }
   }
