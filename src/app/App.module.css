@@ -9,13 +9,13 @@
    App only reads them.
    ============================================================ */
 :root {
-  --header-area-bg: #ffffff;
+  --header-area-bg: #fafafa;
   --sidenav-area-bg: #ffffff;
   --sidenav-area-width: 16rem;
 }
 
 :global(.dark) {
-  --header-area-bg: rgba(18, 18, 18);
+  --header-area-bg: #272727;
   --sidenav-area-bg: rgba(18, 18, 18);
 }
 

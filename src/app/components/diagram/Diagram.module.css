@@ -31,10 +31,10 @@
   --diagram-label-bg: var(--color-surface);
   --diagram-lifeline: #757575;
   --diagram-arrow: #52514e;
-  --diagram-activation-1: #2a78d6; /* blue */
+  --diagram-activation-1: #1976d2; /* blue */
   --diagram-activation-2: #008300; /* green */
   --diagram-activation-3: #e87ba4; /* magenta */
-  --diagram-activation-4: #eda100; /* yellow */
+  --diagram-activation-4: #f9a825; /* yellow */
   --diagram-activation-5: #1baf7a; /* aqua */
   --diagram-activation-6: #eb6834; /* orange */
   --diagram-activation-7: #4a3aa7; /* violet */
@@ -46,8 +46,8 @@
   --diagram-arrow: #b0afaa;
   --diagram-activation-1: #5b9ce6; /* blue */
   --diagram-activation-2: #2fa32f; /* green */
-  --diagram-activation-3: #f096b8; /* magenta */
-  --diagram-activation-4: #f5b433; /* yellow */
+  --diagram-activation-3: #f48fb1; /* magenta */
+  --diagram-activation-4: #ffb300; /* yellow */
   --diagram-activation-5: #2ecf92; /* aqua */
   --diagram-activation-6: #f2825a; /* orange */
   --diagram-activation-7: #7d6ad6; /* violet */
