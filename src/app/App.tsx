@@ -9,6 +9,9 @@ import { detectCurrentLang } from './lang-utils.js';
 import type { LayoutKind } from './routes.js';
 import styles from './App.module.css';
 
+// Same breakpoint as the off-canvas drawer in App.module.css.
+const MOBILE_MEDIA_QUERY = '(max-width: 767.98px)';
+
 export function App() {
   const [sidenavOpen, setSidenavOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -25,6 +28,19 @@ export function App() {
   useEffect(() => {
     setSidenavOpen(false);
   }, [location.pathname]);
+
+  // The mobile drawer only exists below the breakpoint. Close it when the
+  // window grows past it (resizing, turning a tablet, zooming out), so its
+  // scroll lock below is released instead of leaving the page pinned.
+  useEffect(() => {
+    if (!sidenavOpen) return;
+    const mobile = window.matchMedia(MOBILE_MEDIA_QUERY);
+    const onChange = () => {
+      if (!mobile.matches) setSidenavOpen(false);
+    };
+    mobile.addEventListener('change', onChange);
+    return () => mobile.removeEventListener('change', onChange);
+  }, [sidenavOpen]);
 
   // Latest pathname, readable from the scroll-lock effect's cleanup without
   // making that effect re-run on every route change.
@@ -52,7 +68,7 @@ export function App() {
       style.left = prev.left;
       style.right = prev.right;
       // Only re-apply the old offset if the drawer closed WITHOUT navigating
-      // (toggle button / backdrop tap / same-page link). A real route change
+      // (toggle button / window widening / same-page link). A real route change
       // is <ScrollRestoration>'s job — forcing the old offset here would
       // fight it and can leave the new page stuck mid-scroll instead of at top.
       if (pathnameRef.current === openedPathname) {
@@ -113,13 +129,6 @@ export function App() {
             <MobileTopnavSection onNavigate={() => setSidenavOpen(false)} />
             <Sidenav onNavigate={() => setSidenavOpen(false)} />
           </aside>
-        )}
-        {!isLanding && sidenavOpen && (
-          <div
-            className={styles.overlay}
-            onClick={() => setSidenavOpen(false)}
-            aria-hidden="true"
-          />
         )}
         <div className={styles.contentArea}>
           {routerNav.state === 'loading' ? <Skeleton /> : <Outlet />}

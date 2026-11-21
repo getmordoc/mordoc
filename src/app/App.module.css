@@ -79,15 +79,6 @@
   min-width: 0;
 }
 
-/* ── Mobile overlay behind open sidenav ──────────────────── */
-.overlay {
-  position: fixed;
-  inset: 0;
-  top: var(--header-height);
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 35;
-}
-
 /* ════════════════════════════════════════════════════════════
    Responsive
    ════════════════════════════════════════════════════════════ */
@@ -95,7 +86,9 @@
 /* TOC visibility is handled in Content.module.css — internal to the
    content area. */
 
-/* Tablet / mobile — sidenav goes off-canvas */
+/* Tablet / mobile — sidenav goes off-canvas, full width. Keep this breakpoint
+   in sync with MOBILE_MEDIA_QUERY in App.tsx, which closes the drawer when
+   the window grows past it. */
 @media (max-width: 767.98px) {
   .sidenavArea {
     position: fixed;
@@ -110,11 +103,5 @@
 
   .sidenavAreaOpen {
     transform: translateX(0);
-  }
-
-  /* Full-width drawer fully occludes the scrim — nothing left "outside" to
-     click, so skip painting/hit-testing it under the sidenav. */
-  .overlay {
-    display: none;
   }
 }
