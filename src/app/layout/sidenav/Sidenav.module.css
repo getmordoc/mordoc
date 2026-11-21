@@ -11,20 +11,26 @@
   --sidenav-row-radius: 6px;
 
   --sidenav-fg: #383838;
-  --sidenav-fg-muted: #666666;
+  --sidenav-fg-muted: #616161;
   --sidenav-group-label-fg: rgba(56, 56, 56, 0.7);
-  --sidenav-hover-bg: #efefef;
+  --sidenav-hover-bg: #eeeeee;
   --sidenav-active-fg: var(--accent-emphasis);
   --sidenav-active-bg: var(--accent-subtle);
-  --sidenav-font-weight: 500;
+  --sidenav-font-weight: 400;
   --sidenav-active-font-weight: 600;
+  --sidenav-category-fg: var(--sidenav-fg);
+  --sidenav-category-font-weight: 600;
+  /* The line above each category: hidden by default (`none`), the space
+     stays. Set the style to `solid` (or `dashed`, `dotted`) to show it. */
+  --sidenav-category-divider-color: var(--color-border);
+  --sidenav-category-divider-style: none;
 }
 
 :global(.dark) {
-  --sidenav-fg: #d6d6d6;
+  --sidenav-fg: #e0e0e0;
   --sidenav-fg-muted: #9e9e9e;
   --sidenav-group-label-fg: rgba(214, 214, 214, 0.7);
-  --sidenav-hover-bg: #1f1f1f;
+  --sidenav-hover-bg: #1e1e1e;
 }
 
 /* ============================================================
@@ -65,7 +71,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  min-height: 36px;
+  min-height: 32px;
   padding: 6px 8px;
   margin-top: 10px;
   border-radius: var(--sidenav-row-radius);
@@ -106,7 +112,7 @@
   justify-content: space-between;
   gap: 8px;
   width: 100%;
-  min-height: 36px;
+  min-height: 32px;
   padding: 6px 8px;
   border-radius: var(--sidenav-row-radius);
   font-size: 14px;
@@ -135,6 +141,32 @@
 }
 
 /* ============================================================
+   CATEGORY — a top-level group of either variant: a larger title,
+   with space and an optional divider above it. Declared after both
+   variants so its font wins; .linkedGroupLabel.linkActive is more
+   specific, so a linked category's active color still wins.
+   ============================================================ */
+
+.category:not(:first-child) {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px var(--sidenav-category-divider-style) var(--sidenav-category-divider-color);
+}
+
+.menuItem.category > .groupLabelTrigger,
+.menuItem.category > .linkedGroupLabel {
+  margin-top: 0;
+}
+
+.categoryTitle {
+  font-size: 14px;
+  font-weight: var(--sidenav-category-font-weight);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--sidenav-category-fg);
+}
+
+/* ============================================================
    LEAF LINK — a menu entry with no children (also used by
    MobileTopnavSection's top navigation list). Matches group-label
    height/weight for visual consistency at any depth.
@@ -144,7 +176,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  min-height: 36px;
+  min-height: 32px;
   padding: 6px 8px;
   border-radius: var(--sidenav-row-radius);
   font-size: 14px;
@@ -165,6 +197,12 @@
   background: var(--sidenav-active-bg);
   color: var(--sidenav-active-fg);
   font-weight: var(--sidenav-active-font-weight);
+}
+
+/* A top-level page next to categories lines up with the pages inside them
+   (8px row padding + 16px group indent), so only category titles stand out. */
+.menu:has(> .category) > .menuItem:not(.category) > .navLink {
+  padding-left: 24px;
 }
 
 /* ============================================================
@@ -221,12 +259,12 @@
 
 .mobileTopnavDivider {
   border: none;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid #e0e0e0;
   margin: 16px 0 0;
 }
 
 :global(.dark) .mobileTopnavDivider {
-  border-top-color: #292929;
+  border-top-color: #272727;
 }
 
 /* ============================================================

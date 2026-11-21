@@ -1,0 +1,4 @@
+/* Show the thin line above each sidebar category. */
+:root {
+  --sidenav-category-divider-style: solid;
+}

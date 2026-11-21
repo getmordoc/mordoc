@@ -11,10 +11,10 @@
 :root {
   --method-fg: #fff;
   --method-get-color: #15803d;
-  --method-post-color: #1d63b5;
+  --method-post-color: #1565c0;
   --method-put-color: #b45309;
   --method-patch-color: #7c3aed;
-  --method-delete-color: #c22c2c;
+  --method-delete-color: #c62828;
   --method-default-color: #475569;
 }
 

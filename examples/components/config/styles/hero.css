@@ -1,8 +1,8 @@
-/* Hero background: light grey in light mode, dark grey in dark mode. */
+/* Hero background: Material Grey 100 in light mode, a Material dark surface in dark mode. */
 :root {
-  --hero-bg: #f1f2f0;
+  --hero-bg: #f5f5f5;
 }
 
 .dark {
-  --hero-bg: #24282b;
+  --hero-bg: #272727;
 }

@@ -1,3 +1,16 @@
+/* ============================================================
+   SKELETON TOKENS — grey bars with a lighter band moving across.
+   ============================================================ */
+:root {
+  --skeleton-bg: #eeeeee;
+  --skeleton-highlight: #fafafa;
+}
+
+:global(.dark) {
+  --skeleton-bg: #272727;
+  --skeleton-highlight: #383838;
+}
+
 /* ── Shimmer keyframe ────────────────────────────────────────── */
 
 @keyframes shimmer {
@@ -55,11 +68,12 @@
    regardless of the block's rendered width. */
 .block {
   border-radius: 4px;
+  background-color: var(--skeleton-bg);
   background-image: linear-gradient(
     90deg,
-    var(--color-surface) 0px,
-    var(--color-border) 80px,
-    var(--color-surface) 160px
+    var(--skeleton-bg) 0px,
+    var(--skeleton-highlight) 80px,
+    var(--skeleton-bg) 160px
   );
   background-size: 600px 100%;
   animation: shimmer 1.6s linear infinite;

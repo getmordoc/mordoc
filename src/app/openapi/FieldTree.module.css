@@ -6,13 +6,13 @@
      schema-ref and format labels are plain metadata and stay neutral gray. */
   --field-accent-color: var(--accent-emphasis);
   --field-code-bg: var(--color-surface);
-  --field-required-color: #c22c2c;
+  --field-required-color: #c62828;
 
   --badge-conditional-color: #b06d10;
 }
 
 :global(.dark) {
-  --field-required-color: #f07070;
+  --field-required-color: #e57373;
 
   --badge-conditional-color: #e6a94a;
 }

@@ -6,13 +6,13 @@
 
   --callout-note-accent: #47a3d1;
   --callout-warning-accent: #e6911a;
-  --callout-danger-accent: #d22d2d;
+  --callout-danger-accent: #d32f2f;
   --callout-tip-accent: #22a569;
 
   /* Subtle per-type background tints (light mode) */
   --callout-note-bg: color-mix(in oklch, #47a3d1 8%, white);
   --callout-warning-bg: color-mix(in oklch, #e6911a 8%, white);
-  --callout-danger-bg: color-mix(in oklch, #d22d2d 8%, white);
+  --callout-danger-bg: color-mix(in oklch, #d32f2f 8%, white);
   --callout-tip-bg: color-mix(in oklch, #22a569 8%, white);
 
   --callout-title-color: #0f172a;
@@ -21,12 +21,12 @@
 
 :global(.dark) {
   /* Subtle per-type background tints (dark mode) */
-  --callout-note-bg: color-mix(in oklch, #47a3d1 10%, #1a1a1a);
-  --callout-warning-bg: color-mix(in oklch, #e6911a 10%, #1a1a1a);
-  --callout-danger-bg: color-mix(in oklch, #d22d2d 10%, #1a1a1a);
-  --callout-tip-bg: color-mix(in oklch, #22a569 10%, #1a1a1a);
+  --callout-note-bg: color-mix(in oklch, #47a3d1 10%, #1e1e1e);
+  --callout-warning-bg: color-mix(in oklch, #e6911a 10%, #1e1e1e);
+  --callout-danger-bg: color-mix(in oklch, #d32f2f 10%, #1e1e1e);
+  --callout-tip-bg: color-mix(in oklch, #22a569 10%, #1e1e1e);
 
-  --callout-title-color: #f1f5f9;
+  --callout-title-color: #eceff1;
   --callout-body-color: #94a3b8;
 }
 

@@ -98,6 +98,11 @@ function SidenavNode({
     );
   }
 
+  // A top-level group is a category: a larger title, with space and an
+  // optional divider above it.
+  const isCategory = depth === 0;
+  const itemClassName = [styles.menuItem, isCategory && styles.category].filter(Boolean).join(' ');
+
   // Variant 2 — linked group: whole row navigates + toggles as one unit
   if (item.path && item.children) {
     const path = item.path;
@@ -112,16 +117,18 @@ function SidenavNode({
     }
 
     return (
-      <li className={styles.menuItem}>
+      <li className={itemClassName}>
         <a
           href={item.path}
           onClick={handleLinkedGroupClick}
           aria-expanded={open}
-          className={
-            isLabelActive
-              ? `${styles.linkedGroupLabel} ${styles.linkActive}`
-              : styles.linkedGroupLabel
-          }
+          className={[
+            styles.linkedGroupLabel,
+            isCategory && styles.categoryTitle,
+            isLabelActive && styles.linkActive,
+          ]
+            .filter(Boolean)
+            .join(' ')}
         >
           <span>{item.label}</span>
           <ChevronIcon open={open} />
@@ -137,10 +144,12 @@ function SidenavNode({
 
   // Variant 1 — non-linked group label, whole row toggles
   return (
-    <li className={styles.menuItem}>
+    <li className={itemClassName}>
       <button
         type="button"
-        className={styles.groupLabelTrigger}
+        className={[styles.groupLabelTrigger, isCategory && styles.categoryTitle]
+          .filter(Boolean)
+          .join(' ')}
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
       >

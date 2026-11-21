@@ -27,19 +27,19 @@
   /* Surfaces */
   --color-bg: #ffffff;
   --color-surface: #fafafa;
-  --color-border: #e5e5e5;
+  --color-border: #e0e0e0;
 
   /* Text */
-  --color-fg: #1c1c1c;
-  --color-content-fg: #2e2e2e;
+  --color-fg: #1e1e1e;
+  --color-content-fg: #424242;
   --color-fg-muted: #6b7280;
 
   /* Interaction */
-  --color-bg-hover: #f3f4f6;
+  --color-bg-hover: #f5f5f5;
 
   /* Accent — single configurable token; all other accent vars are derived.
      Users override --accent (and optionally dark) in config/styles/theme.css. */
-  --accent: #d64518;
+  --accent: #d84315;
   --accent-subtle: color-mix(in oklch, var(--accent) 8%, white);
   --accent-muted: color-mix(in oklch, var(--accent) 20%, white);
   --accent-emphasis: var(--accent);
@@ -47,7 +47,9 @@
 
   /* Typography */
   --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: ui-monospace, "Cascadia Code", "Fira Code", "Consolas", monospace;
+  /* Each system's own code font: Menlo on macOS, Consolas on Windows, the
+     system's default code font elsewhere (usually DejaVu Sans Mono on Linux). */
+  --font-mono: Menlo, Consolas, monospace;
 
   /* No shared shape/shadow scale here anymore: --radius-sm/md/lg and
      --shadow-sm/md used to live here, but shape is a per-component
@@ -61,11 +63,11 @@
 /* Dark mode overrides — global primitives only */
 .dark {
   --color-bg: #121212;
-  --color-surface: #0f0f0f;
+  --color-surface: #121212;
   --color-border: #2e2e2e;
 
   --color-fg: #e2e8f0;
-  --color-content-fg: rgb(214, 214, 214);
+  --color-content-fg: #e0e0e0;
   --color-fg-muted: #94a3b8;
 
   --color-bg-hover: #1e2432;

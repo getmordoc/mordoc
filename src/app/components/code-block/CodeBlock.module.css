@@ -1,12 +1,45 @@
 /* ============================================================
    CODE BLOCK TOKENS
    ============================================================ */
+/* Light code under a darker grey title bar in light mode; dark in dark mode.
+   The highlight colors follow the code background of each mode. */
 :root {
-  --cb-bg: var(--color-surface);
+  --cb-bg: #eeeeee;
+  --cb-code-bg: #fafafa;
+  --cb-fg: #1f2328;
+  --cb-fg-muted: #59636e;
+  --cb-hover-bg: rgba(0, 0, 0, 0.06);
   --cb-border: var(--color-border);
+
+  --cb-token-comment: #59636e;
+  --cb-token-punctuation: #1f2328;
+  --cb-token-constant: #0550ae;
+  --cb-token-string: #0a3069;
+  --cb-token-operator: #8250df;
+  --cb-token-keyword: #c62828;
+  --cb-token-function: #673ab7;
+  --cb-token-variable: #953800;
+
   --cb-radius: 10px;
   --cb-copy-button-radius: 4px;
   --cb-max-height: 480px;
+}
+
+:global(.dark) {
+  --cb-bg: #121212;
+  --cb-code-bg: #1e1e1e;
+  --cb-fg: #eceff1;
+  --cb-fg-muted: #a1a1aa;
+  --cb-hover-bg: rgba(255, 255, 255, 0.08);
+
+  --cb-token-comment: #8b949e;
+  --cb-token-punctuation: #cdd9e5;
+  --cb-token-constant: #79c0ff;
+  --cb-token-string: #7ee787;
+  --cb-token-operator: #d2a8ff;
+  --cb-token-keyword: #ff7b72;
+  --cb-token-function: #d29922;
+  --cb-token-variable: #ffa657;
 }
 
 /* ── Wrapper ────────────────────────────────────────────────── */
@@ -43,7 +76,7 @@
 .language {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--color-fg-muted);
+  color: var(--cb-fg-muted);
   font-family: var(--font-mono);
 }
 
@@ -57,7 +90,7 @@
   height: 1.75rem;
   background: transparent;
   border: none;
-  color: var(--color-fg-muted);
+  color: var(--cb-fg-muted);
   cursor: pointer;
   border-radius: var(--cb-copy-button-radius);
   transition:
@@ -66,8 +99,8 @@
 }
 
 .copyButton:hover {
-  background-color: var(--color-bg-hover);
-  color: var(--color-fg);
+  background-color: var(--cb-hover-bg);
+  color: var(--cb-fg);
 }
 
 .copyButton:active {
@@ -79,7 +112,8 @@
 .pre {
   margin: 0;
   padding: 1.25rem 1.5rem;
-  background-color: var(--color-bg);
+  background-color: var(--cb-code-bg);
+  color: var(--cb-fg);
   overflow-x: auto;
   overflow-y: auto;
   max-height: var(--cb-max-height);
@@ -89,8 +123,8 @@
   flex: 1 1 auto;
   min-height: 0;
   font-family: var(--font-mono);
-  font-size: 0.875rem;
-  line-height: 1.7;
+  font-size: 13px;
+  line-height: 19px;
 }
 
 .pre code {
@@ -100,7 +134,7 @@
   font-size: inherit;
   font-family: inherit;
   font-weight: 400;
-  color: var(--color-fg);
+  color: var(--cb-fg);
   border-radius: 0;
 }
 
@@ -108,15 +142,16 @@
 .plain {
   margin: 1.25rem 0;
   padding: 1.25rem 1.5rem;
-  background: var(--color-surface);
+  background: var(--cb-code-bg);
+  color: var(--cb-fg);
   border: 1px solid var(--cb-border);
   border-radius: var(--cb-radius);
   overflow-x: auto;
   overflow-y: auto;
   max-height: var(--cb-max-height);
   font-family: var(--font-mono);
-  font-size: 0.875rem;
-  line-height: 1.7;
+  font-size: 13px;
+  line-height: 19px;
 }
 
 .plain code {
@@ -126,34 +161,23 @@
   font-size: inherit;
   font-family: inherit;
   font-weight: 400;
-  color: var(--color-fg);
+  color: var(--cb-fg);
 }
 
 /* ============================================================
    PRISM TOKEN COLORS
-   Light values are default; dark values under .dark
+   Set by the --cb-token-* settings above, per mode.
    ============================================================ */
 
 :global(.token.comment),
 :global(.token.prolog),
 :global(.token.doctype),
 :global(.token.cdata) {
-  color: #6a737d;
-}
-
-:global(.dark) :global(.token.comment),
-:global(.dark) :global(.token.prolog),
-:global(.dark) :global(.token.doctype),
-:global(.dark) :global(.token.cdata) {
-  color: #8b949e;
+  color: var(--cb-token-comment);
 }
 
 :global(.token.punctuation) {
-  color: #383a42;
-}
-
-:global(.dark) :global(.token.punctuation) {
-  color: #cdd9e5;
+  color: var(--cb-token-punctuation);
 }
 
 :global(.token.namespace) {
@@ -167,17 +191,7 @@
 :global(.token.constant),
 :global(.token.symbol),
 :global(.token.deleted) {
-  color: #0184bc;
-}
-
-:global(.dark) :global(.token.property),
-:global(.dark) :global(.token.tag),
-:global(.dark) :global(.token.boolean),
-:global(.dark) :global(.token.number),
-:global(.dark) :global(.token.constant),
-:global(.dark) :global(.token.symbol),
-:global(.dark) :global(.token.deleted) {
-  color: #79c0ff;
+  color: var(--cb-token-constant);
 }
 
 :global(.token.selector),
@@ -186,16 +200,7 @@
 :global(.token.char),
 :global(.token.builtin),
 :global(.token.inserted) {
-  color: #50a14f;
-}
-
-:global(.dark) :global(.token.selector),
-:global(.dark) :global(.token.attr-name),
-:global(.dark) :global(.token.string),
-:global(.dark) :global(.token.char),
-:global(.dark) :global(.token.builtin),
-:global(.dark) :global(.token.inserted) {
-  color: #7ee787;
+  color: var(--cb-token-string);
 }
 
 :global(.token.operator),
@@ -203,53 +208,28 @@
 :global(.token.url),
 :global(.language-css) :global(.token.string),
 :global(.style) :global(.token.string) {
-  color: #a626a4;
+  color: var(--cb-token-operator);
 }
 
 :global(.token.entity) {
   cursor: help;
 }
 
-:global(.dark) :global(.token.operator),
-:global(.dark) :global(.token.entity),
-:global(.dark) :global(.token.url),
-:global(.dark) :global(.language-css) :global(.token.string),
-:global(.dark) :global(.style) :global(.token.string) {
-  color: #d2a8ff;
-}
-
 :global(.token.atrule),
 :global(.token.attr-value),
 :global(.token.keyword) {
-  color: #a626a4;
-}
-
-:global(.dark) :global(.token.atrule),
-:global(.dark) :global(.token.attr-value),
-:global(.dark) :global(.token.keyword) {
-  color: #ff7b72;
+  color: var(--cb-token-keyword);
 }
 
 :global(.token.function),
 :global(.token.class-name) {
-  color: #c18401;
-}
-
-:global(.dark) :global(.token.function),
-:global(.dark) :global(.token.class-name) {
-  color: #d29922;
+  color: var(--cb-token-function);
 }
 
 :global(.token.regex),
 :global(.token.important),
 :global(.token.variable) {
-  color: #e45649;
-}
-
-:global(.dark) :global(.token.regex),
-:global(.dark) :global(.token.important),
-:global(.dark) :global(.token.variable) {
-  color: #ffa657;
+  color: var(--cb-token-variable);
 }
 
 :global(.token.bold) {
