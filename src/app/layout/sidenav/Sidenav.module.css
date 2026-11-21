@@ -18,7 +18,8 @@
   --sidenav-active-bg: var(--accent-subtle);
   --sidenav-font-weight: 400;
   --sidenav-active-font-weight: 600;
-  --sidenav-category-fg: var(--sidenav-fg);
+  /* Lighter than the page links, so category titles stay in the background */
+  --sidenav-category-fg: #757575;
   --sidenav-category-font-weight: 600;
   /* The line above each category: hidden by default (`none`), the space
      stays. Set the style to `solid` (or `dashed`, `dotted`) to show it. */
@@ -31,6 +32,7 @@
   --sidenav-fg-muted: #9e9e9e;
   --sidenav-group-label-fg: rgba(214, 214, 214, 0.7);
   --sidenav-hover-bg: #1e1e1e;
+  --sidenav-category-fg: #9e9e9e;
 }
 
 /* ============================================================
