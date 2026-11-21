@@ -339,6 +339,25 @@ test.describe('interactions', () => {
     await expect(page.getByRole('heading', { name: 'A table' })).toBeInViewport();
   });
 
+  test('the mobile menu closes when the window becomes wide', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 800 });
+    await openPage(page, '/guide/code');
+    const body = page.locator('body');
+
+    await page.getByRole('button', { name: 'Open menu' }).click();
+    await expect(page.getByRole('button', { name: 'Close menu' })).toBeVisible();
+    await expect(body).toHaveCSS('position', 'fixed');
+
+    // Past the breakpoint the menu button is hidden, so include hidden elements.
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await expect(
+      page.getByRole('button', { name: 'Open menu', includeHidden: true }),
+    ).toHaveAttribute('aria-expanded', 'false');
+    await expect(body).not.toHaveCSS('position', 'fixed');
+    await page.mouse.wheel(0, 600);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+  });
+
   test('the theme switches between light and dark', async ({ page }) => {
     await openPage(page, '/');
     const start = projectTheme();
