@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useState, useEffect } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router';
 import { useMordocData } from '../../data-context.js';
 import {
   detectCurrentLang,
@@ -84,16 +84,14 @@ function SidenavNode({
   if (item.path && !item.children) {
     return (
       <li className={styles.menuItem}>
-        <NavLink
+        <Link
           to={item.path}
-          end
           onClick={onNavigate}
-          className={({ isActive }) =>
-            `${styles.navLink}${isActive ? ` ${styles.navLinkActive}` : ''}`
-          }
+          aria-current={isLabelActive ? 'page' : undefined}
+          className={`${styles.navLink}${isLabelActive ? ` ${styles.navLinkActive}` : ''}`}
         >
           {item.label}
-        </NavLink>
+        </Link>
       </li>
     );
   }
