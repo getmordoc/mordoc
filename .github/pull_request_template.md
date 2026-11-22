@@ -1,5 +1,5 @@
 ## Change
-https://github.com/getmordoc/mordoc-changes-store/tree/main/changes/<folder>
+<The change's folder for Mordoc, such as "mordoc-changes-store/changes/fix-accessibility/mordoc">
 
 ## Overview/What
 Explain here point by point (technical point of view)
