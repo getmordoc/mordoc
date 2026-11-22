@@ -12,5 +12,5 @@
 - **AC-001:** After the merge, "Create release" shows a "Run workflow" button on the Actions tab; started on another branch, the job is skipped.
 - **AC-002:** The first release, 2.1.0, is on npm with provenance pointing to the release run and its commit, and installs with `npm install mordoc@2.1.0`.
 - **AC-003:** Release `v2.1.0` exists with tag `v2.1.0` on the released commit, and its notes list the pull requests since `v2.0.0`, grouped by type. The first pull request opened after the merge gets the label of its branch prefix.
-- **AC-004:** After release 2.1.0, started again before the version pull request is merged, the release stops before the tests with a message that 2.1.0 exists, and nothing new is on npm or GitHub. A failing test stops it before publishing, verified by reading the job's step order.
-- **AC-005:** After release 2.1.0, a pull request from `chore-bump-version-to-2.2.0` changes only `package.json` and `package-lock.json` to 2.2.0; closing and reopening it runs the tests.
+- **AC-004:** After release 2.1.0, started again before the version is raised, the release stops before the tests with a message that 2.1.0 exists, and nothing new is on npm or GitHub. A failing test stops it before publishing, verified by reading the job's step order.
+- **AC-005:** After the next release, 2.2.0, branch `chore-bump-version-to-2.3.0` exists and changes only `package.json` and `package-lock.json` to 2.3.0; the pull request opened from it runs the tests and gets the `chore` label.

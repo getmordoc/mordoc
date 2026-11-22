@@ -20,9 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
-      # Tag, release and the branch of the version pull request.
+      # Tag, release and the branch that raises the version.
       contents: write
-      pull-requests: write
       # npm trusted publishing.
       id-token: write
     steps:
@@ -65,7 +64,9 @@ jobs:
           VERSION: ${{ steps.version.outputs.version }}
         run: gh release create "v$VERSION" --target "$GITHUB_SHA" --title "v$VERSION" --generate-notes
 
-      - name: Open the pull request that raises the minor version
+      # GitHub Actions may not open pull requests in getmordoc: the maintainer
+      # opens the pull request from this branch.
+      - name: Push the branch that raises the minor version
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -78,8 +79,3 @@ jobs:
           git add package.json package-lock.json
           git commit -m "Raise the version to $NEXT"
           git push "https://x-access-token:$GH_TOKEN@github.com/$GITHUB_REPOSITORY.git" "$BRANCH"
-          PR_URL=$(gh pr create --base main --head "$BRANCH" --title "Raise the version to $NEXT" \
-            --body "Raises the version to $NEXT for the work merged after this release. GitHub runs no tests on a pull request opened by a workflow: close and reopen it to run them.")
-          # label.yml doesn't run on pull requests opened by a workflow; this call
-          # also creates the label when it doesn't exist yet.
-          gh api "repos/$GITHUB_REPOSITORY/issues/${PR_URL##*/}/labels" -f "labels[]=chore" > /dev/null
