@@ -12,7 +12,6 @@
  * must be trailing-slash-insensitive or they silently fail to match.
  */
 export function samePath(a: string, b: string): boolean {
-  const norm = (p: string) =>
-    (p.length > 1 && p.endsWith('/') ? p.slice(0, -1) : p).toLowerCase();
+  const norm = (p: string) => (p.length > 1 && p.endsWith('/') ? p.slice(0, -1) : p).toLowerCase();
   return norm(a) === norm(b);
 }
