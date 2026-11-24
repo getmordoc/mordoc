@@ -1,3 +1,4 @@
+import type { Locator } from '@playwright/test';
 import {
   test,
   expect,
@@ -24,6 +25,19 @@ const ROUTE_MAP = 'A route with four stops, from A to D';
 const VOLCANO = 'A volcano at the end of the route';
 const ROUTE_MAP_FROM_VARIABLE = 'A route with four stops, from a variable';
 const CLIP = 'Smoke rising from a glowing volcano';
+
+/** Checks that one sidebar link is the current page, and that only that link looks like it. */
+async function expectOnlyMarked(links: Locator, name: string): Promise<void> {
+  const marked = () =>
+    links.evaluateAll((all) => {
+      const current = all.filter((link) => link.getAttribute('aria-current') === 'page');
+      const activeColor = current[0] && getComputedStyle(current[0]).color;
+      const active = all.filter((link) => getComputedStyle(link).color === activeColor);
+      const names = (found: Element[]) => found.map((link) => link.textContent);
+      return { current: names(current), active: names(active) };
+    });
+  await expect.poll(marked).toEqual({ current: [name], active: [name] });
+}
 
 test.describe('pages', () => {
   test('home page shows the heroes, sections, card grid, buttons and diagram', async ({ page }) => {
@@ -338,6 +352,24 @@ test.describe('interactions', () => {
     await expect(page).toHaveURL(/#a-table$/);
     await expect(page.getByRole('heading', { name: 'A table' })).toBeInViewport();
   });
+
+  // Some hosts open a page at its address with a slash at the end.
+  for (const address of ['/guide/callouts', '/guide/callouts/']) {
+    test(`the sidebar marks only the current page after opening ${address}`, async ({ page }) => {
+      const messages: string[] = [];
+      page.on('console', (message) => {
+        if (['error', 'warning'].includes(message.type())) messages.push(message.text());
+      });
+      const links = page.getByRole('navigation', { name: 'Side navigation' }).getByRole('link');
+
+      await openPage(page, address);
+      await expectOnlyMarked(links, 'Callouts');
+      await links.getByText('Cards', { exact: true }).click();
+      await expect(page).toHaveURL('/guide/cards');
+      await expectOnlyMarked(links, 'Cards');
+      expect(messages, 'messages in the browser console').toEqual([]);
+    });
+  }
 
   test('the mobile menu closes when the window becomes wide', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 800 });
