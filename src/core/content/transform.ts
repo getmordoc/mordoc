@@ -3,7 +3,7 @@ import type { Config, RenderableTreeNode } from '@markdoc/markdoc';
 import { createSlugger } from './slug.js';
 import { createArticleMarkdocConfig, createLandingMarkdocConfig } from './schema/index.js';
 import type { ParsedPage, TransformedPage, TocEntry } from '../../types/content.js';
-import type { ContentValidator } from './validation.js';
+import type { ContentValidator } from './content-validator.js';
 
 /**
  * Concatenates the text content of a renderable subtree for TOC display.
@@ -67,7 +67,9 @@ function extractToc(root: RenderableTreeNode): TocEntry[] {
  * in memory from the parse stage.
  *
  * Before transforming, each page is validated with the same config by the
- * run's `validator`, so the caller decides whether to report or stop.
+ * run's `validator`, so the caller decides whether to report or stop. A
+ * fallback is not validated, because its page is validated in the default
+ * language.
  *
  * @param variables - Flat key-value map from config/variables.yaml. Merged
  *   before `slugger` so internal variables always take precedence.
@@ -96,7 +98,7 @@ export function transformContent(
       variables: { ...(base.variables ?? {}), ...variables, slugger },
     };
 
-    validator.validate(page.ast, config);
+    if (!page.entry.isFallback) validator.validate(page.ast, config);
 
     const raw = Markdoc.transform(page.ast, config);
 

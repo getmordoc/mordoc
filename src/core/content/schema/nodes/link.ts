@@ -1,5 +1,5 @@
 import type { Schema } from '@markdoc/markdoc';
-import { notInsideClickable } from '../../validation.js';
+import { notInsideClickable } from '../../content-validator.js';
 
 /**
  * Custom link node — routes all Markdoc inline links to the ContentLink

@@ -10,7 +10,8 @@ import { loadHeaderLinks } from './config/header-loader.js';
 import { loadFooterConfig } from './config/footer-loader.js';
 import { parseContent } from './content/parse.js';
 import { transformContent } from './content/transform.js';
-import { ContentValidator } from './content/validation.js';
+import { ContentValidator } from './content/content-validator.js';
+import { BuildReport } from './build-report.js';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 export { loadNavTranslations, loadHeaderLinks, loadFooterConfig };
@@ -76,9 +77,9 @@ export async function loadNavigation(projectRoot: string): Promise<NavigationCon
  *      discover and parse enrichment under `api/enrichment/`, join them into
  *      `OperationView`s, and run the navigation checks. Skipped entirely —
  *      module never imported — otherwise.
- *   6. Report Markdoc's validation results for the pages and the
- *      enrichment files together, and stop when `failOnContentErrors` is set
- *      and one of them is an error.
+ *   6. Print the problems in the pages and the enrichment files as one
+ *      list, also when a stage stops with an error, and stop when
+ *      `failOnContentErrors` is set and one of them is an error.
  *
  * Returns a single, JSON-serializable `MordocData`. This is the canonical
  * hand-off shape consumed by both the Vite plugin (in dev) and the SSG
@@ -96,9 +97,28 @@ export async function runPipeline(
   projectRoot: string,
   options: { verbose?: boolean; failOnContentErrors?: boolean } = {},
 ): Promise<MordocData> {
-  const verbose = options.verbose ?? false;
   const overallStep = beginStep('reading the project');
+  // A new, empty report for this run.
+  const report = new BuildReport(projectRoot);
+  let data: MordocData;
+  try {
+    data = await runStages(projectRoot, options.verbose ?? false, report);
+  } finally {
+    report.print();
+  }
+  if (options.failOnContentErrors) report.stopOnErrors();
 
+  const opsSummary = data.operations.length > 0 ? `, ${data.operations.length} operation(s)` : '';
+  overallStep.done(`ready · ${data.pages.length} page(s)${opsSummary}`);
+  return data;
+}
+
+/** Runs the stages of `runPipeline`, which prints the report afterwards. */
+async function runStages(
+  projectRoot: string,
+  verbose: boolean,
+  report: BuildReport,
+): Promise<MordocData> {
   const configStep = beginStep('config & content loaded', { indent: '  ' });
   const site = await loadSiteConfig(projectRoot);
   const language = await loadLanguageConfig(projectRoot, site.defaultLanguage);
@@ -122,8 +142,7 @@ export async function runPipeline(
 
   const variables = await loadVariables(projectRoot);
   const parsedContent = await parseContent(contentMap);
-  // A new, empty validator for this run.
-  const validator = new ContentValidator(projectRoot);
+  const validator = new ContentValidator(report);
   const transformedContent = transformContent(parsedContent, variables, validator);
   configStep.done('config & content loaded');
 
@@ -150,11 +169,6 @@ export async function runPipeline(
       : { operations: [] as OperationView[], warningCount: 0 };
   const { operations, warningCount: apiWarnings } = apiResult;
 
-  // The pages and the API reference texts are reported as one list, so an
-  // author sees every problem in a single build.
-  validator.report();
-  if (options.failOnContentErrors) validator.stopOnErrors();
-
   let customHead: string | null = null;
   try {
     const raw = await fs.readFile(path.join(projectRoot, 'config', 'custom-head.html'), 'utf-8');
@@ -162,9 +176,6 @@ export async function runPipeline(
   } catch {
     // optional file — absent is the normal case
   }
-
-  const opsSummary = operations.length > 0 ? `, ${operations.length} operation(s)` : '';
-  overallStep.done(`ready · ${transformedContent.length} page(s)${opsSummary}`);
 
   return {
     site,
@@ -197,20 +208,19 @@ export async function runPipeline(
  * @param variables - Current variables map from `MordocData.variables`.
  *   Must match what was used in the last full pipeline run so that
  *   `{{ $VAR }}` expressions resolve consistently during HMR.
+ * @param report - Collects the problems of the page; the caller prints it.
  */
 export async function reparsePage(
   entry: ContentEntry,
-  variables: Record<string, unknown> = {},
+  variables: Record<string, unknown>,
+  report: BuildReport,
 ): Promise<TransformedPage> {
   const parsed = await parseContent({
     entries: [entry],
     languages: [entry.language],
   });
-  // Reported, never thrown: this runs on every save in the dev server, which
-  // keeps running while the author fixes the page.
-  const validator = new ContentValidator(process.cwd());
+  const validator = new ContentValidator(report);
   const [transformed] = transformContent(parsed, variables, validator);
-  validator.report();
   if (!transformed) {
     // parseContent + transformContent both produce one output per input
     // entry, so this branch should be unreachable. Guarded so a future

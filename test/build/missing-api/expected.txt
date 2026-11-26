@@ -1,0 +1,1 @@
+content/en/index.md:5  critical  Undefined tag: 'banner'
