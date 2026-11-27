@@ -1,5 +1,5 @@
 import type { Schema } from '@markdoc/markdoc';
-import { notInsideClickable } from '../../validation.js';
+import { notInsideClickable } from '../../content-validator.js';
 
 /**
  * Button tag — styled CTA link, usable in landing pages and content pages.

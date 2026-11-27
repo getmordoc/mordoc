@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 import Markdoc from '@markdoc/markdoc';
 import type { Config, Node, RenderableTreeNode } from '@markdoc/markdoc';
 import { createArticleMarkdocConfig } from '../content/schema/index.js';
-import type { ContentValidator } from '../content/validation.js';
+import type { ContentValidator } from '../content/content-validator.js';
 import { createSlugger } from '../content/slug.js';
 import { CONDITIONAL_BADGE } from './badges.js';
 import type {
@@ -28,8 +28,8 @@ import type { Diagnostics } from './diagnostics.js';
  *
  * The structural problems found here are warnings: a malformed block is
  * skipped and the spec baseline still renders, per the enrichment invariant.
- * Each file is also validated by the run's `ContentValidator`, which the
- * pipeline reports together with the pages and uses to stop the build.
+ * Each file is also validated by the run's `ContentValidator`, which adds
+ * its problems to the run's report, together with those of the pages.
  */
 
 /** Markdoc `Node.type` for a heading; entries are level-3 headings. */

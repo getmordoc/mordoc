@@ -1,0 +1,6 @@
+{
+  "name": "Missing API",
+  "description": "A test site whose OpenAPI file does not exist.",
+  "baseUrl": "https://missing-api.example.com",
+  "defaultLanguage": "en"
+}

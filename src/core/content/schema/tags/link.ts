@@ -1,6 +1,6 @@
 import Markdoc from '@markdoc/markdoc';
 import type { Schema } from '@markdoc/markdoc';
-import { notInsideClickable } from '../../validation.js';
+import { notInsideClickable } from '../../content-validator.js';
 
 /**
  * Link tag — variable-capable counterpart to the plain `[text](url)` syntax.

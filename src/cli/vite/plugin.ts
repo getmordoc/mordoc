@@ -18,6 +18,7 @@ import {
 import type { MordocData } from '../../types/pipeline.js';
 import type { PageData, TransformedPage } from '../../types/content.js';
 import { beginStep } from '../../core/reporter.js';
+import { BuildReport, describeError } from '../../core/build-report.js';
 
 /**
  * The set of "eager" virtual module IDs this plugin exposes.
@@ -459,28 +460,58 @@ async function applyMordocWatchBatch(
         rel === 'config/api.yaml',
     );
 
-  if (needsFullPipeline) {
-    await rerunPipelineForDev(server, projectRoot, getData, setData, verbose);
-    return;
+  if (!needsFullPipeline) {
+    try {
+      const applied = await applyTargetedUpdate(
+        server,
+        projectRoot,
+        data,
+        batch,
+        contentEvents,
+        configEvents,
+      );
+      if (applied) return;
+    } catch (err) {
+      // Rerun everything instead, so a bug in the targeted update can't
+      // leave the dev server serving stale or inconsistent data. The full
+      // run lists the error, so it is only printed here with `verbose`, for
+      // a bug in the targeted update. A full run that fails is not retried:
+      // it would fail and list its problems again.
+      if (verbose) {
+        console.error(
+          `[mordoc] targeted update failed, rerunning everything: ${describeError(err, verbose)}`,
+        );
+      }
+    }
   }
+  await rerunPipelineForDev(server, projectRoot, getData, setData, verbose);
+}
 
-  // Below this point, every branch recomputes only the specific slice of
-  // `data` its file(s) affect and invalidates only the matching virtual
-  // id(s) — cheaper than a full pipeline re-run. `changed` tracks whether
-  // any branch actually did work, since a batch may contain only
-  // unrecognized config paths. Every update, targeted or not, ends in the
-  // same explicit `full-reload` (see the module-level comment on
-  // `invalidateVirtualModule` for why this is a deliberate simplification
-  // rather than granular Vite HMR).
+/**
+ * Recomputes only the slices of `data` that the batch's files affect, and
+ * invalidates only the matching virtual ids — cheaper than a full pipeline
+ * re-run. Returns `false` when the batch needs a full re-run after all.
+ *
+ * `changed` tracks whether any branch actually did work, since a batch may
+ * contain only unrecognized config paths. Every update, targeted or not,
+ * ends in the same explicit `full-reload` (see the module-level comment on
+ * `invalidateVirtualModule` for why this is a deliberate simplification
+ * rather than granular Vite HMR).
+ */
+async function applyTargetedUpdate(
+  server: ViteDevServer,
+  projectRoot: string,
+  data: MordocData,
+  batch: Map<string, WatchEvent>,
+  contentEvents: { abs: string; rel: string }[],
+  configEvents: { abs: string; rel: string }[],
+): Promise<boolean> {
   let changed = false;
 
   const siteRel = 'config/site.json';
   if (configEvents.some(({ rel }) => rel === siteRel)) {
     const site = await loadSiteConfig(projectRoot);
-    if (site.defaultLanguage !== data.site.defaultLanguage) {
-      await rerunPipelineForDev(server, projectRoot, getData, setData, verbose);
-      return;
-    }
+    if (site.defaultLanguage !== data.site.defaultLanguage) return false;
     data.site = site;
     data.fonts = await loadFonts(projectRoot, site);
     invalidateVirtualModule(server, 'virtual:mordoc/site');
@@ -523,6 +554,8 @@ async function applyMordocWatchBatch(
     changed = true;
   }
 
+  // One report for the pages saved together, so the author gets one list.
+  const report = new BuildReport(projectRoot);
   for (const { abs, rel } of contentEvents) {
     if (batch.get(abs) !== 'change') continue;
     if (!rel.toLowerCase().endsWith('.md')) continue;
@@ -532,21 +565,20 @@ async function applyMordocWatchBatch(
     // Find all of them so the reparse stays consistent across the whole
     // fallback set.
     const matchingPages = data.pages.filter((p) => path.normalize(p.entry.filePath) === abs);
-    if (matchingPages.length === 0) {
-      await rerunPipelineForDev(server, projectRoot, getData, setData, verbose);
-      return;
-    }
+    if (matchingPages.length === 0) return false;
     for (const page of matchingPages) {
-      const reparsed = await reparsePage(page.entry, data.variables);
+      const reparsed = await reparsePage(page.entry, data.variables, report);
       replaceTransformedPage(data, reparsed);
       invalidateVirtualModule(server, `${PAGE_MODULE_PREFIX}${reparsed.entry.routePath}`);
     }
     changed = true;
   }
+  report.print();
 
   if (changed) {
     server.ws.send({ type: 'full-reload', path: '*' });
   }
+  return true;
 }
 
 /**
@@ -704,25 +736,12 @@ export function mordocVitePlugin(options: MordocVitePluginOptions): Plugin {
           );
           rebuildStep.done(`${label} — back in sync`);
         } catch (err) {
-          // A targeted incremental update failed — fall back to rebuilding
-          // everything from scratch and forcing the browser to reload, so a
-          // bug in the incremental path can't leave the dev server serving
-          // stale or inconsistent data.
-          console.error('[mordoc] watch update failed:', err);
-          try {
-            await rerunPipelineForDev(
-              server,
-              projectRoot,
-              () => data,
-              (next) => {
-                data = next;
-              },
-              options.verbose ?? false,
-            );
-            rebuildStep.done(`${label} — back in sync (recovered)`);
-          } catch (recoverErr) {
-            console.error('[mordoc] watch recovery failed:', recoverErr);
-          }
+          // The full run failed and listed its problems; the server keeps
+          // running, and the next save tries again. Printed to the same
+          // stream as the list, so it always comes after it.
+          console.log(
+            `[mordoc] watch update failed: ${describeError(err, options.verbose ?? false)}`,
+          );
         }
       };
 
