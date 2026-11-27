@@ -11,7 +11,7 @@ import { loadFooterConfig } from './config/footer-loader.js';
 import { parseContent } from './content/parse.js';
 import { transformContent } from './content/transform.js';
 import { ContentValidator } from './content/content-validator.js';
-import { BuildReport } from './build-report.js';
+import { BuildReport, ValidationFailedError } from './build-report.js';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 export { loadNavTranslations, loadHeaderLinks, loadFooterConfig };
@@ -78,8 +78,9 @@ export async function loadNavigation(projectRoot: string): Promise<NavigationCon
  *      `OperationView`s, and run the navigation checks. Skipped entirely —
  *      module never imported — otherwise.
  *   6. Print the problems in the pages and the enrichment files as one
- *      list, also when a stage stops with an error, and stop when
- *      `failOnContentErrors` is set and one of them is an error.
+ *      list, and stop when `failOnContentErrors` is set and one of them is
+ *      an error. When a stage throws, its error is added to the list and
+ *      the run stops after the list.
  *
  * Returns a single, JSON-serializable `MordocData`. This is the canonical
  * hand-off shape consumed by both the Vite plugin (in dev) and the SSG
@@ -97,12 +98,17 @@ export async function runPipeline(
   projectRoot: string,
   options: { verbose?: boolean; failOnContentErrors?: boolean } = {},
 ): Promise<MordocData> {
+  const verbose = options.verbose ?? false;
   const overallStep = beginStep('reading the project');
   // A new, empty report for this run.
-  const report = new BuildReport(projectRoot);
+  const report = new BuildReport(projectRoot, verbose);
   let data: MordocData;
   try {
-    data = await runStages(projectRoot, options.verbose ?? false, report);
+    data = await runStages(projectRoot, verbose, report);
+  } catch (error) {
+    // The run can't go on, also in the preview: there is no data to show.
+    report.addLegacyError(error);
+    throw new ValidationFailedError(report.errorCount);
   } finally {
     report.print();
   }

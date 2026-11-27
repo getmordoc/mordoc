@@ -28,8 +28,8 @@ import type { Diagnostics } from './diagnostics.js';
  *
  * The structural problems found here are warnings: a malformed block is
  * skipped and the spec baseline still renders, per the enrichment invariant.
- * Each file is also validated by the run's `ContentValidator`, which the
- * pipeline reports together with the pages and uses to stop the build.
+ * Each file is also validated by the run's `ContentValidator`, which adds
+ * its problems to the run's report, together with those of the pages.
  */
 
 /** Markdoc `Node.type` for a heading; entries are level-3 headings. */

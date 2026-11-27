@@ -18,7 +18,7 @@ import {
 import type { MordocData } from '../../types/pipeline.js';
 import type { PageData, TransformedPage } from '../../types/content.js';
 import { beginStep } from '../../core/reporter.js';
-import { BuildReport } from '../../core/build-report.js';
+import { BuildReport, describeError } from '../../core/build-report.js';
 
 /**
  * The set of "eager" virtual module IDs this plugin exposes.
@@ -472,11 +472,16 @@ async function applyMordocWatchBatch(
       );
       if (applied) return;
     } catch (err) {
-      // Rebuild everything instead, so a bug in the targeted update can't
-      // leave the dev server serving stale or inconsistent data. A full
-      // re-run that fails is not retried: it would fail and print its
-      // problems again.
-      console.error('[mordoc] watch update failed:', err);
+      // Rerun everything instead, so a bug in the targeted update can't
+      // leave the dev server serving stale or inconsistent data. The full
+      // run lists the error, so it is only printed here with `verbose`, for
+      // a bug in the targeted update. A full run that fails is not retried:
+      // it would fail and list its problems again.
+      if (verbose) {
+        console.error(
+          `[mordoc] targeted update failed, rerunning everything: ${describeError(err, verbose)}`,
+        );
+      }
     }
   }
   await rerunPipelineForDev(server, projectRoot, getData, setData, verbose);
@@ -731,9 +736,12 @@ export function mordocVitePlugin(options: MordocVitePluginOptions): Plugin {
           );
           rebuildStep.done(`${label} — back in sync`);
         } catch (err) {
-          // The full re-run failed; the server keeps the last good data and
-          // keeps running while the author fixes the cause.
-          console.error('[mordoc] watch update failed:', err);
+          // The full run failed and listed its problems; the server keeps
+          // running, and the next save tries again. Printed to the same
+          // stream as the list, so it always comes after it.
+          console.log(
+            `[mordoc] watch update failed: ${describeError(err, options.verbose ?? false)}`,
+          );
         }
       };
 

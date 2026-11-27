@@ -37,6 +37,7 @@ export function notInsideClickable(what: string): Schema['validate'] {
   };
 }
 
+/** Turns one Markdoc result into a problem in the report. */
 function toBuildProblem(result: ValidateError): BuildProblem {
   return {
     file: result.location?.file,
